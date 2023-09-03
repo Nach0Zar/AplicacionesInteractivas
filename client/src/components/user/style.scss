@@ -1,0 +1,75 @@
+#loginDiv {
+	display: table;
+	width: 40%;
+	width: 40%;
+	height: auto;
+	border-radius: 10px;
+	margin: 93px auto;
+    border: 1px lightgrey solid;
+	h2 {
+		display: block;
+		font-family: "Bebas Neue", cursive;
+		margin: 20px;
+		text-align: center;
+	}
+    img {
+        width: auto;
+        height: 50px;
+    }
+}
+#loginDiv:hover {
+	box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+}
+.loginLabelForm {
+	display: flex;
+	justify-content: space-evenly;
+	margin: 30px;
+    span {
+        display: inline-flex;
+        align-items: center;
+        min-width: 170px;
+        font-family: "Noto Serif", serif;
+    }
+}
+#buttonLoginForm {
+	display: table;
+	width: 150px;
+	height: 50px;
+	font-family: "Bebas Neue", cursive;
+	margin: 60px auto 60px;
+}
+.order {
+	display: flex;
+	flex-flow: column nowrap;
+    h2, h4 {
+        margin: 10px 75px;
+    }
+}
+.containerQtyOrders {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+    h6 {
+        margin: 10px 75px;
+    }
+}
+.containerOrders {
+	display: flex;
+	justify-content: space-evenly;
+}
+.ordersDiv:hover, .perfilDiv:hover{
+    box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+}
+.profileContainer {
+	display: flex;
+	justify-content: space-evenly;
+}
+.perfilDiv, .ordersDiv {
+	//max-width: 1200px;
+    border: 1px lightgrey solid;
+	border-radius: 25px;
+	margin: 30px 30px;
+    h3, h5, p{
+        margin: 20px 30px;
+    }
+}

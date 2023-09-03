@@ -1,0 +1,20 @@
+#containerAboutus {
+	border: 1px lightgrey solid;
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
+	max-width: 1500px;
+	margin: auto auto;
+	border-radius: 25px;
+    h2, h3, p{
+        margin: 20px 30px;
+    }
+}
+#containerAboutus:hover {
+	box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+}
+
+.textBlock {
+	margin: 10px 20px;
+	text-align: center;
+}

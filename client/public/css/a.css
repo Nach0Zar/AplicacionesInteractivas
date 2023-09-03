@@ -1,0 +1,741 @@
+html, body, #root {
+	margin: 0;
+}
+
+nav {
+	background-color: black;
+	width: 100%;
+	height: 50px;
+	position: fixed;
+	top: 0;
+	z-index: 1;
+}
+
+nav .navLink {
+	text-align: center;
+	font-family: "Akaya Kanadaka", cursive;
+}
+
+ul {
+	margin-top: 0;
+	list-style: none;
+}
+
+#carrito {
+	background-color: white;
+	border-radius: 50px;
+	width: auto;
+	height: 40px;
+	margin: -45px 0.5%;
+	margin-left: auto;
+}
+
+#cantidadItemsCarritoWidget {
+	position: relative;
+	left: 30px;
+	z-index: 9;
+	display: flex;
+	margin: -10px 0;
+	height: 20px;
+	width: 20px;
+	border: solid grey 2px;
+	background-color: rgb(163, 160, 160);
+	border-radius: 50%;
+	justify-content: center;
+	opacity: 1;
+}
+
+#cantidadItemsCarritoWidget span {
+	position: relative;
+	bottom: 4px;
+}
+
+#containerTitulos, #containerBusqueda {
+	text-align: center;
+	display: block;
+	position: sticky;
+}
+
+#containerTitulos h2, #containerTitulos input, #containerTitulos button, #containerBusqueda h2, #containerBusqueda input, #containerBusqueda button {
+	font-family: "Ramaraja", serif;
+}
+
+#containerTitulos label, #containerBusqueda label {
+	display: inherit;
+	width: auto;
+	height: auto;
+	margin-left: 2.5%;
+}
+
+#containerTitulos input, #containerBusqueda input {
+	width: 210px;
+	height: 2.5rem;
+}
+
+#containerTitulos {
+	margin: 70px auto 20px auto;
+}
+
+#containerBusqueda {
+	margin-bottom: 20px;
+}
+
+h1 {
+	display: block;
+	text-align: center;
+	font-family: "Bebas Neue", cursive;
+	font-size: 50px;
+}
+
+#containerSlide {
+	width: 600px;
+	height: 400px;
+	margin: auto;
+	grid-area: anuncios;
+}
+
+#containerSlide #slideshow {
+	width: 100%;
+	height: 300px;
+	margin: auto;
+	overflow: hidden;
+	border-radius: 3%;
+}
+
+#containerSlide #slideshow ul {
+	padding: 0;
+	display: flex;
+	width: 300%;
+	height: auto;
+	animation: rotar 20s infinite;
+}
+
+#containerSlide #slideshow #slide {
+	width: 100%;
+	list-style: none;
+}
+
+#containerSlide #slideshow #slide img {
+	width: auto;
+	height: 300px;
+	width: 600px;
+}
+
+#containerSlide h2 {
+	display: block;
+	font-family: "Bebas Neue", cursive;
+	margin: 20px;
+	text-align: center;
+}
+
+#recomendadosContainer h2 {
+	display: block;
+	font-family: "Bebas Neue", cursive;
+	margin: 20px;
+	text-align: center;
+}
+
+#loginDiv h2 {
+	display: block;
+	font-family: "Bebas Neue", cursive;
+	margin: 20px;
+	text-align: center;
+}
+
+#registerDiv h2 {
+	display: block;
+	font-family: "Bebas Neue", cursive;
+	margin: 20px;
+	text-align: center;
+}
+
+@keyframes rotar {
+	0% {
+		margin-left: 0;
+	}
+
+	25% {
+		margin-left: 0;
+	}
+
+	30% {
+		margin-left: -100%;
+	}
+
+	55% {
+		margin-left: -100%;
+	}
+
+	60% {
+		margin-left: -200%;
+	}
+
+	85% {
+		margin-left: -200%;
+	}
+}
+
+#recomendadosContainer {
+	min-width: 50%;
+	max-width: 100%;
+	grid-area: recomendados;
+}
+
+#recomendadosContainer #recomendados {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	gap: 10px;
+}
+
+#recomendadosContainer #recomendados .itemDiv {
+	max-width: 440px;
+	min-width: 420px;
+	width: 440px;
+	height: 550px;
+	border-radius: 5%;
+}
+
+#recomendadosContainer #recomendados .itemRecomendado {
+	margin-bottom: 50px;
+	overflow: hidden;
+	flex-shrink: 3;
+}
+
+#recomendadosContainer #recomendados .itemRecomendado hr {
+	margin-top: 15px;
+	border-color: lightgrey;
+}
+
+#recomendadosContainer #recomendados .itemRecomendado span {
+	display: block;
+	margin: auto;
+	color: grey;
+	font-size: 30px;
+	text-align: center;
+}
+
+#recomendadosContainer #recomendados .itemRecomendado img {
+	width: auto;
+	height: 300px;
+	display: block;
+	margin: 10% auto 0 auto;
+}
+
+.itemDiv, .preguntaDiv, .perfilDiv, .ordersDiv, #loginDiv, #registerDiv, #containerAboutus {
+	border: 1px lightgrey solid;
+}
+
+.perfilDiv, .ordersDiv {
+	max-width: 1200px;
+}
+
+.perfilContainer {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.ordenesContainer {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.faqsContainer {
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+#loginDiv, #registerDiv {
+	display: table;
+	width: 40%;
+	width: 40%;
+	height: auto;
+	border-radius: 10px;
+}
+
+#loginDiv h2, #registerDiv h2 {
+	display: block;
+	text-align: center;
+	font-family: "Bebas Neue", cursive;
+}
+
+#loginDiv img, #registerDiv img {
+	width: auto;
+	height: 50px;
+}
+
+#loginDiv {
+	margin: 93px auto;
+}
+
+#registerDiv {
+	margin: 39.5px auto;
+}
+
+.registerLabelForm, .loginLabelForm {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.registerLabelForm span, .loginLabelForm span {
+	display: inline-flex;
+	align-items: center;
+	min-width: 170px;
+	font-family: "Noto Serif", serif;
+}
+
+.loginLabelForm {
+	margin: 30px;
+}
+
+.botonRegistroLogin, #botonRegisterForm, #botonLoginForm {
+	display: table;
+	width: 150px;
+	height: 50px;
+	font-family: "Bebas Neue", cursive;
+}
+
+#botonLoginForm {
+	margin: 100px auto 60px;
+}
+
+#botonRegisterForm {
+	margin: 50px auto 30px;
+}
+
+.registerLabelForm {
+	margin: 15px;
+}
+
+#containerAboutus {
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
+	max-width: 1500px;
+	margin: auto auto;
+	border-radius: 25px;
+}
+
+.preguntaDiv, .perfilDiv, .ordersDiv {
+	border-radius: 25px;
+	margin: 30px 30px;
+}
+
+.itemDiv:hover, .perfilDiv:hover, .ordersDiv:hover, .preguntaDiv:hover, #loginDiv:hover, #registerDiv:hover, #containerAboutus:hover {
+	box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+}
+
+.preguntaDiv h3, .preguntaDiv p, .perfilDiv h3, .perfilDiv h5, .perfilDiv p, #containerAboutus h2, #containerAboutus h3 #containerAboutus p {
+	margin: 20px 30px;
+}
+
+#bloqueTexto {
+	margin: 10px 20px;
+	text-align: center;
+}
+
+#catalogo {
+	display: grid;
+	grid-template-columns: 1fr 9fr;
+	grid-column-gap: 10px;
+	grid-template-areas: "barraLateral listaDeObjetos";
+}
+
+#listaDeObjetos, #barraLateral {
+	display: inline-block;
+	padding: 10px 10px;
+}
+
+.elemento, .elementoCarrito, #containerBotonCompra, #barraLateral {
+	border: 1px lightgrey solid;
+}
+
+.elementoCarrito, #containerBotonCompra {
+	min-width: 520px;
+}
+
+#barraLateral {
+	grid-area: barraLateral;
+	margin-left: 5px;
+}
+
+#listaDeObjetos {
+	text-align: start;
+	grid-area: listaDeObjetos;
+}
+
+#resumenCarrito {
+	max-width: 500px;
+	width: 500px;
+}
+
+#listado {
+	display: flex;
+	justify-content: space-evenly;
+	column-gap: 50px;
+}
+
+.elemento, .elementoCarrito, #containerBotonCompra {
+	display: flex;
+}
+
+.tituloprecio, .tituloPrecioCarrito, .containerElementosResumen {
+	display: flex;
+	justify-content: space-between;
+}
+
+.tituloprecio, .containerElementosResumen {
+	flex-flow: row wrap;
+}
+
+.tituloPrecioCarrito {
+	flex-flow: row nowrap;
+	margin: 0 15px;
+	column-gap: 10px;
+}
+
+.precioMultiplicador {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.precioElemento, .precioElementoTicket {
+	margin-right: 5px;
+}
+
+.categoria span, .nombreElemento, .nombreElementoTicket, .descripcionElemento, .precioElemento, .precioElementoTicket, .nombreElementoNoSeleccionado {
+	font-family: "Bebas Neue", cursive;
+}
+
+.nombreElementoNoSeleccionado {
+	display: flex;
+	justify-content: center;
+}
+
+.nombreElementoTicket {
+	display: flex;
+}
+
+.categoria > span {
+	font-size: medium;
+}
+
+.subCategoria > span {
+	font-size: small;
+}
+
+#listaDeObjetos {
+	margin-right: 6.5%;
+}
+
+.containerImagen, .containerImagenPaginaDetalle {
+	display: flex;
+	max-width: 201px;
+}
+
+.containerImagen, .containerImagen > img, .containerImagenPaginaDetalle, .containerImagenPaginaDetalle > img {
+	width: auto;
+	height: 150px;
+	justify-content: center;
+}
+
+.containerImagen > img, .containerImagenPaginaDetalle > img {
+	max-width: 200px;
+}
+
+.containerImagen, .containerImagenPaginaDetalle, .containerTextos, .containerTextosElementos {
+	min-width: 200px;
+	width: 100%;
+}
+
+.containerCantidadOrder {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
+
+.order {
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.containerCantidadOrder h6, .order h2, .order h4 {
+	margin: 10px 75px;
+}
+
+.containerTextosBoton, .containerTextosBotonCarrito {
+	display: flex;
+	flex-flow: column nowrap;
+	width: 100%;
+	margin-left: 2.5%;
+}
+
+.containerTextosBotonPaginaDetalle {
+	display: flex;
+	flex-flow: column nowrap;
+	width: 100%;
+	padding-left: 2.5%;
+}
+
+.containerTextos {
+	grid-area: containerTextos;
+	margin: 7% auto 0 0.5%;
+}
+
+.containerTextosElementos {
+	margin: auto auto;
+}
+
+#bodyIndex {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	grid-template-areas: "headerIndex" "anuncios" "recomendados" "footer";
+}
+
+#headerIndex {
+	grid-area: headerIndex;
+}
+
+#listaCarrito {
+	margin: auto;
+	max-width: 750px;
+	min-width: 700px;
+}
+
+.botonEliminar {
+	display: flex;
+	vertical-align: middle;
+}
+
+@media screen and (min-width: 1200px) {
+	.elemento, .elementoCarrito, #containerBotonCompra {
+		flex-flow: row nowrap;
+	}
+
+	#listado {
+		justify-content: space-evenly;
+	}
+}
+
+@media screen and (min-width: 750px) {
+	.containerImagen {
+		border-right: 1px lightgrey solid;
+	}
+
+	.containerTextosBotonPaginaDetalle {
+		border-left: 1px lightgrey solid;
+	}
+}
+
+@media screen and (max-width: 750px) {
+	.elemento, .elementoCarrito, #containerBotonCompra, .containerBotones, .tituloPrecioCarrito {
+		flex-flow: column wrap;
+	}
+
+	.containerImagen, .containerImagenPaginaDetalle, .nombreElemento, .precioElemento, .containerCantidad, .containerBotonEliminar, .nombreElementoNoSeleccionado {
+		margin: 5px auto;
+	}
+}
+
+@media screen and (max-width: 1300px) {
+	#listado {
+		flex-flow: column wrap;
+		justify-content: space-around;
+	}
+
+	.elementoCarrito, #containerBotonCompra {
+		max-width: 750px;
+		min-width: 750px;
+		width: 750px;
+	}
+
+	.containerCantidadBotones {
+		display: flex;
+		margin: 10px auto;
+	}
+}
+
+#containerTicketBoton {
+	margin: 0 auto;
+}
+
+#containerBotonCompra {
+	border: none;
+}
+
+.containerBotonElemento {
+	display: flex;
+	justify-content: space-around;
+	margin: 0 0 10px 0;
+}
+
+.containerBotones {
+	grid-area: containerBotones;
+	padding-bottom: auto;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 5px 0 5px;
+}
+
+#resumenCarrito {
+	background: linear-gradient(135deg, transparent 5.68px, white 5.69px) top left, linear-gradient(45deg, white 2.8px, transparent 2.81px) top left, linear-gradient(135deg, white 2.8px, transparent 2.81px) bottom left, linear-gradient(45deg, transparent 5.68px, white 5.69px) bottom left;
+	background-repeat: repeat-x;
+	background-size: 8px 4px;
+	padding: 4px 0;
+	filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+	min-width: 320px;
+	margin: 0 auto;
+	display: block;
+}
+
+#listaRecibo {
+	background-color: #fff;
+	padding: 30px;
+}
+
+.containerElementosResumen {
+	border-bottom: 0.5px dashed #ccc;
+	line-height: 1;
+	overflow: hidden;
+	font-family: monospace;
+	font-size: 16px;
+}
+
+.containerElementosResumen:not(:first-child) {
+	margin-top: 1rem;
+}
+
+.botonAgregar, .botonRestar {
+	background-color: white;
+	border: white;
+}
+
+.containerCantidad {
+	display: flex;
+	margin: auto 15%;
+}
+
+.cantidadElemento {
+	padding-right: 0.25px;
+}
+
+.containerTextosBotonCarrito {
+	display: grid;
+	grid-template-rows: 50% 50%;
+	grid-template-areas: "containerTextos" "containerBotones";
+}
+
+.containerBotonEliminar {
+	display: flex;
+}
+
+.containerBoton {
+	margin: auto auto;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+#infoicon {
+	margin-left: 5px;
+}
+
+#infoicon:hover {
+	background: whitesmoke;
+}
+
+#info {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	bottom: 0;
+	width: 400px;
+	background: #fff;
+	padding: 20px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	border: 1px lightgrey solid;
+	transition: 0.5s;
+	transform: translateX(-30%) translateY(-50px);
+	z-index: 1;
+}
+
+#infoicon:hover ~ #info {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(-30%) translateY(0px);
+}
+
+.containerCantidadLanding {
+	display: flex;
+	margin: auto auto;
+}
+
+.containerCantidadBotones2 {
+	display: flex;
+	margin: 10px auto;
+}
+
+.noDecoration,.noDecoration:hover {
+	text-decoration: none;
+	color: black;
+	font-size: inherit;
+}
+
+#informacionVariada {
+	display: flex;
+	min-width: 150px;
+	flex-flow: column nowrap;
+	text-align: center;
+	margin-top: 10px;
+}
+
+#columnaPaginaDetalle {
+	margin-top: 10px;
+}
+
+.areaPaginaDetalle {
+	display: flex;
+	justify-content: space-between;
+	flex-flow: row-nowrap;
+}
+
+.categorias {
+	display: flex;
+	flex-flow: column nowrap;
+	margin-bottom: 5px;
+}
+
+.categorias > * {
+	margin-bottom: 0px;
+}
+
+@keyframes spinner {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.loading-spinner {
+	width: 50px;
+	height: 50px;
+	border: 10px solid #f3f3f3;
+	border-top: 10px solid #383636;
+	border-radius: 50%;
+	animation: spinner 1.5s linear infinite;
+}
+
+.spinner-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100%;
+	height: 100vh;
+}

@@ -1,0 +1,40 @@
+#registerDiv {
+	display: table;
+	width: 40%;
+	width: 40%;
+	height: auto;
+	border-radius: 10px;
+    border: 1px lightgrey solid;
+	margin: 39.5px auto;
+	h2 {
+		display: block;
+		font-family: "Bebas Neue", cursive;
+		margin: 20px;
+		text-align: center;
+	}
+    img {
+        width: auto;
+        height: 50px;
+    }
+}
+#registerDiv:hover {
+	box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+}
+.registerLabelForm {
+	display: flex;
+	justify-content: space-evenly;
+	margin: 15px;
+    span {
+        display: inline-flex;
+        align-items: center;
+        min-width: 170px;
+        font-family: "Noto Serif", serif;
+    }
+}
+#buttonRegisterForm {
+	display: table;
+	width: 150px;
+	height: 50px;
+	font-family: "Bebas Neue", cursive;
+	margin: 50px auto 30px;
+}

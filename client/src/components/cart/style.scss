@@ -1,0 +1,170 @@
+#list {
+	display: flex;
+	justify-content: space-evenly;
+	column-gap: 50px;
+}
+#cartList {
+	margin: auto;
+	max-width: 750px;
+	min-width: 700px;
+}
+.itemCart {
+	display: flex;
+	min-width: 520px;
+    border: 1px lightgrey solid;
+}
+.buttonTextContainerCart {
+	width: 100%;
+	margin: auto 30px;
+	display: flex;
+    flex-flow: column nowrap;
+	justify-content: space-evenly;
+}
+.buttonQtyCartConteiner {
+    width: 100%;
+	margin: auto auto;
+	justify-content: space-between;
+}
+.priceMultiplier {
+	display: flex;
+	flex-flow: row nowrap;
+}
+.textContainerCartItem {
+    display: flex;
+    flex-flow: row nowrap;
+    min-width: 200px;
+    width: 100%;
+	margin: auto auto;
+	justify-content: space-between;
+
+}
+#containerResumeButton {
+	margin: 0 auto;
+}
+#resumeList {
+	background-color: #fff;
+	padding: 30px;
+}
+.itemResumeContainer {
+	display: flex;
+	justify-content: space-between;
+	flex-flow: row wrap;
+	border-bottom: 0.5px dashed #ccc;
+	line-height: 1;
+	overflow: hidden;
+	font-family: monospace;
+	font-size: 16px;
+}
+.itemResumeContainer:not(:first-child) {
+	margin-top: 1rem;
+}
+.resumeItemPrice {
+	margin-right: 5px;
+    font-family: "Bebas Neue", cursive;
+}
+.resumeItemName{
+	display: flex;
+	font-family: "Bebas Neue", cursive;
+}
+#cartResume {
+	max-width: 500px;
+	width: 500px;
+    background: linear-gradient(135deg, transparent 5.68px, white 5.69px) top left, linear-gradient(45deg, white 2.8px, transparent 2.81px) top left, linear-gradient(135deg, white 2.8px, transparent 2.81px) bottom left, linear-gradient(45deg, transparent 5.68px, white 5.69px) bottom left;
+	background-repeat: repeat-x;
+	background-size: 8px 4px;
+	padding: 4px 0;
+	filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+	min-width: 320px;
+	margin: 0 auto;
+	display: block;
+}
+#infoicon {
+	margin-left: 5px;
+}
+#infoicon:hover {
+	background: whitesmoke;
+}
+#info {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	bottom: 0;
+	width: 400px;
+	background: #fff;
+	padding: 20px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	border: 1px lightgrey solid;
+	transition: 0.5s;
+	transform: translateX(-30%) translateY(-50px);
+	z-index: 1;
+}
+.noItemDetected{
+	display: flex;
+	width: fit-content;
+	margin: auto auto;
+}
+.buttonContainerHome{
+	display: flex;
+	margin: auto auto;
+}
+#infoicon:hover ~ #info {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(-30%) translateY(0px);
+}
+#buttonPurchaseContainer {
+	display: flex;
+    justify-content: center;
+	min-width: 520px;
+}
+.buttonQtyCartConteiner {
+    display: flex;
+    flex-flow: row nowrap;
+	margin: auto auto;
+}
+.itemQuantity {
+	padding-right: 0.25px;
+}
+.deleteItemButtonContainer {
+	display: flex;
+}
+@media screen and (min-width: 1200px) {
+    .itemCart, #buttonPurchaseContainer {
+		flex-flow: row nowrap;
+	}
+	#list {
+		justify-content: space-evenly;
+	}
+}
+@media screen and (max-width: 1300px) {
+	#list {
+		flex-flow: column wrap;
+		justify-content: space-around;
+	}
+    .itemCart, #buttonPurchaseContainer {
+		max-width: 750px;
+		min-width: 300px;
+		width: fit-content;
+        margin: auto auto 30px;
+	}
+	.noItemDetected{
+		text-align: center;
+	}
+    #buttonPurchaseContainer {
+		max-width: 750px;
+		min-width: 750px;
+		width: 750px;
+	}
+}
+@media screen and (max-width: 750px) {
+	.itemCart, #buttonPurchaseContainer, .textContainerCartItem, .buttonQtyCartConteiner{
+	    flex-flow: column wrap;
+	}
+    .deleteItemButtonContainer {
+		margin: 5px auto;
+	}
+    .buttonsCentered{
+        margin: auto auto;
+    }
+}

@@ -1,0 +1,36 @@
+#catalog {
+	display: grid;
+	grid-template-columns: 1fr 9fr;
+	grid-column-gap: 10px;
+	grid-template-areas: "barraLateral listaDeObjetos";
+}
+#sideBar {
+	grid-area: barraLateral;
+    display: flex;
+    height: fit-content;
+	margin-left: 5px;
+	display: inline-block;
+	padding: 10px 10px;
+    margin-top: 10px;
+	border: 1px lightgrey solid;
+}
+#elementsList {
+	display: inline-block;
+	padding: 10px 10px;
+	text-align: start;
+	grid-area: listaDeObjetos;
+	margin-right: 6.5%;
+}
+.category{
+    span{
+        font-family: "Bebas Neue", cursive;
+    }
+    & > span {
+		font-size: medium;
+	}
+}
+.subCategory {
+	& > span {
+		font-size: small;
+	}
+}

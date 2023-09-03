@@ -1,0 +1,15 @@
+.faqsContainer {
+	display: flex;
+	flex-flow: column nowrap;
+}
+.preguntaDiv {
+	border: 1px lightgrey solid;
+	border-radius: 25px;
+	margin: 30px 30px;
+    h3, p{
+        margin: 20px 30px;
+    }
+}
+.preguntaDiv:hover{
+    box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
+}
