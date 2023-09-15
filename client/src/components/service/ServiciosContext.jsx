@@ -15,10 +15,10 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const crearServicio = (servicio) => {
     //Back API Call
   }
-  const obtenerItemPorID = async (itemId) => {
+  const obtenerServicioPorID = async (itemId) => {
     //Back API Call
   }
-   const obtenerItemsPorCategoria = async (categoria) => {
+   const obtenerServiciosPorCategoria = async (categoria) => {
     //Back API Call
   }
   const obtenerServiciosPorCantidad = async (cantidad = 0) => {
@@ -28,10 +28,10 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     serviciosLoaded,
     serviciosListadoDB,
     setServiciosLoaded,
-    obtenerItemPorID,
+    obtenerServicioPorID,
     cargarServicios,
     crearServicio,
-    obtenerItemsPorCategoria,
+    obtenerServiciosPorCategoria,
     obtenerServiciosPorCantidad
   }
   return (
