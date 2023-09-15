@@ -1,0 +1,67 @@
+.noDecoration,.noDecoration:hover {
+	text-decoration: none;
+	color: black;
+	font-size: inherit;
+}
+.item{
+    display: flex;
+	border: 1px lightgrey solid;
+}
+.imageContainer {
+	display: flex;
+	max-width: 201px;
+    width: auto;
+	height: 150px;
+	justify-content: center;
+    min-width: 200px;
+	width: 100%;
+    >img{
+        max-width: 200px;
+    }
+}
+.textButtonContainer {
+	display: flex;
+	flex-flow: column nowrap;
+    justify-content: center;
+	width: 100%;
+	margin-left: 2.5%;
+}
+.textContainer {
+	margin: auto auto;
+    min-width: 200px;
+	width: 100%;
+}
+.priceTitleContainer {
+	display: flex;
+	justify-content: space-between;
+    flex-flow: row wrap;
+}
+.nameElement{
+    font-family: "Bebas Neue", cursive;
+}
+.priceElement{
+    margin-right: 5px;
+    font-family: "Bebas Neue", cursive;
+}
+.descriptionElement{
+    font-family: "Bebas Neue", cursive;
+}
+@media screen and (min-width: 1200px) {
+	.item {
+	  flex-flow: row nowrap;
+	}
+}
+@media screen and (min-width: 750px) {
+	.imageContainer {
+	  border-right: 1px lightgrey solid;
+	}
+}
+@media screen and (max-width: 750px) {
+	.item {
+	  flex-flow: column wrap;
+	}
+  
+	.imageContainer, .nameElement, .priceElement {
+	  margin: 5px auto;
+	}
+}
