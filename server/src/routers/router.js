@@ -8,6 +8,7 @@ import imageController from '../controllers/imageController.js';
 import checkUserLogged from '../middlewares/checkUserLogged.js';
 import userIsAdmin from '../middlewares/userIsAdmin.js'
 import { postImage } from '../middlewares/imageHandler.js';
+import serviceController from '../controllers/serviceController.js';
 
 const routerAPI = express.Router();
 //users
@@ -31,4 +32,7 @@ routerAPI.get('/orders',checkUserLogged, orderController.controllerGetOrders);
 routerAPI.post('/orders',checkUserLogged, orderController.controllerPostPurchaseCart);
 //images
 routerAPI.post('/images', postImage('file'), imageController.controllerPostImage);
+//services
+routerAPI.get('/services', serviceController.controllerGetAllServices);
+routerAPI.post('/services', serviceController.controllerPostService);
 export default routerAPI;
