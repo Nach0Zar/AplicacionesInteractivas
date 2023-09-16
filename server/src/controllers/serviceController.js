@@ -19,7 +19,7 @@ class ServiceController{
             let serviceID = await serviceService.createService(req.body.name, req.body.price, req.body.image, req.body.description, req.body.responsible, 
                                                                req.body.duration, req.body.frequency, req.body.comments, req.body.qualification);
             logger.info(`POST REQUEST successful for service ${serviceID}`);
-            res.status(200).json({message: `The service with ID ${serviceID} was added to the catalog.`})
+            res.status(200).json({message: `The service with ID ${serviceID} was added to the catalog.`});
         }
         catch(error){
             next(error);

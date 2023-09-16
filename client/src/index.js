@@ -7,8 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { initializeApp } from "firebase/app";
 import { CategoriasProvider } from './components/category/CategoryContext';
 import { ArticulosProvider } from './components/listing/ItemsContext';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { ServiciosProvider } from './components/service/ServiciosContext';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -26,9 +25,11 @@ initializeApp(firebaseConfig);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <CategoriasProvider>
-      <ArticulosProvider>
-          <App />
-      </ArticulosProvider>
+      <ServiciosProvider>
+        <ArticulosProvider>
+            <App />
+        </ArticulosProvider>
+      </ServiciosProvider>
     </CategoriasProvider>
 );
 

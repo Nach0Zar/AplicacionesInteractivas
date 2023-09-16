@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import LoadingComponent from './components/main/LoadingComponent';
 import { useArticulos } from './components/listing/ItemsContext';
 import { useCategorias } from './components/category/CategoryContext';
+import { useServicios } from './components/service/ServiciosContext';
 import Register from './components/register/Register';
 import Login from './components/user/Login';
 import { UsuarioProvider } from './components/user/UserContext';
@@ -22,11 +23,12 @@ import Orders from './components/user/Orders';
 
 function App() {
   const { articulosLoaded, cargarArticulos } = useArticulos();
+  const { serviciosLoaded, cargarServicios } = useServicios();
   const { categoriasLoaded, cargarCategorias } = useCategorias();
 
   useEffect(() => {
     if(!articulosLoaded){
-      const promise = new Promise((resolve) => {
+      let promise = new Promise((resolve) => {
         resolve(cargarArticulos())
     })
     promise.then()
@@ -34,14 +36,31 @@ function App() {
     }
     else{
       if(!categoriasLoaded){
-        const promise = new Promise((resolve) => {
+        let promise = new Promise((resolve) => {
           resolve(cargarCategorias())
       })
       promise.then()
       .catch((err)=>console.log(err));
       }
     }
-  }, [articulosLoaded, categoriasLoaded, cargarArticulos, cargarCategorias])
+    
+    if(!serviciosLoaded){
+      let promise = new Promise((resolve) => {
+        resolve(cargarServicios())
+    })
+    promise.then()
+    .catch((err)=>console.log(err));
+    }
+    else{
+      if(!categoriasLoaded){
+        let promise = new Promise((resolve) => {
+          resolve(cargarCategorias())
+      })
+      promise.then()
+      .catch((err)=>console.log(err));
+      }
+    }
+  }, [articulosLoaded, categoriasLoaded, cargarArticulos, cargarCategorias, cargarServicios])
 
 if(!articulosLoaded || !categoriasLoaded){ 
   return(<LoadingComponent />)} 
@@ -53,17 +72,17 @@ else
         <Header/>
         <Routes>
           <Route exact path="/" element={ <Home />} />
-          <Route exact path="/ecommerce-frontend/" element={ <Home />} />
-          <Route path="/ecommerce-frontend/itemPage/:itemId" element={ <ItemPage />} />
-          <Route path="/ecommerce-frontend/category" element={ <CategoryItems />}/>
-          <Route path="/ecommerce-frontend/category/:categoryId" element={ <CategoryItems />}/>
-          <Route exact path="/ecommerce-frontend/cart" element={ <Cart />}/>
-          <Route exact path="/ecommerce-frontend/register" element={ <Register />}/>
-          <Route exact path="/ecommerce-frontend/login" element={ <Login />}/>
-          <Route exact path="/ecommerce-frontend/user" element={ <Profile />}/>
-          <Route exact path="/ecommerce-frontend/faqs" element={ <Faqs />}/>
-          <Route exact path="/ecommerce-frontend/about" element={ <About />}/>
-          <Route exact path="/ecommerce-frontend/orders" element={ <Orders />}/>
+          <Route exact path="/" element={ <Home />} />
+          <Route path="/itemPage/:itemId" element={ <ItemPage />} />
+          <Route path="/category" element={ <CategoryItems />}/>
+          <Route path="/category/:categoryId" element={ <CategoryItems />}/>
+          <Route exact path="/cart" element={ <Cart />}/>
+          <Route exact path="/register" element={ <Register />}/>
+          <Route exact path="/login" element={ <Login />}/>
+          <Route exact path="/user" element={ <Profile />}/>
+          <Route exact path="/faqs" element={ <Faqs />}/>
+          <Route exact path="/about" element={ <About />}/>
+          <Route exact path="/orders" element={ <Orders />}/>
         </Routes>
         <Footer/>
       </UsuarioProvider>

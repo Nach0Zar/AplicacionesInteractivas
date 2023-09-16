@@ -30,7 +30,7 @@ class ServiceRepository {
             return new Service(servicesDTOs[0])
         }
         else{
-            return this.parseItems(productsDTOs);
+            return this.parseItems(servicesDTOs);
         }
     }
     async getItemByCriteria(criteria) {

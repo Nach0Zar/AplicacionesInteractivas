@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import ServicioListed from '../listing/ServicioListed';
+import ServicioListed from '../service/ServicioListed';
 import { Link } from 'react-router-dom';
 import { useServicios } from '../service/ServiciosContext';
 import { useCategorias } from './CategoryContext';
@@ -62,11 +62,11 @@ const CategoryItems = () => {
               <br/>
               <div className="category">
                   <span>Tipo</span>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/0">Cosmeticos</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/1">Electrónica</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/2">Alimentos</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/3">Escolares</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/4">Domestico</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/0">Cosmeticos</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/1">Electrónica</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/2">Alimentos</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/3">Escolares</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/4">Domestico</Link></span></div>
               </div>
           </div>
           <div id="elementsList">

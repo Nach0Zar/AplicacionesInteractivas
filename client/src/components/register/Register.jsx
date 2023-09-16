@@ -79,7 +79,7 @@ const Register = () => {
                 const usuario = {id, nombreUsuario, password, direccion, email, dni, telefono};
     
                 await setDoc(doc(db, "usuarios", nombreUsuario), usuario).then(swal("Registrado","Usuario creado correctamente","success"));
-                let path = `/ecommerce-frontend/`; 
+                let path = `/`; 
                 navigate(path);
             }
             else{

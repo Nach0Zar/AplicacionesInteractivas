@@ -9,20 +9,37 @@ const useServicios = () => {
 const ServiciosProvider = ({defaultValue = [], children}) => {
   const [serviciosListadoDB, setServiciosListadoDB] = useState(defaultValue);
   const [serviciosLoaded, setServiciosLoaded] = useState(false);
-  const cargarServicios = async () => {
-    //Back API Call
+  const crearServicio = (articulo) => {
+    let {id, nombreArticulo, descripcion ,precio, imgSrc, categorias, stock} = articulo;
+    const articuloObjeto = new Servicio (id, nombreArticulo, descripcion, precio, imgSrc, categorias, 0, stock)
+    return articuloObjeto
   }
-  const crearServicio = (servicio) => {
-    //Back API Call
+  const crearServicios = async (listadoDB) => {
+    var serviciosLista = [];
+    listadoDB.forEach((servicio)=>{
+      const servicioObjeto = crearServicio(servicio);
+      serviciosLista.push(servicioObjeto);
+    })
+    return serviciosLista;
+  }
+  const cargarServicios = async () => {
+    await fetch("http://localhost:8080/api/services").then(async (data) => {
+      let listadoDB = []
+      let jsonData = await data.json();
+      (jsonData.length === undefined) ? (listadoDB.push(jsonData)) : (listadoDB = jsonData)
+      let articulosListado = await crearServicios(listadoDB);
+      setServiciosLoaded(true);
+      setServiciosListadoDB(articulosListado);
+    })
   }
   const obtenerServicioPorID = async (itemId) => {
-    //Back API Call
+    //TODO Back API Call
   }
    const obtenerServiciosPorCategoria = async (categoria) => {
-    //Back API Call
+    //TODO Back API Call
   }
   const obtenerServiciosPorCantidad = async (cantidad = 0) => {
-    //Back API Call
+    //TODO Back API Call
   }
   const context = {
     serviciosLoaded,

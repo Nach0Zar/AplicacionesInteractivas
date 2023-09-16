@@ -114,7 +114,7 @@ const Profile = () => {
 
     return (
         <div>
-            {(!isLoggedIn) && <Navigate to="/ecommerce-frontend/"/> }
+            {(!isLoggedIn) && <Navigate to="/"/> }
             <div className="profileContainer">
                 <div className="perfilDiv">
                     <h3>Bienvenido {userPerfil.nombreUsuario} !</h3>

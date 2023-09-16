@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ItemRecommended = (props) => {
     var articulo = props.articulo;
-    const URLPage = "/ecommerce-frontend/ItemPage/"+articulo.id;
+    const URLPage = "/ItemPage/"+articulo.id;
     return (
         <div className="itemDiv recommendedItem">
             <Link to={URLPage} className="noDecoration" >

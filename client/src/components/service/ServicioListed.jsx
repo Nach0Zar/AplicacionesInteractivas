@@ -25,3 +25,5 @@ const ServiceListed = (props) => {
     </Link>
   )
 }
+
+export default ServiceListed
