@@ -1,12 +1,10 @@
 import React from 'react';
 import usuarioImagen from '../../images/usuario.svg';
 import passwordImagen from '../../images/password.svg';
-import mapImagen from '../../images/map.svg';
 import emailImagen from '../../images/email.svg';
-import dniImagen from '../../images/dni.svg';
 import telefonoImagen from '../../images/telefono.svg';
+import {nuevoUsuario} from "../../api/service/userService.ts";
 import { useState } from 'react';
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import './style.scss';
@@ -47,12 +45,6 @@ const Register = () => {
             if(input.value === ""){
                 allInputsFilled = false;
             }
-            if(input.id === "dni" && input.value.toString().length !== input.maxLength){
-                allInputsFilled = false;
-            }
-            if(input.id === "telefono" && input.value.toString().length !== input.maxLength){
-                allInputsFilled = false;
-            }
             if(input.id === "email"){
                 let lastAtPos = input.value.lastIndexOf("@");
                 let lastDotPos = input.value.lastIndexOf(".");
@@ -68,23 +60,17 @@ const Register = () => {
             }
 
         });
-
+        console.log(allInputsFilled)
         if (allInputsFilled){
-            const db = getFirestore();
-            const usuarioDoc = doc(db, "usuarios", nombreUsuario);
-            const usuarioSnap = await getDoc(usuarioDoc);
-           
-            if(!usuarioSnap.data()){
-                const id = nombreUsuario;
-                const usuario = {id, nombreUsuario, password, direccion, email, dni, telefono};
-    
-                await setDoc(doc(db, "usuarios", nombreUsuario), usuario).then(swal("Registrado","Usuario creado correctamente","success"));
-                let path = `/ecommerce-frontend/`; 
+            const id = nombreUsuario;
+            const user = {
+                id, nombreUsuario, password, email, telefono
+            }
+            console.log(user)
+            nuevoUsuario(user).then(res => {
+                let path = `/ecommerce-frontend/login`; 
                 navigate(path);
-            }
-            else{
-                swal("Usuario ya registrado", "El Nombre de Usuario ya fue registrado!", "warning");
-            }
+            })
         }
         else{
             swal("Información incorrecta", "La información ingresada es erronea! Por favor revisar la información ingresada y en caso de ser correcta contactarse con el soporte", "warning");
@@ -98,28 +84,18 @@ const Register = () => {
                 <div id="container">
                     <label htmlFor="usuario" className="registerLabelForm">
                         <img src={usuarioImagen} alt=""/>
-                        <span>Nombre de usuario</span>
+                        <span>Nombre y apellido</span>
                         <input type="text" id="usuario" value={nombreUsuario} onChange={handleChangeNombreUsuario} required/>
-                    </label>
-                    <label htmlFor="contrasenia" className="registerLabelForm">
-                        <img src={passwordImagen} alt=""/>
-                        <span>Contraseña</span>
-                        <input type="password" id="contrasenia" value={password} onChange={handleChangePassword} required/>
-                    </label>
-                    <label htmlFor="direccion" className="registerLabelForm">
-                        <img src={mapImagen} alt=""/>
-                        <span>Direccion</span>
-                        <input type="text" id="direccion" value={direccion} onChange={handleChangeDireccion} required/>
                     </label>
                     <label htmlFor="email" className="registerLabelForm">
                         <img src={emailImagen} alt=""/>
                         <span>Direccion de correo</span>
                         <input type="email" id="email" value={email} onChange={handleChangeEmail} required/>
                     </label>
-                    <label htmlFor="dni" className="registerLabelForm">
-                        <img src={dniImagen} alt=""/>
-                        <span>DNI o Pasaporte</span>
-                        <input type="number" id="dni" value={dni} onChange={handleChangeDni} minLength={8} maxLength={8} required/>
+                    <label htmlFor="contrasenia" className="registerLabelForm">
+                        <img src={passwordImagen} alt=""/>
+                        <span>Contraseña</span>
+                        <input type="password" id="contrasenia" value={password} onChange={handleChangePassword} required/>
                     </label>
                     <label htmlFor="telefono" className="registerLabelForm">
                         <img src={telefonoImagen} alt=""/>
