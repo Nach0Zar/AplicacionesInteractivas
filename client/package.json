@@ -1,8 +1,8 @@
 {
-  "name": "ecommerce-frontend",
+  "name": "aplicacionesinteractivas",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://nach0zar.github.io/ecommerce-frontend",
+  "homepage": "http://nach0zar.github.io/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -44,6 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:8080/"
+  }
 }
