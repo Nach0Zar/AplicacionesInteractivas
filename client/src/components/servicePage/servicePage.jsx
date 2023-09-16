@@ -16,6 +16,7 @@ const { obtenerServicioPorID } = useServicios();
 const { isInCart, addItem, removeItem} = useCart();
 const [servicioCapturado, setServicioCapturado] = useState([]);
 const [categoriasItem, setCategoriasItem] = useState([]);
+const [commentsItem, setCommentsItem] = useState([]);
 const [image, setImage] = useState("");
 const [texto, setTexto] = useState("");
 const [estilo, setEstilo] = useState("");
@@ -27,6 +28,7 @@ useEffect(() => {
   
   getItemByID.then((data)=> {
     setServicioCapturado(data);
+    setCommentsItem(data.comments)
     const logo = require("../../images/services/"+data.image)
     setImage(logo);
     if(!isInCart(data.id)){
@@ -49,7 +51,7 @@ useEffect(() => {
     console.log(err)
     swal("Item no encontrado","El item no fue encontrado. "+err,"error")
   });
-}, [serviceID, isInCart, obtenerCategoriasPorServicio, obtenerServicioPorID]);
+}, [serviceID, isInCart, obtenerCategoriasPorServicio, obtenerServicioPorID, commentsItem]);
   
 useEffect(() => {
   const actualizarBoton = () => {
@@ -100,6 +102,7 @@ const cambiarEstadoServicioEnCarrito = (event) => {
                       <p className="descriptionElement">{servicioCapturado.description}</p>
                     </div>
                     <div id="variedInfo">
+                      <h5 className="priceElement">Responsable: {servicioCapturado.responsible}</h5>
                       <h5 className="priceElement">${servicioCapturado.price}</h5>
                       <div className="buttonElementContainer">
                         <button type="button" onClick={cambiarEstadoServicioEnCarrito} className={estilo} id={idStlye}>{texto}</button>
@@ -114,9 +117,20 @@ const cambiarEstadoServicioEnCarrito = (event) => {
                     </div>
                   </div>
               </div>
-              
           </div>
         </div>
+      </div>
+      <hr />
+      <div className="container">
+      {commentsItem.map((comment) => (
+        <div>
+          <div className="comment">
+            <p className="descriptionElement commentMessage" key={comment.user}>{comment.user+": "}</p>
+            <p className="descriptionElement commentMessage" key={comment.user+"Message"}>{comment.message}</p>
+          </div>
+          <br />
+        </div>
+      ))}
       </div>
       <hr />
     </main>

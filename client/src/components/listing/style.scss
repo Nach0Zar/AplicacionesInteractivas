@@ -3,7 +3,7 @@
 	color: black;
 	font-size: inherit;
 }
-.item{
+.item, .comment{
     display: flex;
 	border: 1px lightgrey solid;
 }
@@ -60,7 +60,6 @@
 	.item {
 	  flex-flow: column wrap;
 	}
-  
 	.imageContainer, .nameElement, .priceElement {
 	  margin: 5px auto;
 	}
