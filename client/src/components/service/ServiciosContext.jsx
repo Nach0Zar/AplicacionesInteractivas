@@ -9,10 +9,10 @@ const useServicios = () => {
 const ServiciosProvider = ({defaultValue = [], children}) => {
   const [serviciosListadoDB, setServiciosListadoDB] = useState(defaultValue);
   const [serviciosLoaded, setServiciosLoaded] = useState(false);
-  const crearServicio = (articulo) => {
-    let {id, nombreArticulo, descripcion ,precio, imgSrc, categorias, stock} = articulo;
-    const articuloObjeto = new Servicio (id, nombreArticulo, descripcion, precio, imgSrc, categorias, 0, stock)
-    return articuloObjeto
+  const crearServicio = (servicio) => {
+    let {id, name, description, price, responsible, categories, duration, frequency, comments, qualification, image} = servicio;
+    const servicioObjeto = new Servicio (id, name, description, price, responsible, categories, duration, frequency, comments, qualification, image)
+    return servicioObjeto
   }
   const crearServicios = async (listadoDB) => {
     var serviciosLista = [];
@@ -33,7 +33,13 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     })
   }
   const obtenerServicioPorID = async (itemId) => {
-    //TODO Back API Call
+    return await fetch("http://localhost:8080/api/services/"+itemId).then(async (data) => {
+      let jsonData = await data.json();
+      console.log(jsonData)
+      console.log(itemId)
+      let articuloCreado = crearServicio(jsonData);
+      return articuloCreado;
+    }).catch((err) => {console.log(err)})
   }
    const obtenerServiciosPorCategoria = async (categoria) => {
     //TODO Back API Call

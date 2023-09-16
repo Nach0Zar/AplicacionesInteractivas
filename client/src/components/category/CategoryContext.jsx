@@ -38,6 +38,14 @@ const CategoriasContext = React.createContext([]);
     })
     return categoriasSeleccionadas;
   }
+  const obtenerCategoriasPorServicio = async (servicio) => {
+    var categoriasSeleccionadas = [];
+    console.log(servicio)
+    categoriasListadoDB.forEach((categoria)=>{
+      (servicio.categories.includes(categoria.idCategoria)) && (categoriasSeleccionadas.push(new Categoria(categoria.idCategoria, categoria.nombreCategoria)));
+    })
+    return categoriasSeleccionadas;
+  }
   const obtenerTodasLasCategorias = async (listadoDB) => {
     var categoriasLista = [];
     listadoDB.forEach((categoria)=>{
@@ -50,7 +58,8 @@ const CategoriasContext = React.createContext([]);
     categoriasListadoDB,
     cargarCategorias,
     obtenerCategoriaPorID,
-    obtenerCategoriasPorArticulo
+    obtenerCategoriasPorArticulo,
+    obtenerCategoriasPorServicio
   }
   return (
     <CategoriasContext.Provider value={context}>

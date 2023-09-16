@@ -4,17 +4,19 @@ class Service{
     #price
     #image
     #description
+    #categories
     #id
     #responsible
     #duration
     #frequency
     #comments
     #qualification
-    constructor({name, price, image, description, id = randomUUID(), responsible, duration, frequency, comments, qualification}){
+    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification}){
         this.#name = name;
         this.#price = +price;
         this.#image = image;
         this.#description = description;
+        this.#categories = categories;
         this.#id = id;
         this.#responsible = responsible;
         this.#duration = duration;
@@ -82,11 +84,21 @@ class Service{
     setQualification(qualification){
         this.#qualification = qualification;
     }
-    modify({name, price, image, description, responsible, duration, frequency, comments, qualification}){
+    addCategory(category){
+        this.#categories.push(category);
+    }
+    getCategories(){
+        return this.#categories
+    }
+    setCategories(categories){
+        this.#categories = categories;
+    }
+    modify({name, price, image, description, categories, responsible, duration, frequency, comments, qualification}){
         this.setName(name);
         this.setPrice(price);
         this.setImage(image);
         this.setDescription(description);
+        this.setCategories(categories);
         this.setResponsible(responsible);
         this.setDuration(duration);
         this.setFrequency(frequency);
@@ -98,6 +110,7 @@ class Service{
             name: this.#name,
             price: this.#price,
             image: this.#image,
+            categories: this.#categories,
             description: this.#description,
             responsible: this.#responsible,
             duration: this.#duration,

@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.scss';
 
 const ServiceListed = (props) => {
-    var servicio = props.servicio;
-    const URLPage = "/Service/"+servicio.id;
-     
+    const [image, setImage] = useState("");
+    const [servicio, setServicio] = useState({});
+    const URLPage = "/service/"+servicio.id;
+    useEffect(() => {
+        
+        setServicio(props.servicio);
+        const logo = require("../../images/services/"+props.servicio.image)
+        setImage(logo);
+      },[image, servicio])
+        
   return (
     <Link to={URLPage} className="noDecoration">
         <div className="item">
             <div className="imageContainer">
-                <img src={servicio.imgSrc} alt=""/>
+                <img src={image} alt=""/>
             </div>
             <div className="textButtonContainer">
                 <div className="textContainer">
                     <div className="priceTitleContainer">
-                        <h4 className="nameElement">{servicio.nombreServicio}</h4>
-                        <h5 className="priceElement">${servicio.precio}</h5>
+                        <h4 className="nameElement">{servicio.name}</h4>
+                        <h5 className="priceElement">${servicio.price}</h5>
                     </div>
-                    <p className="descriptionElement">{servicio.descripcion}</p>
+                    <p className="descriptionElement">{servicio.description}</p>
                 </div>
             </div>
         </div>

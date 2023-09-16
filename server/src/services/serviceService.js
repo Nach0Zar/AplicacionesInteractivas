@@ -22,13 +22,24 @@ class ServiceService{
         });
         return itemsDTO;
     }
-    createService = async (name, price, image, description, responsible, duration, frequency, comments, qualification) => {
-        //TODO serviceDataValidation(name, price, image, description, responsible, duration, frequency, comments, qualification);
+    getService = async (serviceID) => {
+        if(!(await this.checkExistingService(serviceID))){
+            throw new Error(`No service was found matching ID ${serviceID}`, 'BAD_REQUEST');
+        }
+        return (await this.container.getItemByID(serviceID)).toDTO();
+    }
+    checkExistingService = async (serviceID) => {
+        let serviceFound = await this.container.getItemByID(serviceID);
+        return (serviceFound !== null && serviceFound.length !== 0);
+    }
+    createService = async (name, price, image, description, categories, responsible, duration, frequency, comments, qualification) => {
+        //TODO serviceDataValidation(name, price, image, description, categories, responsible, duration, frequency, comments, qualification);
         let newService = new Service({
             name: name, 
             price: +price, 
             image: image,
             description: description,
+            categories: categories,
             responsible: responsible,
             duration: duration,
             frequency: frequency,

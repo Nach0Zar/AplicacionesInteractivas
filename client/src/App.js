@@ -19,6 +19,7 @@ import Profile from './components/user/Profile';
 import Faqs from './components/faqs/Faqs';
 import About from './components/about/About';
 import Orders from './components/user/Orders';
+import ServicePage from './components/servicePage/servicePage';
 
 
 function App() {
@@ -60,7 +61,7 @@ function App() {
       .catch((err)=>console.log(err));
       }
     }
-  }, [articulosLoaded, categoriasLoaded, cargarArticulos, cargarCategorias, cargarServicios])
+  }, [articulosLoaded, categoriasLoaded, serviciosLoaded, cargarArticulos, cargarCategorias, cargarServicios])
 
 if(!articulosLoaded || !categoriasLoaded){ 
   return(<LoadingComponent />)} 
@@ -73,6 +74,7 @@ else
         <Routes>
           <Route exact path="/" element={ <Home />} />
           <Route exact path="/" element={ <Home />} />
+          <Route path="/service/:serviceID" element={ <ServicePage />} />
           <Route path="/itemPage/:itemId" element={ <ItemPage />} />
           <Route path="/category" element={ <CategoryItems />}/>
           <Route path="/category/:categoryId" element={ <CategoryItems />}/>
