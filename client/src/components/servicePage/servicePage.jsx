@@ -29,8 +29,12 @@ useEffect(() => {
   getItemByID.then((data)=> {
     setServicioCapturado(data);
     setCommentsItem(data.comments)
-    const logo = require("../../images/services/"+data.image)
-    setImage(logo);
+    try{
+      setImage(require("../../images/services/"+data.image));
+    }
+    catch{
+      setImage(require("../../images/services/default.jpg"));
+    }
     if(!isInCart(data.id)){
       setTexto("Agregar Servicio");
       setEstilo("btn btn-outline-dark botonAgregarCarrito");

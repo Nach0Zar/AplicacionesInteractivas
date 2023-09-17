@@ -10,8 +10,12 @@ const ServiceListed = (props) => {
         
         setServicio(props.servicio);
         if(image === ""){
-            const logo = require("../../images/services/"+props.servicio.image)
-            setImage(logo);
+            try{
+                 setImage(require("../../images/services/"+props.servicio.image));
+            }
+            catch{
+                setImage(require("../../images/services/default.jpg"));
+            }
         }
       },[image, props.servicio])
         
