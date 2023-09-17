@@ -9,9 +9,11 @@ const ServiceListed = (props) => {
     useEffect(() => {
         
         setServicio(props.servicio);
-        const logo = require("../../images/services/"+props.servicio.image)
-        setImage(logo);
-      },[image, servicio])
+        if(image === ""){
+            const logo = require("../../images/services/"+props.servicio.image)
+            setImage(logo);
+        }
+      },[image, props.servicio])
         
   return (
     <Link to={URLPage} className="noDecoration">

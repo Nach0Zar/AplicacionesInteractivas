@@ -51,7 +51,7 @@ useEffect(() => {
     console.log(err)
     swal("Item no encontrado","El item no fue encontrado. "+err,"error")
   });
-}, [serviceID, isInCart, obtenerCategoriasPorServicio, obtenerServicioPorID, commentsItem]);
+}, [serviceID, isInCart, obtenerCategoriasPorServicio, obtenerServicioPorID]);
   
 useEffect(() => {
   const actualizarBoton = () => {
@@ -65,7 +65,7 @@ useEffect(() => {
     }
   }
   actualizarBoton();
-},[texto, servicioCapturado, addItem, removeItem, isInCart, image])
+},[texto, servicioCapturado, addItem, removeItem, isInCart])
   
 const cambiarEstadoServicioEnCarrito = (event) => {
   event.preventDefault();
@@ -123,10 +123,10 @@ const cambiarEstadoServicioEnCarrito = (event) => {
       <hr />
       <div className="container">
       {commentsItem.map((comment) => (
-        <div>
+        <div key={comment.user+"Message"}>
           <div className="comment">
-            <p className="descriptionElement commentMessage" key={comment.user}>{comment.user+": "}</p>
-            <p className="descriptionElement commentMessage" key={comment.user+"Message"}>{comment.message}</p>
+            <p className="descriptionElement commentMessage">{comment.user+": "}</p>
+            <p className="descriptionElement commentMessage">{comment.message}</p>
           </div>
           <br />
         </div>

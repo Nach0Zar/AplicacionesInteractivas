@@ -40,7 +40,6 @@ const CategoriasContext = React.createContext([]);
   }
   const obtenerCategoriasPorServicio = async (servicio) => {
     var categoriasSeleccionadas = [];
-    console.log(servicio)
     categoriasListadoDB.forEach((categoria)=>{
       (servicio.categories.includes(categoria.idCategoria)) && (categoriasSeleccionadas.push(new Categoria(categoria.idCategoria, categoria.nombreCategoria)));
     })

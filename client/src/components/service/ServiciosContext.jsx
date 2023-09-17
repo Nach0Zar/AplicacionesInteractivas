@@ -35,8 +35,6 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const obtenerServicioPorID = async (itemId) => {
     return await fetch("http://localhost:8080/api/services/"+itemId).then(async (data) => {
       let jsonData = await data.json();
-      console.log(jsonData)
-      console.log(itemId)
       let articuloCreado = crearServicio(jsonData);
       return articuloCreado;
     }).catch((err) => {console.log(err)})
