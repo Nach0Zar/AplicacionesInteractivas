@@ -1,45 +1,40 @@
 import React from 'react';
 import { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import ItemListed from '../listing/ItemListed';
+import ServicioListed from '../service/ServicioListed';
 import { Link } from 'react-router-dom';
-import { useArticulos } from '../listing/ItemsContext';
+import { useServicios } from '../service/ServiciosContext';
 import { useCategorias } from './CategoryContext';
 import './style.scss';
 
 const CategoryItems = () => {
-const { articulosListadoDB, obtenerItemsPorCategoria } = useArticulos();
-const { obtenerCategoriaPorID } = useCategorias();
-const [itemsCategory, setItemsCategory] = useState([]);
-var {categoryId} = useParams();
-(categoryId===undefined) && (categoryId = -1);
-useEffect(() => {
-  
-
+  const { serviciosListadoDB, obtenerServiciosPorCategoria } = useServicios();
+  const { obtenerCategoriaPorID } = useCategorias();
+  const [itemsCategory, setItemsCategory] = useState([]);
+  var {categoryId} = useParams();
+  (categoryId===undefined) && (categoryId = -1);
+  useEffect(() => {
     const getCategoryByID = new Promise((resolve) => {
-
       if(categoryId>-1){
         resolve(obtenerCategoriaPorID(categoryId));
       }
       else
       {
-        setItemsCategory(articulosListadoDB)
+        setItemsCategory(serviciosListadoDB)
       }
       
     })
-
     getCategoryByID.then((data)=> {
-      const getItemsByCategoryID = new Promise((resolve) => {
-        resolve(obtenerItemsPorCategoria(data));
+      const getServicesByCategoryID = new Promise((resolve) => {
+        resolve(obtenerServiciosPorCategoria(data));
       });
-      getItemsByCategoryID.then((data)=> {setItemsCategory(data)})
+      getServicesByCategoryID.then((data)=> {setItemsCategory(data)})
       .catch((err)=>console.log(err));
     
     }).catch((data)=>{
       data.then((result)=>setItemsCategory(result))
-      });
-    }, [categoryId]);
-
+    });
+  }, [categoryId]);
   return (
     <main>
       <div id="catalog">
@@ -67,17 +62,17 @@ useEffect(() => {
               <br/>
               <div className="category">
                   <span>Tipo</span>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/0">Cosmeticos</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/1">Electrónica</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/2">Alimentos</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/3">Escolares</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/ecommerce-frontend/category/4">Domestico</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/0">Cosmeticos</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/1">Electrónica</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/2">Alimentos</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/3">Escolares</Link></span></div>
+                  <div className="subCategory"><span><Link className="noDecoration" to="/category/4">Domestico</Link></span></div>
               </div>
           </div>
           <div id="elementsList">
           { itemsCategory.map((item) => (
               <div key={item.id}>
-                <ItemListed articulo={item}/>
+                <ServicioListed servicio={item}/>
                 <br/>
               </div>
           ))

@@ -118,7 +118,7 @@ const ModalConfirmarCompra = (props) => {
                 swal("Compra no realizada", "Desafortunadamente, hubo un problema con la página. Por favor, intentar nuevamente en unos instantes.", "error");
             });
             handleClose();
-            navigate("/ecommerce-frontend");
+            navigate("/");
         }
         else{
             swal("Información errónea", "Los datos de pago son incorrectos. Por favor, revisar e intentar nuevamente.", "error");

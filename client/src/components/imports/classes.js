@@ -19,9 +19,34 @@ export class Articulo{
     static getIdCounter(){
         return Articulo.idCounter;
     }
-
 }
 
+export class Servicio{
+    static idCounter = 0;
+    constructor(id, name, description, price, responsible, categories, 
+                duration, frequency, comments, qualification, image){
+        if (id === -1){ 
+            this.id = Servicio.getIdCounter();
+        } 
+        else {
+            this.id = id;
+        }
+        Servicio.idCounter++;
+        this.name = name;
+        this.description = description;
+        this.price = parseInt(price);
+        this.responsible = responsible;
+        this.duration = duration;
+        this.categories = categories;
+        this.frequency = frequency;
+        this.comments = comments;
+        this.qualification = qualification;
+        this.image = image;
+    }
+    static getIdCounter(){
+        return Servicio.idCounter;
+    }
+}
 export class Categoria{
     static idCounter = 0;
     constructor(idCategoria, nombreCategoria){
@@ -49,5 +74,4 @@ export class Usuario{
         this.dni = dni;
         this.telefono = telefono;
     }
-    
 };
