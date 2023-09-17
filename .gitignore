@@ -104,7 +104,6 @@ dist
 .tern-port
 
 # media files
-*.jpg
 *.jpeg
 *.png
 *.gif
