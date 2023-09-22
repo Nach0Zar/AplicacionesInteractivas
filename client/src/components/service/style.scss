@@ -7,6 +7,13 @@
     display: flex;
 	border: 1px lightgrey solid;
 }
+.comment{
+	flex-flow: column wrap;
+}
+.commentMessage{
+	padding: 0.5rem 1.5rem 0 1.5rem;
+	margin: 0 0 0.25rem 0;
+}
 .imageContainer {
 	display: flex;
 	max-width: 201px;
@@ -60,6 +67,7 @@
 	.item {
 	  flex-flow: column wrap;
 	}
+  
 	.imageContainer, .nameElement, .priceElement {
 	  margin: 5px auto;
 	}

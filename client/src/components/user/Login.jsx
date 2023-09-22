@@ -38,7 +38,7 @@ const Login = () => {
                     swal("Login","Usuario logueado correctamente!", "success");
                     const usuario = new Usuario (usuarioSnap.data().nombreUsuario, usuarioSnap.data().password, usuarioSnap.data().direccion, usuarioSnap.data().email, usuarioSnap.data().dni, usuarioSnap.data().telefono)
                     loguearUser(usuario);
-                    let path = `/ecommerce-frontend/`; 
+                    let path = `/`; 
                     navigate(path);
                 }
                 else{
