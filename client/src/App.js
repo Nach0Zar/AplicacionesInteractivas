@@ -53,7 +53,7 @@ else
         <Header/>
         <Routes>
           <Route exact path="/" element={ <Home />} />
-          <Route exact path="/ecommerce-frontend/" element={ <Login />} />
+          <Route exact path="/ecommerce-frontend/" element={ <Home />} />
           <Route path="/ecommerce-frontend/itemPage/:itemId" element={ <ItemPage />} />
           <Route path="/ecommerce-frontend/category" element={ <CategoryItems />}/>
           <Route path="/ecommerce-frontend/category/:categoryId" element={ <CategoryItems />}/>

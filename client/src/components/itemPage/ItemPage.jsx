@@ -5,7 +5,11 @@ import { useCart } from '../cart/CartContext';
 import { useArticulos } from '../listing/ItemsContext';
 import { useCategorias } from '../category/CategoryContext';
 import { useUsuario } from '../user/UserContext';
+import { getClase } from "../../api/service/classesService.ts";
+import { Divider, Avatar, Grid, Paper } from "@mui/material";
+
 import swal from 'sweetalert';
+import Comment from "../comment/Comment"
 import './style.scss';
 
 const ItemPage = () => {
@@ -15,17 +19,23 @@ const { obtenerCategoriasPorArticulo } = useCategorias();
 const { obtenerItemPorID } = useArticulos();
 const { isInCart, addItem, removeItem} = useCart();
 const [articuloCapturado, setArticuloCapturado] = useState([]);
+const [comentarios, setComentarios] = useState([])
 const [categoriasItem, setCategoriasItem] = useState([]);
 const [texto, setTexto] = useState("");
-const [estilo, setEstilo] = useState("");
-const idStlye = "boton"+itemId;
 useEffect(() => {
-
+  console.log("entre")
   const getItemByID = new Promise((resolve) => {
-      resolve(obtenerItemPorID(itemId));
+    resolve(getClase("a"));
   })
 
-  getItemByID.then((data)=> {
+  getItemByID.then((data) => {
+    console.log(data)
+    setArticuloCapturado(data)
+    setCategoriasItem(data.category)
+    setComentarios(data.comments)
+  })
+
+/*   getItemByID.then((data)=> {
     setArticuloCapturado(data);
     if(!isInCart(data.id)){
       setTexto("Agregar Articulo");
@@ -45,7 +55,7 @@ useEffect(() => {
       
   }).catch((err)=>{
     swal("Item no encontrado","El item no fue encontrado. "+err,"error")
-    });
+    }); */
   
   }, [itemId, isInCart, obtenerCategoriasPorArticulo, obtenerItemPorID]);
   
@@ -53,11 +63,9 @@ useEffect(() => {
   const actualizarBoton = () => {
     if(!isInCart(articuloCapturado.id)){
       setTexto("Agregar Articulo");
-      setEstilo("btn btn-outline-dark botonAgregarCarrito");
     }
     else {
       setTexto("Articulo Añadido");
-      setEstilo("btn btn-dark botonAgregarCarrito");
     }
   }
   actualizarBoton();
@@ -65,22 +73,7 @@ useEffect(() => {
   
 
 const cambiarEstadoArticuloEnCarrito = (event) => {
-  event.preventDefault();
-  if(!isInCart(articuloCapturado.id)){
-    setTexto("Agregar Articulo");
-    setEstilo("btn btn-outline-dark botonAgregarCarrito");
-    if(!(usuario === null)){
-      addItem(articuloCapturado.id,1);
-    }
-    else{
-      swal("Usuario no logueado", "Debes estar logueado para poder agregar articulos a tu carrito!", "warning");
-    }
-  }
-  else {
-    setTexto("Articulo Añadido");
-    setEstilo("btn btn-dark botonAgregarCarrito");
-    removeItem(articuloCapturado.id);
-  }
+
 }
 
 
@@ -96,26 +89,40 @@ const cambiarEstadoArticuloEnCarrito = (event) => {
                   <div className="detailPageArea">
                     <div id="detailPageColumn">
                       <h4 className="nameElement">{articuloCapturado.nombreArticulo}</h4>
-                      <p className="descriptionElement">{articuloCapturado.descripcion}</p>
+                      <p className="descriptionElement">{articuloCapturado.description}</p>
                     </div>
                     <div id="variedInfo">
-                      <h5 className="priceElement">${articuloCapturado.precio}</h5>
-                      <div className="buttonElementContainer">
-                        <button type="button" onClick={cambiarEstadoArticuloEnCarrito} className={estilo} id={idStlye}>{texto}</button>
-                      </div>
+                      <h5 className="priceElement">${articuloCapturado.cost}</h5>
                       <h5 className="priceElement">Categorías</h5>
                       <div className="categories">
                         {categoriasItem.map((categoria) => (
-                        <p className="descriptionElement" key={categoria.idCategoria}>{categoria.nombreCategoria}</p>
+                        <p className="descriptionElement" key={categoria}>{categoria}</p>
                           ))
                           }
                       </div>
                     </div>
                   </div>
               </div>
-              
           </div>
         </div>
+        <Paper style={{ padding: "40px 20px" }}>
+        <h1>¿Te interesa?</h1>
+        <h3>Contacta al profe completando el siguiente formulario</h3>
+        </Paper>
+        {
+          <Paper style={{ padding: "40px 20px" }}>
+            <h1>Otros alumnos opinan</h1>
+              {
+                comentarios.map((comment, index) => {
+                  return (
+                    <div key={index}>
+                      <Comment comment={comment}></Comment>
+                    </div>
+                  )
+                })
+              }
+          </Paper>
+        }
       </div>
       <hr />
     </main>
