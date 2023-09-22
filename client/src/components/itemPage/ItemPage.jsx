@@ -6,11 +6,15 @@ import { useArticulos } from '../listing/ItemsContext';
 import { useCategorias } from '../category/CategoryContext';
 import { useUsuario } from '../user/UserContext';
 import { getClase } from "../../api/service/classesService.ts";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { FormControl, FormLabel } from '@mui/material';
 import { Divider, Avatar, Grid, Paper } from "@mui/material";
 
 import swal from 'sweetalert';
 import Comment from "../comment/Comment"
 import './style.scss';
+import ContactForm from '../contactForm/ContactForm';
 
 const ItemPage = () => {
 var {itemId} = useParams();
@@ -88,8 +92,7 @@ const cambiarEstadoArticuloEnCarrito = (event) => {
               <div className="textContainer">
                   <div className="detailPageArea">
                     <div id="detailPageColumn">
-                      <h4 className="nameElement">{articuloCapturado.nombreArticulo}</h4>
-                      <p className="descriptionElement">{articuloCapturado.description}</p>
+                      <h2 className="nameElement">{articuloCapturado.description}</h2>
                     </div>
                     <div id="variedInfo">
                       <h5 className="priceElement">${articuloCapturado.cost}</h5>
@@ -106,8 +109,9 @@ const cambiarEstadoArticuloEnCarrito = (event) => {
           </div>
         </div>
         <Paper style={{ padding: "40px 20px" }}>
-        <h1>¿Te interesa?</h1>
-        <h3>Contacta al profe completando el siguiente formulario</h3>
+          <h1>¿Te interesa?</h1>
+          <h3>Contacta al profe completando el siguiente formulario</h3>
+          <ContactForm></ContactForm>
         </Paper>
         {
           <Paper style={{ padding: "40px 20px" }}>
