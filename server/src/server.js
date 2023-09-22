@@ -10,9 +10,17 @@ import errorHandler from './middlewares/errorHandler.js';
 import logger from './utils/logger.js';
 import cluster from 'cluster';
 import Server from './utils/server.js';
+import cors from 'cors';
 
 const app = express();
 //middlewares
+const corsOptions = {
+    origin: 'http://localhost:3000', // Replace with the actual URL of your React app
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // This allows cookies and other credentials to be sent cross-origin
+    optionsSuccessStatus: 204, // Some legacy browsers (IE11) choke on 204
+  };
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
