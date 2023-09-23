@@ -1,10 +1,8 @@
 import React from 'react';
-import usuarioImagen from '../../images/usuario.svg';
+import emailImagen from '../../images/email.svg';
 import passwordImagen from '../../images/password.svg';
-import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { useState } from 'react';
 import { useUsuario } from './UserContext';
-import { Usuario } from '../imports/classes';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import './style.scss'
@@ -12,10 +10,10 @@ import './style.scss'
 const Login = () => {
     let navigate = useNavigate();
     const { loguearUser } = useUsuario();
-    const [nombreUsuario, setNombreUsuario] = useState('');
+    const [emailUsuario, setEmailUsuario] = useState('');
     const [password, setPassword] = useState('');
-    const handleChangeNombreUsuario = (e) => {
-        setNombreUsuario(e.target.value);
+    const handleChangeEmailUsuario = (e) => {
+        setEmailUsuario(e.target.value);
     }
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
@@ -30,27 +28,24 @@ const Login = () => {
 
         });
         if (allInputsFilled){
-            const db = getFirestore();
-            const usuarioDoc = doc(db, "usuarios", nombreUsuario);
-            const usuarioSnap = await getDoc(usuarioDoc);
-            if(usuarioSnap.data()){
-                if (usuarioSnap.data().password === password){
-                    swal("Login","Usuario logueado correctamente!", "success");
-                    const usuario = new Usuario (usuarioSnap.data().nombreUsuario, usuarioSnap.data().password, usuarioSnap.data().direccion, usuarioSnap.data().email, usuarioSnap.data().dni, usuarioSnap.data().telefono)
-                    loguearUser(usuario);
-                    let path = `/`; 
-                    navigate(path);
-                }
-                else{
+            let loggedUser = await loguearUser({email: emailUsuario, password: password});
+            if(loggedUser === true){
+                swal("Login","Usuario logueado correctamente!", "success");
+                let path = `/`; 
+                navigate(path);
+            }
+            else {
+                if(loggedUser === false){
                     swal("Información errónea","Contraseña incorrecta, por favor indicar la contraseña correcta","warning");
                 }
-                
-            }
-            else{
-                swal("Usuario inexistente","El Nombre de Usuario no existe. Pruebe registrandolo!", "error");
+                else{
+                    swal("Error del sistema","No se pudo validar el login de usuario, por favor vuelva a intentar mas tarde","error");
+                }
             }
         }
-        
+        else{
+            swal("Informacion faltante","Por favor, ingrese email y contraseña", "error");
+        }
     }
   return (
     <main>
@@ -58,10 +53,10 @@ const Login = () => {
             <h2>Login</h2>
             <form onSubmit={(e)=>{e.preventDefault();}}>
                 <div id="container">
-                    <label htmlFor="usuario" className="loginLabelForm">
-                        <img src={usuarioImagen} alt=""/>
-                        <span>Nombre de usuario</span>
-                        <input type="text" id="usuario" value={nombreUsuario} onChange={handleChangeNombreUsuario} required/>
+                    <label htmlFor="email" className="loginLabelForm">
+                        <img src={emailImagen} alt=""/>
+                        <span>Direccion de correo</span>
+                        <input type="text" id="email" value={emailUsuario} onChange={handleChangeEmailUsuario} required/>
                     </label>
                     <label htmlFor="contrasenia" className="loginLabelForm">
                         <img src={passwordImagen} alt=""/>

@@ -9,7 +9,7 @@ const useServicios = () => {
 const ServiciosProvider = ({defaultValue = [], children}) => {
   const [serviciosListadoDB, setServiciosListadoDB] = useState(defaultValue);
   const [serviciosLoaded, setServiciosLoaded] = useState(false);
-  const crearServicio = (servicio) => {
+  const instantiateServicio = (servicio) => {
     let {id, name, description, price, responsible, categories, duration, frequency, comments, qualification, image} = servicio;
     const servicioObjeto = new Servicio (id, name, description, price, responsible, categories, duration, frequency, comments, qualification, image)
     return servicioObjeto
@@ -17,7 +17,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const crearServicios = async (listadoDB) => {
     var serviciosLista = [];
     listadoDB.forEach((servicio)=>{
-      const servicioObjeto = crearServicio(servicio);
+      const servicioObjeto = instantiateServicio(servicio);
       serviciosLista.push(servicioObjeto);
     })
     return serviciosLista;
@@ -35,7 +35,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const obtenerServicioPorID = async (itemId) => {
     return await fetch("http://localhost:8080/api/services/"+itemId).then(async (data) => {
       let jsonData = await data.json();
-      let articuloCreado = crearServicio(jsonData);
+      let articuloCreado = instantiateServicio(jsonData);
       return articuloCreado;
     }).catch((err) => {console.log(err)})
   }
@@ -51,7 +51,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     setServiciosLoaded,
     obtenerServicioPorID,
     cargarServicios,
-    crearServicio,
+    instantiateServicio,
     obtenerServiciosPorCategoria,
     obtenerServiciosPorCantidad
   }

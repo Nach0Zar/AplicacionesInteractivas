@@ -7,7 +7,10 @@ class User{
     #lastname
     #image
     #cart
-    constructor({email, password, name, lastname, image, cart, id = randomUUID()}){
+    #phone
+    #title
+    #experience
+    constructor({email, password, name, lastname, image, cart, phone, title, experience, id = randomUUID()}){
         this.#email = email;
         this.#password = password;
         this.#name = name;
@@ -15,6 +18,9 @@ class User{
         this.#image = image;
         this.#cart = cart;
         this.#id = id;
+        this.#phone = phone;
+        this.#title = title;
+        this.#experience = experience;
     }
     getEmail(){
         return this.#email;
@@ -57,6 +63,27 @@ class User{
     }
     setID(id){
         this.#id = id;
+    }
+    getPhone(){
+        return this.#phone;
+    }
+    setPhone(phone){
+        this.#phone = phone;
+    }
+    getTitle(){
+        return this.#title;
+    }
+    setTitle(title){
+        this.#title = title;
+    }
+    getExperience(){
+        return this.#experience;
+    }
+    setExperience(experience){
+        this.#experience = experience;
+    }
+    addExperience(experience){
+        this.#experience.push(experience);
     }
     toDTO(){
         const dto = {

@@ -66,13 +66,14 @@ export class Categoria{
 }
 
 export class Usuario{
-    constructor(nombreUsuario, password, direccion, email, dni, telefono){
-        this.id = nombreUsuario;
-        this.nombreUsuario = nombreUsuario;
+    constructor({id, name, lastname, password, email, phone, title, experience}){
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
         this.password = password;
-        this.direccion = direccion;
         this.email = email;
-        this.dni = dni;
-        this.telefono = telefono;
+        this.phone = phone;
+        this.title = title;
+        this.experience = experience;
     }
 };
