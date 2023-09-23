@@ -11,7 +11,8 @@ class Service{
     #frequency
     #comments
     #qualification
-    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification}){
+    #type
+    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification, type}){
         this.#name = name;
         this.#price = +price;
         this.#image = image;
@@ -23,6 +24,7 @@ class Service{
         this.#frequency = frequency;
         this.#comments = comments;
         this.#qualification = qualification;
+        this.#type = type;
     }
     getName(){
         return this.#name;
@@ -72,11 +74,20 @@ class Service{
     setFrequency(frequency){
         this.#frequency = frequency;
     }
+    getType(){
+        return this.#type
+    }
+    setType(type){
+        this.#type = type;
+    }
     getComments(){
         return this.#comments
     }
     setComments(comments){
         this.#comments = comments;
+    }
+    addComment(comment){
+        this.#comments.push(comment);
     }
     getQualification(){
         return this.#qualification

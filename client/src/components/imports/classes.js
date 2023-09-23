@@ -24,7 +24,7 @@ export class Articulo{
 export class Servicio{
     static idCounter = 0;
     constructor(id, name, description, price, responsible, categories, 
-                duration, frequency, comments, qualification, image){
+                duration, frequency, comments, qualification, image, type){
         if (id === -1){ 
             this.id = Servicio.getIdCounter();
         } 
@@ -42,6 +42,7 @@ export class Servicio{
         this.comments = comments;
         this.qualification = qualification;
         this.image = image;
+        this.type = type;
     }
     static getIdCounter(){
         return Servicio.idCounter;
