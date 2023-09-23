@@ -128,6 +128,7 @@ class Service{
             frequency: this.#frequency,
             comments: this.#comments,
             qualification: this.#qualification,
+            type: this.#type,
             id: this.#id
         }
         return dto

@@ -99,7 +99,7 @@ const UsuarioContext = React.createContext([]);
         return null;
       })
     }
-
+    
     const context = {
       usuario,
       loguearUser,

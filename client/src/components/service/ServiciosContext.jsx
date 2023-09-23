@@ -10,9 +10,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const [serviciosListadoDB, setServiciosListadoDB] = useState(defaultValue);
   const [serviciosLoaded, setServiciosLoaded] = useState(false);
   const instantiateServicio = (servicio) => {
-    let {id, name, description, price, responsible, categories, duration, frequency, comments, qualification, image} = servicio;
-    const servicioObjeto = new Servicio (id, name, description, price, responsible, categories, duration, frequency, comments, qualification, image)
-    return servicioObjeto
+    return new Servicio (servicio)
   }
   const crearServicios = async (listadoDB) => {
     var serviciosLista = [];
@@ -45,6 +43,16 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const obtenerServiciosPorCantidad = async (cantidad = 0) => {
     //TODO Back API Call
   }
+  
+  const obtenerServiciosPorResponsable = async (id) => {
+    return serviciosListadoDB;
+    return await fetch("http://localhost:8080/api/services/user/"+id).then(async (data) => {
+      let jsonData = await data.json();
+      let articuloCreado = instantiateServicio(jsonData);
+      return articuloCreado;
+    })
+  }
+
   const context = {
     serviciosLoaded,
     serviciosListadoDB,
@@ -53,7 +61,8 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     cargarServicios,
     instantiateServicio,
     obtenerServiciosPorCategoria,
-    obtenerServiciosPorCantidad
+    obtenerServiciosPorCantidad,
+    obtenerServiciosPorResponsable
   }
   return (
     <ServiciosContext.Provider value={context}>

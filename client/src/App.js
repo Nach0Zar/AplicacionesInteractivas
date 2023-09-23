@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './components/home/Home';
 import ItemPage from './components/itemPage/ItemPage';
 import CategoryItems from './components/category/Category';
-import Cart from './components/cart/Cart';
 import Header from './components/main/Header';
 import { CartProvider } from './components/cart/CartContext';
 import { useEffect } from 'react';
@@ -18,7 +17,7 @@ import { UsuarioProvider } from './components/user/UserContext';
 import Profile from './components/user/Profile';
 import Faqs from './components/faqs/Faqs';
 import About from './components/about/About';
-import Orders from './components/user/Orders';
+import Services from './components/user/Services';
 import ServicePage from './components/servicePage/servicePage';
 
 
@@ -78,13 +77,12 @@ else
           <Route path="/itemPage/:itemId" element={ <ItemPage />} />
           <Route path="/category" element={ <CategoryItems />}/>
           <Route path="/category/:categoryId" element={ <CategoryItems />}/>
-          <Route exact path="/cart" element={ <Cart />}/>
           <Route exact path="/register" element={ <Register />}/>
           <Route exact path="/login" element={ <Login />}/>
           <Route exact path="/user" element={ <Profile />}/>
           <Route exact path="/faqs" element={ <Faqs />}/>
           <Route exact path="/about" element={ <About />}/>
-          <Route exact path="/orders" element={ <Orders />}/>
+          <Route exact path="/services" element={ <Services />}/>
         </Routes>
         <Footer/>
       </UsuarioProvider>
