@@ -57,7 +57,7 @@ const UsuarioContext = React.createContext([]);
       setUsuario(null);
     }
 
-    const restorePassword = () => {
+    const restorePassword = async () => {
       //TODO restore password functionality
     }
 
@@ -81,8 +81,24 @@ const UsuarioContext = React.createContext([]);
       })
     }
 
-    const updateUser = () => {
-      //TODO update functionality
+    const updateUser = async (newInfo) => {
+      console.log(newInfo)
+      return await fetch("http://localhost:8080/api/users/"+newInfo.id, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        credentials: 'include',
+        body: JSON.stringify(newInfo)
+      }).then(async (response) => {
+        if(!(response.ok)){
+          return false;
+        }
+        return true;
+      }).catch((err)=>{
+        console.log("User register validation failed with error: "+err);
+        return null;
+      })
     }
 
     const context = {

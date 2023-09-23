@@ -3,7 +3,6 @@ import usuarioImagen from '../../images/usuario.svg';
 import passwordImagen from '../../images/password.svg';
 import emailImagen from '../../images/email.svg';
 import telefonoImagen from '../../images/telefono.svg';
-import {nuevoUsuario} from "../../api/service/userService.ts";
 import { useState } from 'react';
 import { useUsuario } from '../user/UserContext';
 import { useNavigate } from 'react-router-dom';

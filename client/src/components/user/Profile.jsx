@@ -2,8 +2,6 @@ import React from 'react';
 import { useUsuario } from '../user/UserContext';
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Usuario } from '../imports/classes';
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import swal from 'sweetalert';
 
 const Profile = () => {
@@ -13,25 +11,23 @@ const Profile = () => {
     const [newExperience, setExperience] = useState('');
     const [newEmail, setEmail] = useState('');
     const [newTitle, setTitle] = useState('');
-    const [newTelefono, setTelefono] = useState('');
+    const [newPhone, setPhone] = useState('');
     const [newPassword, setPassword] = useState('');
 
     useEffect(() => {
       if(isLoggedIn){
-        var usuarioAuxiliar = instantiateUser(usuario)
-        console.log(usuario)
         setExperience(usuario.experience);
         setTitle(usuario.title)
         setEmail(usuario.email);
-        setTelefono(usuario.phone);
+        setPhone(usuario.phone);
         setPassword(usuario.password);
-        setUserPerfil(usuarioAuxiliar);
+        setUserPerfil(usuario);
       }
       else{
         let nullUser = {id: "null", name: "null", lastname: "null", password: "null", email: "null", phone: "null", title: "null", experience: "[]"}
         setUserPerfil(instantiateUser(nullUser))
       }
-    }, [isLoggedIn, usuario])
+    }, [isLoggedIn, usuario, instantiateUser])
 
     const handleChangeExperience = (e) => {
         setExperience(e.target.value);
@@ -43,7 +39,7 @@ const Profile = () => {
         setTitle(e.target.value);
     }
     const handleChangeTelefono = (e) => {
-        setTelefono(e.target.value.slice(0,e.target.maxLength));
+        setPhone(e.target.value.slice(0,e.target.maxLength));
     }
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
@@ -55,7 +51,7 @@ const Profile = () => {
         let correctEmail = false;
         let correctExperience = false;
         let correctTitle = false;
-
+        let correctPhone = false;
         inputElements.forEach(function(input) {
             switch(input.name){
                 case 'passwordConfirm':
@@ -82,32 +78,38 @@ const Profile = () => {
                     }
                     break;
                 case 'title':
-                    if(input.value.toString().length !== 0){
+                    if(input.value.toString() !== ""){
                         correctTitle = true;
+                    }
+                    break;
+                case 'telefono':
+                    if(input.value.toString().length === 10){
+                        correctPhone = true;
                     }
                     break;
                 default:
                     break;
             }
         });
-        if (correctExperience && correctPassword && correctEmail && correctTitle){
-            const db = getFirestore();
-            const usuarioDoc = doc(db, "usuarios", userPerfil.nombreUsuario);
-            getDoc(usuarioDoc).then(()=>{
-                updateDoc(usuarioDoc, {
-                    password: newPassword, 
-                    experience: newExperience, 
-                    email: newEmail, 
-                    title: newTitle, 
-                    telefono: newTelefono
-                });
-            }).catch((err)=>{
-                console.log(err)
-                swal("Usuario no modificado", "Desafortunadamente, hubo un problema con la página. Por favor, intentar nuevamente en unos instantes.", "error");
+        if (correctExperience && correctPassword && correctEmail && correctTitle && correctPhone){
+            let newUserInfo = instantiateUser({
+                id: userPerfil.id,
+                name: userPerfil.name,
+                lastname: userPerfil.lastname,
+                password: newPassword, 
+                experience: newExperience, 
+                email: newEmail, 
+                title: newTitle, 
+                phone: newPhone
             });
-            swal("Usuario modificado!", "Los datos de usuario se registraron correctamente!", "success");
-            const usuarioEditado = new Usuario (userPerfil.nombreUsuario, newPassword, newExperience, newEmail, newTitle, newTelefono)
-            updateUser(usuarioEditado);
+            let userEdited = await updateUser(newUserInfo);
+            if(userEdited === null){
+                swal("Usuario no modificado", "Desafortunadamente, hubo un problema con la página. Por favor, intentar nuevamente en unos instantes.", "error");
+            }
+            else{
+                swal("Usuario modificado!", "Los datos de usuario se registraron correctamente!", "success");
+                setUserPerfil(usuario); 
+            }
         }
         else{
             swal("Información errónea", "Los datos ingresados son incorrectos. Por favor, revisar e intentar nuevamente.", "error");
@@ -153,7 +155,7 @@ const Profile = () => {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1">Telefono</span>
                                 </div>
-                            <input type="number" className="form-control" placeholder="Telefono del usuario" name="telefono" value={newTelefono} minLength={10} maxLength={10} onChange={handleChangeTelefono}/>
+                            <input type="number" className="form-control" placeholder="Telefono del usuario" name="telefono" value={newPhone} minLength={10} maxLength={10} onChange={handleChangeTelefono}/>
                             </div>
                         </div>
                         <div className="form-group">
