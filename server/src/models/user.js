@@ -74,9 +74,6 @@ class User{
     setExperience(experience){
         this.#experience = experience;
     }
-    addExperience(experience){
-        this.#experience.push(experience);
-    }
     toDTO(){
         const dto = {
             email: this.#email,

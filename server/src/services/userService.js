@@ -50,7 +50,7 @@ class UserService{
             phone: information.phone,
             password: jwt.sign(information.password, config.SESSION.secret),
             title: "",
-            experience: []
+            experience: ""
         })
         return this.container.save(user).then((userID)=>{
             // mailer.send({

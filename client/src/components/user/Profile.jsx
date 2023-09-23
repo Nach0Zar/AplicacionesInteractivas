@@ -7,38 +7,40 @@ import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import swal from 'sweetalert';
 
 const Profile = () => {
-    const { usuario, loguearUser } = useUsuario();
+    const { usuario, instantiateUser, updateUser} = useUsuario();
     const  [userPerfil, setUserPerfil] = useState("");
     const isLoggedIn = !(usuario === null);
-    const [newDireccion, setDireccion] = useState('');
+    const [newExperience, setExperience] = useState('');
     const [newEmail, setEmail] = useState('');
-    const [newDni, setDni] = useState('');
+    const [newTitle, setTitle] = useState('');
     const [newTelefono, setTelefono] = useState('');
     const [newPassword, setPassword] = useState('');
 
     useEffect(() => {
       if(isLoggedIn){
-        var usuarioAuxiliar = new Usuario(usuario.nombreUsuario, usuario.password, usuario.direccion, usuario.email, usuario.dni, usuario.telefono)
-        setDireccion(usuario.direccion);
-        setDni(usuario.dni)
+        var usuarioAuxiliar = instantiateUser(usuario)
+        console.log(usuario)
+        setExperience(usuario.experience);
+        setTitle(usuario.title)
         setEmail(usuario.email);
-        setTelefono(usuario.telefono);
+        setTelefono(usuario.phone);
         setPassword(usuario.password);
         setUserPerfil(usuarioAuxiliar);
       }
       else{
-        setUserPerfil(new Usuario("null", "null", "null", "null", "null", "null"))
+        let nullUser = {id: "null", name: "null", lastname: "null", password: "null", email: "null", phone: "null", title: "null", experience: "[]"}
+        setUserPerfil(instantiateUser(nullUser))
       }
     }, [isLoggedIn, usuario])
 
-    const handleChangeDireccion = (e) => {
-        setDireccion(e.target.value);
+    const handleChangeExperience = (e) => {
+        setExperience(e.target.value);
     }
     const handleChangeEmail = (e) => {
         setEmail(e.target.value);
     }
-    const handleChangeDni = (e) => {
-        setDni(e.target.value.toString().slice(0,e.target.maxLength));
+    const handleChangeTitle = (e) => {
+        setTitle(e.target.value);
     }
     const handleChangeTelefono = (e) => {
         setTelefono(e.target.value.slice(0,e.target.maxLength));
@@ -49,16 +51,16 @@ const Profile = () => {
     const realizarCambios = async (e) => {
         e.preventDefault()
         let inputElements = document.querySelectorAll("input");
-        let correctContraseña = false;
+        let correctPassword = false;
         let correctEmail = false;
-        let correctDireccion = false;
-        let correctDNI = false;
+        let correctExperience = false;
+        let correctTitle = false;
 
         inputElements.forEach(function(input) {
             switch(input.name){
                 case 'passwordConfirm':
                     if(input.value.toString() === newPassword){
-                        correctContraseña = true;
+                        correctPassword = true;
                     }
                     break;
                 case 'email':
@@ -74,29 +76,29 @@ const Profile = () => {
                             correctEmail = true;
                         }
                     break;
-                case 'direccion':
+                case 'experience':
                     if(input.value.toString() !== ""){
-                        correctDireccion = true;
+                        correctExperience = true;
                     }
                     break;
-                case 'dni':
-                    if(input.value.toString().length === 8){
-                        correctDNI = true;
+                case 'title':
+                    if(input.value.toString().length !== 0){
+                        correctTitle = true;
                     }
                     break;
                 default:
                     break;
             }
         });
-        if (correctDireccion && correctContraseña && correctEmail && correctDNI){
+        if (correctExperience && correctPassword && correctEmail && correctTitle){
             const db = getFirestore();
             const usuarioDoc = doc(db, "usuarios", userPerfil.nombreUsuario);
             getDoc(usuarioDoc).then(()=>{
                 updateDoc(usuarioDoc, {
                     password: newPassword, 
-                    direccion: newDireccion, 
+                    experience: newExperience, 
                     email: newEmail, 
-                    dni: newDni, 
+                    title: newTitle, 
                     telefono: newTelefono
                 });
             }).catch((err)=>{
@@ -104,8 +106,8 @@ const Profile = () => {
                 swal("Usuario no modificado", "Desafortunadamente, hubo un problema con la página. Por favor, intentar nuevamente en unos instantes.", "error");
             });
             swal("Usuario modificado!", "Los datos de usuario se registraron correctamente!", "success");
-            const usuarioEditado = new Usuario (userPerfil.nombreUsuario, newPassword, newDireccion, newEmail, newDni, newTelefono)
-            loguearUser(usuarioEditado);
+            const usuarioEditado = new Usuario (userPerfil.nombreUsuario, newPassword, newExperience, newEmail, newTitle, newTelefono)
+            updateUser(usuarioEditado);
         }
         else{
             swal("Información errónea", "Los datos ingresados son incorrectos. Por favor, revisar e intentar nuevamente.", "error");
@@ -117,16 +119,25 @@ const Profile = () => {
             {(!isLoggedIn) && <Navigate to="/"/> }
             <div className="profileContainer">
                 <div className="perfilDiv">
-                    <h3>Bienvenido {userPerfil.nombreUsuario} !</h3>
+                    <h3>Bienvenido {userPerfil.name} {userPerfil.lastname} !</h3>
                     <h5>Esta es la pestaña de edición de datos</h5>
                     <p>Para editar los datos del usuario, ingresar los datos y luego cambiar datos una vez revisada la información ingresada.</p>    
                     <form action="" className="m-5">
                         <div className="form-group">
                             <div className="input-group mb-1">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon1">@</span>
+                                    <span className="input-group-text" id="basic-addon1">Nombre y Apellido</span>
                                 </div>
-                            <input type="text" className="form-control" placeholder="Nombre de Usuario" name="username" readOnly="readOnly" defaultValue={userPerfil.nombreUsuario}/>
+                            <input type="text" className="form-control" placeholder="Nombre del Usuario" name="username" readOnly="readOnly" defaultValue={userPerfil.name}/>
+                            <input type="text" className="form-control" placeholder="Apellido del Usuario" name="username" readOnly="readOnly" defaultValue={userPerfil.lastname}/>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="input-group mb-1">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1">Titulo del usuario</span>
+                                </div>
+                            <input type="text" className="form-control" placeholder="Titulo del usuario" name="title" value={newTitle} onChange={handleChangeTitle}/>
                             </div>
                         </div>
                         <div className="form-group">
@@ -140,25 +151,17 @@ const Profile = () => {
                         <div className="form-group">
                             <div className="input-group mb-1">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon1">Direccion</span>
-                                </div>
-                            <input type="text" className="form-control" placeholder="Direccion" name="direccion" value={newDireccion} onChange={handleChangeDireccion}/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="input-group mb-1">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon1">DNI</span>
-                                </div>
-                            <input type="number" className="form-control" placeholder="DNI del usuario" name="dni" minLength={8} maxLength={8} value={newDni} onChange={handleChangeDni}/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="input-group mb-1">
-                                <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1">Telefono</span>
                                 </div>
                             <input type="number" className="form-control" placeholder="Telefono del usuario" name="telefono" value={newTelefono} minLength={10} maxLength={10} onChange={handleChangeTelefono}/>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="input-group mb-1">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1">Experiencia</span>
+                                </div>
+                            <input type="text" className="form-control" placeholder="Experiencia" name="experience" value={newExperience} onChange={handleChangeExperience}/>
                             </div>
                         </div>
                         <div className="form-group">

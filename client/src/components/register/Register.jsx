@@ -66,7 +66,6 @@ const Register = () => {
             const user = {
                 name, lastname, password, email, phone
             }
-            console.log(user)
             registerUser(user).then(res => {
                 let path = `/login`; 
                 navigate(path);

@@ -14,7 +14,6 @@ const UsuarioContext = React.createContext([]);
     const [usuario, setUsuario] = useState(defaultValue);
 
     const instantiateUser = (usuario) => {
-      console.log(usuario)
       return new Usuario(usuario);
     }
 
@@ -36,7 +35,6 @@ const UsuarioContext = React.createContext([]);
           let jsonData = await data.json();
           jsonData.password = usuario.password;
           let validatedUser = instantiateUser(jsonData);
-          console.log(validatedUser)
           setUsuario(validatedUser);
           return true;
         }).catch((err)=>{
@@ -83,11 +81,17 @@ const UsuarioContext = React.createContext([]);
       })
     }
 
+    const updateUser = () => {
+      //TODO update functionality
+    }
+
     const context = {
       usuario,
       loguearUser,
       registerUser,
       restorePassword,
+      instantiateUser,
+      updateUser,
       desloguearUser
     }
     
