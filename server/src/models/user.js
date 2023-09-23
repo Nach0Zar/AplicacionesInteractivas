@@ -5,7 +5,6 @@ class User{
     #password
     #name
     #lastname
-    #cart
     #phone
     #title
     #experience
@@ -14,7 +13,6 @@ class User{
         this.#password = password;
         this.#name = name;
         this.#lastname = lastname;
-        this.#cart = cart;
         this.#id = id;
         this.#phone = phone;
         this.#title = title;
@@ -43,12 +41,6 @@ class User{
     }
     setLastname(lastname){
         this.#lastname = lastname;
-    }
-    getCart(){
-        return this.#cart;
-    }
-    setCart(cart){
-        this.#cart = cart;
     }
     getID(){
         return this.#id;
@@ -81,7 +73,6 @@ class User{
             name: this.#name,
             lastname: this.#lastname,
             id: this.#id,
-            cart: this.#cart,
             phone: this.#phone,
             title: this.#title,
             experience: this.#experience

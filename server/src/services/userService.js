@@ -86,6 +86,34 @@ class UserService{
         let userFound = await this.container.getItemByCriteria({email: email});
         return (userFound !== null && userFound.length !== 0)
     }
+    updateUser = async (user) => {
+        userDataValidation(user);
+        let {id, email, password, name, lastname, phone, title, experience} = user;
+        let userData = await this.container.getItemByID(id);
+        let userFound = (userData !== null)
+        if(!userFound){
+            throw new Error(`The specified user could not be found ${id}`, 'CONFLICT');
+        }
+        let newUser = new User({
+            name: name,
+            lastname: lastname,
+            email: email,
+            phone: phone,
+            password: jwt.sign(password, config.SESSION.secret),
+            title: title,
+            experience: experience
+        })
+        await this.container.modifyByID(id, newUser).then((status)=>{
+            // mailer.send({
+            //     to: config.MAIL_ADMIN,
+            //     subject: 'usuario actualizado!',
+            //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
+            // })
+            return status;
+        }).catch((error)=>{            
+            throw new Error(error, 'INTERNAL_ERROR')
+        });
+    }
     static getInstance(){
         if(!instance){
             instance = new UserService();

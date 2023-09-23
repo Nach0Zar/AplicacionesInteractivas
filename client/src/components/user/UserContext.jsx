@@ -82,7 +82,6 @@ const UsuarioContext = React.createContext([]);
     }
 
     const updateUser = async (newInfo) => {
-      console.log(newInfo)
       return await fetch("http://localhost:8080/api/users/"+newInfo.id, {
         method: 'POST',
         headers: {

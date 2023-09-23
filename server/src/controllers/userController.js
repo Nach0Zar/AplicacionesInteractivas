@@ -44,6 +44,16 @@ class UserController{
             next(error);
         }
     }
+    controllerPostUpdateUser = async (req, res, next) => {
+        try{
+            await userService.updateUser(req.body);
+            logger.info(`POST REQUEST successful for updating the user ${req.body.id}`);
+            res.sendStatus(200);
+        }
+        catch(error){
+            next(error);
+        }
+    }
     static getInstance(){
         if(!instance){
             instance = new UserController();

@@ -14,6 +14,7 @@ const routerAPI = express.Router();
 //users
 routerAPI.get('/users',checkUserLogged,userController.controllerGetUserInformation);
 routerAPI.post('/users', userController.controllerPostRegisterUser);
+routerAPI.post('/users/:id', userController.controllerPostUpdateUser);
 routerAPI.post('/logout',checkUserLogged,userController.controllerPostLogOutUser);
 //sessions
 routerAPI.post('/sessions', passport.authenticate('local-login', { failWithError: false }), userController.controllerPostLogInUser);
