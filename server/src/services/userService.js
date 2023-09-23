@@ -43,21 +43,21 @@ class UserService{
     }
     registerUser = async (information) => {
         userDataValidation(information);
-        let cartID = await cartService.createCart();
         let user = new User({
             name: information.name,
             lastname: information.lastname,
             email: information.email,
-            image: information.image,
+            phone: information.phone,
             password: jwt.sign(information.password, config.SESSION.secret),
-            cart: cartID
+            title: "",
+            experience: []
         })
         return this.container.save(user).then((userID)=>{
-            mailer.send({
-                to: config.MAIL_ADMIN,
-                subject: 'nuevo registro!',
-                text: `nuevo registro: ${JSON.stringify(user.toDTO())}`
-            })
+            // mailer.send({
+            //     to: config.MAIL_ADMIN,
+            //     subject: 'nuevo registro!',
+            //     text: `nuevo registro: ${JSON.stringify(user.toDTO())}`
+            // })
             return userID;
         }).catch((error)=>{            
             throw new Error(error, 'INTERNAL_ERROR')

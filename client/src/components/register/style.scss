@@ -31,6 +31,18 @@
         font-family: "Noto Serif", serif;
     }
 }
+.nameAndSurname {
+	display: flex;
+	justify-content: space-evenly;
+	div {
+		display: flex;
+		justify-content: space-between;
+        max-width: 189px;
+		input{
+			max-width: 48%;
+		}
+	}
+}
 #buttonRegisterForm {
 	display: table;
 	width: 150px;

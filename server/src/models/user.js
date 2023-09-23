@@ -5,17 +5,15 @@ class User{
     #password
     #name
     #lastname
-    #image
     #cart
     #phone
     #title
     #experience
-    constructor({email, password, name, lastname, image, cart, phone, title, experience, id = randomUUID()}){
+    constructor({email, password, name, lastname, cart, phone, title, experience, id = randomUUID()}){
         this.#email = email;
         this.#password = password;
         this.#name = name;
         this.#lastname = lastname;
-        this.#image = image;
         this.#cart = cart;
         this.#id = id;
         this.#phone = phone;
@@ -45,12 +43,6 @@ class User{
     }
     setLastname(lastname){
         this.#lastname = lastname;
-    }
-    getImage(){
-        return this.#image;
-    }
-    setImage(image){
-        this.#image = image;
     }
     getCart(){
         return this.#cart;
@@ -91,9 +83,11 @@ class User{
             password: this.#password,
             name: this.#name,
             lastname: this.#lastname,
-            image: this.#image,
             id: this.#id,
             cart: this.#cart,
+            phone: this.#phone,
+            title: this.#title,
+            experience: this.#experience
         }
         return dto
     }

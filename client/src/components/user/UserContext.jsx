@@ -1,6 +1,5 @@
 import React from 'react';
 import { useContext, useState } from 'react';
-import { useCart } from '../cart/CartContext';
 import { Usuario } from '../imports/classes';
 
 const UsuarioContext = React.createContext([]);
@@ -13,7 +12,6 @@ const UsuarioContext = React.createContext([]);
   const UsuarioProvider = ({defaultValue = null, children}) => {
     
     const [usuario, setUsuario] = useState(defaultValue);
-    const { clearItems } = useCart();
 
     const instantiateUser = (usuario) => {
       console.log(usuario)
@@ -65,9 +63,30 @@ const UsuarioContext = React.createContext([]);
       //TODO restore password functionality
     }
 
+    const registerUser = async (usuario) => {
+      usuario.id = ""
+      return await fetch("http://localhost:8080/api/users", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        credentials: 'include',
+        body: JSON.stringify(usuario)
+      }).then(async (response) => {
+        if(!(response.ok)){
+          return false;
+        }
+        return true;
+      }).catch((err)=>{
+        console.log("User register validation failed with error: "+err);
+        return null;
+      })
+    }
+
     const context = {
       usuario,
       loguearUser,
+      registerUser,
       restorePassword,
       desloguearUser
     }
