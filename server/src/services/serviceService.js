@@ -67,6 +67,20 @@ class ServiceService{
         });
         return servicesDTO;
     }
+    getCategoryServices = async (categoryID) => {
+        let services = await this.container.getServiceByCategory(categoryID);
+        if(!services || services.length == 0){
+            throw new Error(`No service was found for the category with the id ${categoryID}`, 'NOT_FOUND');
+        }       
+        if(services.length === undefined) {
+            return services.toDTO();
+        }
+        let servicesDTO = [];
+        services.forEach(order => {
+            servicesDTO.push(order.toDTO())
+        });
+        return servicesDTO;
+    }
     static getInstance(){
         if(!instance){
             instance = new ServiceService();

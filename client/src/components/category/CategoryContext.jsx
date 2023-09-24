@@ -1,69 +1,69 @@
 import React from 'react';
 import { Categoria } from "../imports/classes";
 import { useContext, useState } from 'react';
-import { collection, getDocs, getFirestore, getDoc, doc } from "firebase/firestore";
 
-const CategoriasContext = React.createContext([]);
-  const useCategorias = () => {
-    return useContext(CategoriasContext);
-  }
-  const CategoriasProvider = ({defaultValue = [], children}) => {
+const CategoryContext = React.createContext([]);
+const useCategorias = () => {
+  return useContext(CategoryContext);
+}
+const CategoryProvider = ({defaultValue = [], children}) => {
   const [categoriasListadoDB, setCategoriasListadoDB] = useState(defaultValue);
   const [categoriasLoaded, setCategoriasLoaded] = useState(false);
+
+  const instantiateCategoria = (categoria) => {
+    return new Categoria (categoria)
+  }
+
+  const crearCategorias = async (listadoDB) => {
+    var categoriasLista = [];
+    listadoDB.forEach((categoria)=>{
+      const categoriaObjeto = instantiateCategoria(categoria);
+      categoriasLista.push(categoriaObjeto);
+    })
+    return categoriasLista;
+  }
+
   const cargarCategorias = async () => {
-    const db = getFirestore();
-    var listadoDB = [];
-    const categoriasRef = collection(db, "categorias");
-    await getDocs(categoriasRef).then((categoria)=>{
-        listadoDB = categoria.docs.map((doc)=>({idCategoria: doc.idCategoria, ...doc.data()}))
+    await fetch("http://localhost:8080/api/categories").then(async (data) => {
+      let listadoDB = []
+      let jsonData = await data.json();
+      (jsonData.length === undefined) ? (listadoDB.push(jsonData)) : (listadoDB = jsonData)
+      let categoriasListado = await crearCategorias(listadoDB);
+      setCategoriasLoaded(true);
+      setCategoriasListadoDB(categoriasListado);
     })
-    var categoriasListado = await obtenerTodasLasCategorias(listadoDB);
-    setCategoriasLoaded(true);
-    setCategoriasListadoDB(categoriasListado);
   }
+
   const obtenerCategoriaPorID = async (categoryId) => {
-    const db = getFirestore();
-    var listadoDB;
-    const categoriaRef = doc(db, "categorias", categoryId);
-    await getDoc(categoriaRef).then((categoria)=>{
-      listadoDB = {idCategoria: categoria.idCategoria, ...categoria.data()}
+    return await fetch("http://localhost:8080/api/categories/"+categoryId).then(async (data) => {
+      let jsonData = await data.json();
+      let categoriaCreada = instantiateCategoria(jsonData);
+      return categoriaCreada;
+    }).catch((err) => {
+      console.log(err);
+      return null;
     })
-    var categoriaCreada= new Categoria(listadoDB.idCategoria, listadoDB.nombreCategoria);
-    return categoriaCreada;
-  }
-  const obtenerCategoriasPorArticulo = async (articulo) => {
-    var categoriasSeleccionadas = [];
-    categoriasListadoDB.forEach((categoria)=>{
-      (articulo.categorias.includes(categoria.idCategoria)) && (categoriasSeleccionadas.push(new Categoria(categoria.idCategoria, categoria.nombreCategoria)));
-    })
-    return categoriasSeleccionadas;
   }
   const obtenerCategoriasPorServicio = async (servicio) => {
     var categoriasSeleccionadas = [];
     categoriasListadoDB.forEach((categoria)=>{
-      (servicio.categories.includes(categoria.idCategoria)) && (categoriasSeleccionadas.push(new Categoria(categoria.idCategoria, categoria.nombreCategoria)));
+      if(servicio.categories.includes(categoria.id)){
+        categoriasSeleccionadas.push(categoria)
+      }
     })
     return categoriasSeleccionadas;
-  }
-  const obtenerTodasLasCategorias = async (listadoDB) => {
-    var categoriasLista = [];
-    listadoDB.forEach((categoria)=>{
-      categoriasLista.push(new Categoria(categoria.idCategoria, categoria.nombreCategoria));
-    })
-    return categoriasLista;
   }
   const context = {
     categoriasLoaded,
     categoriasListadoDB,
     cargarCategorias,
     obtenerCategoriaPorID,
-    obtenerCategoriasPorArticulo,
     obtenerCategoriasPorServicio
   }
   return (
-    <CategoriasContext.Provider value={context}>
+    <CategoryContext.Provider value={context}>
       {children}
-    </CategoriasContext.Provider>
+    </CategoryContext.Provider>
   )
 }
-export {useCategorias, CategoriasProvider}
+export {useCategorias, CategoryProvider}

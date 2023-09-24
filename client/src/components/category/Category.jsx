@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import ServicioListed from '../service/ServicioListed';
 import { Link } from 'react-router-dom';
@@ -9,32 +9,32 @@ import './style.scss';
 
 const CategoryItems = () => {
   const { serviciosListadoDB, obtenerServiciosPorCategoria } = useServicios();
-  const { obtenerCategoriaPorID } = useCategorias();
+  const { categoriasListadoDB, obtenerCategoriaPorID } = useCategorias();
   const [itemsCategory, setItemsCategory] = useState([]);
-  var {categoryId} = useParams();
+  const [categoria, setCategoria] = useState(null);
+  const [itemsLoaded, setItemsLoaded] = useState(false);
+  let {categoryId} = useParams();
+  const previousCategoryId = useRef();
   (categoryId===undefined) && (categoryId = -1);
   useEffect(() => {
-    const getCategoryByID = new Promise((resolve) => {
-      if(categoryId>-1){
-        resolve(obtenerCategoriaPorID(categoryId));
+    const setItemsByCategory = async () => {
+      if(categoryId !== -1){
+        let categoryFound = await (obtenerCategoriaPorID(categoryId));
+        let services = await obtenerServiciosPorCategoria(categoryFound.id);
+        setCategoria(categoryFound);
+        setItemsCategory(services);
       }
       else
       {
-        setItemsCategory(serviciosListadoDB)
+        setItemsCategory(serviciosListadoDB);
       }
-      
-    })
-    getCategoryByID.then((data)=> {
-      const getServicesByCategoryID = new Promise((resolve) => {
-        resolve(obtenerServiciosPorCategoria(data));
-      });
-      getServicesByCategoryID.then((data)=> {setItemsCategory(data)})
-      .catch((err)=>console.log(err));
-    
-    }).catch((data)=>{
-      data.then((result)=>setItemsCategory(result))
-    });
-  }, [categoryId]);
+      setItemsLoaded(true);
+    }
+    if(!itemsLoaded || previousCategoryId.current !== categoryId){
+      previousCategoryId.current = categoryId
+      setItemsByCategory();
+    }
+  }, [itemsLoaded, categoryId, categoria, setCategoria, itemsCategory, setItemsCategory, obtenerCategoriaPorID, obtenerServiciosPorCategoria, serviciosListadoDB]);
   return (
     <main>
       <div id="catalog">
@@ -62,11 +62,14 @@ const CategoryItems = () => {
               <br/>
               <div className="category">
                   <span>Tipo</span>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/category/0">Cosmeticos</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/category/1">Electrónica</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/category/2">Alimentos</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/category/3">Escolares</Link></span></div>
-                  <div className="subCategory"><span><Link className="noDecoration" to="/category/4">Domestico</Link></span></div>
+                  { categoriasListadoDB.map((category) => (
+                    <div key={category.id} className="subCategory">
+                      <span>
+                        <Link className="noDecoration" to={"/category/"+category.id}>{category.name}</Link>
+                        </span>
+                      </div>
+                  ))
+                  }
               </div>
           </div>
           <div id="elementsList">

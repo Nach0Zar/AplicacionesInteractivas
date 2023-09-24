@@ -55,6 +55,17 @@ class ServiceRepository {
             return this.parseItems(dtos);
         }
     }
+    async getServiceByCategory(categoryID) {
+        const dtos = await this.#dao.getItemByReferenceID("categories", categoryID)
+        if (!dtos) return null
+        if (dtos.length === undefined) return new Service(dtos);
+        if (dtos.length === 1) {
+            return new Service(dtos[0]);
+        }
+        else{
+            return this.parseItems(dtos);
+        }
+    }
     async modifyByID(id, newService){
         let updateInfo = {
             name: newService.name,

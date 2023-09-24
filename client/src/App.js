@@ -5,7 +5,6 @@ import Home from './components/home/Home';
 import ItemPage from './components/itemPage/ItemPage';
 import CategoryItems from './components/category/Category';
 import Header from './components/main/Header';
-import { CartProvider } from './components/cart/CartContext';
 import { useEffect } from 'react';
 import LoadingComponent from './components/main/LoadingComponent';
 import { useArticulos } from './components/listing/ItemsContext';
@@ -30,44 +29,28 @@ function App() {
     if(!articulosLoaded){
       let promise = new Promise((resolve) => {
         resolve(cargarArticulos())
-    })
-    promise.then()
-    .catch((err)=>console.log(err));
-    }
-    else{
-      if(!categoriasLoaded){
-        let promise = new Promise((resolve) => {
-          resolve(cargarCategorias())
       })
-      promise.then()
-      .catch((err)=>console.log(err));
-      }
+      promise.then().catch((err)=>console.log(err));
     }
-    
+    if(!categoriasLoaded){
+      let promise = new Promise((resolve) => {
+        resolve(cargarCategorias())
+      })
+      promise.then().catch((err)=>console.log(err));
+      }
     if(!serviciosLoaded){
       let promise = new Promise((resolve) => {
         resolve(cargarServicios())
-    })
-    promise.then()
-    .catch((err)=>console.log(err));
-    }
-    else{
-      if(!categoriasLoaded){
-        let promise = new Promise((resolve) => {
-          resolve(cargarCategorias())
       })
-      promise.then()
-      .catch((err)=>console.log(err));
-      }
+      promise.then().catch((err)=>console.log(err));
     }
   }, [articulosLoaded, categoriasLoaded, serviciosLoaded, cargarArticulos, cargarCategorias, cargarServicios])
 
-if(!articulosLoaded || !categoriasLoaded){ 
+if(!serviciosLoaded || !categoriasLoaded){ 
   return(<LoadingComponent />)} 
 else
   return (
     <BrowserRouter>
-    <CartProvider>
       <UsuarioProvider>
         <Header/>
         <Routes>
@@ -86,7 +69,6 @@ else
         </Routes>
         <Footer/>
       </UsuarioProvider>
-    </CartProvider>
   </BrowserRouter>
   );
 }

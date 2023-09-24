@@ -7,7 +7,7 @@ class ServiceController{
     controllerGetAllServices = async (req, res, next) => {
         try{
             let items = await serviceService.getAllItems();
-            logger.info(`GET REQUEST successful for all products`);
+            logger.info(`GET REQUEST successful for all services`);
             res.status(200).json(items);
         }
         catch(error){
@@ -28,6 +28,16 @@ class ServiceController{
         try{
             let item = await serviceService.getUserServices(req.params.id);
             logger.info(`GET REQUEST successful for user services from user ID ${req.params.id}`);
+            res.status(200).json(item);
+        }
+        catch(error){
+            next(error);
+        }
+    }
+    controllerGetServiceByCategory = async (req, res, next) => {
+        try{
+            let item = await serviceService.getCategoryServices(req.params.id);
+            logger.info(`GET REQUEST successful for category services from category ID ${req.params.id}`);
             res.status(200).json(item);
         }
         catch(error){

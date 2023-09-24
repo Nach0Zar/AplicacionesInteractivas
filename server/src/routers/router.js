@@ -5,10 +5,11 @@ import userController from '../controllers/userController.js'
 import cartController from '../controllers/cartController.js';
 import orderController from '../controllers/orderController.js';
 import imageController from '../controllers/imageController.js';
+import serviceController from '../controllers/serviceController.js';
+import categoryController from '../controllers/categoryController.js';
 import checkUserLogged from '../middlewares/checkUserLogged.js';
 import userIsAdmin from '../middlewares/userIsAdmin.js'
 import { postImage } from '../middlewares/imageHandler.js';
-import serviceController from '../controllers/serviceController.js';
 
 const routerAPI = express.Router();
 //users
@@ -38,4 +39,10 @@ routerAPI.get('/services', serviceController.controllerGetAllServices);
 routerAPI.get('/services/:id', serviceController.controllerGetServiceByID);
 routerAPI.post('/services', serviceController.controllerPostService);
 routerAPI.get('/services/user/:id', serviceController.controllerGetServiceByUser);
+routerAPI.get('/services/category/:id', serviceController.controllerGetServiceByCategory);
+//categories
+routerAPI.get('/categories', categoryController.controllerGetAllCategories);
+routerAPI.get('/categories/:id', categoryController.controllerGetCategoryByID);
+routerAPI.post('/categories', categoryController.controllerPostCategory);
+
 export default routerAPI;

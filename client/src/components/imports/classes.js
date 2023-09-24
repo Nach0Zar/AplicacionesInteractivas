@@ -50,15 +50,15 @@ export class Servicio{
 }
 export class Categoria{
     static idCounter = 0;
-    constructor(idCategoria, nombreCategoria){
-        if (idCategoria === -1){ 
-            this.idCategoria = Categoria.getIdCounter();
+    constructor({id, name}){
+        if (id === -1){ 
+            this.id = Categoria.getIdCounter();
             Categoria.idCounter++
         } 
         else {
-            this.idCategoria = idCategoria;
+            this.id = id;
         }
-        this.nombreCategoria = nombreCategoria;
+        this.name = name;
     }
     static getIdCounter(){
         return Categoria.idCounter;

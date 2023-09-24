@@ -6,20 +6,18 @@ import { useCategorias } from '../category/CategoryContext';
 const Service = (props) => {
   const service = props.service;
   const URLPage = '/service/'+service.id;
-  console.log(service)
-  const { obtenerCategoriaPorID, obtenerCategoriasPorServicio} = useCategorias();
+  const {obtenerCategoriasPorServicio} = useCategorias();
   const [categories, setCategories] = useState("");
   useEffect(() => {
+    const getAllCategoriesNames = async () => {
+      let serviceCategories = await obtenerCategoriasPorServicio(service);
+      setCategories(serviceCategories.map(category => category.name).join(', '))
+    }
     if(categories.length === 0){
-      let serviceCategories = [];// = obtenerCategoriasPorServicio(servicio);
-      service.categories.forEach(async (category) => {
-        serviceCategories.push(category);
-        //serviceCategories.push(await obtenerCategoriaPorID(category));
-      });
-      setCategories(serviceCategories.join(", "))
+      getAllCategoriesNames();
     }
       
-  }, [categories, setCategories, service.categories, obtenerCategoriaPorID])
+  }, [categories, setCategories, service, obtenerCategoriasPorServicio])
 
   return (
     <Link to={URLPage} className="noDecoration">
