@@ -34,3 +34,12 @@
 		font-size: small;
 	}
 }
+
+.service {
+	display: flex;
+	flex-flow: column nowrap;
+	min-width: 900px;
+    h2, h4 {
+        margin: 10px 75px;
+    }
+}
