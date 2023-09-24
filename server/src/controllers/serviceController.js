@@ -24,6 +24,16 @@ class ServiceController{
             next(error);
         }
     }
+    controllerGetServiceByUser = async (req, res, next) => {
+        try{
+            let item = await serviceService.getUserServices(req.params.id);
+            logger.info(`GET REQUEST successful for user services from user ID ${req.params.id}`);
+            res.status(200).json(item);
+        }
+        catch(error){
+            next(error);
+        }
+    }
     controllerPostService = async (req, res, next) => {
         try{
             let serviceID = await serviceService.createService(req.body.name, req.body.price, req.body.image, req.body.description, req.body.categories, 

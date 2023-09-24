@@ -37,4 +37,5 @@ routerAPI.post('/images', postImage('file'), imageController.controllerPostImage
 routerAPI.get('/services', serviceController.controllerGetAllServices);
 routerAPI.get('/services/:id', serviceController.controllerGetServiceByID);
 routerAPI.post('/services', serviceController.controllerPostService);
+routerAPI.get('/services/user/:id', serviceController.controllerGetServiceByUser);
 export default routerAPI;

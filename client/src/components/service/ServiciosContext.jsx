@@ -35,7 +35,10 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
       let jsonData = await data.json();
       let articuloCreado = instantiateServicio(jsonData);
       return articuloCreado;
-    }).catch((err) => {console.log(err)})
+    }).catch((err) => {
+      console.log(err);
+      return null;
+    })
   }
    const obtenerServiciosPorCategoria = async (categoria) => {
     //TODO Back API Call
@@ -45,11 +48,14 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   }
   
   const obtenerServiciosPorResponsable = async (id) => {
-    return serviciosListadoDB;
     return await fetch("http://localhost:8080/api/services/user/"+id).then(async (data) => {
       let jsonData = await data.json();
-      let articuloCreado = instantiateServicio(jsonData);
-      return articuloCreado;
+      let listadoDB = [];
+      (jsonData.length === undefined) ? (listadoDB.push(jsonData)) : (listadoDB = jsonData)
+      return await crearServicios(listadoDB);
+    }).catch((err) => {
+      console.log(err);
+      return null;
     })
   }
 

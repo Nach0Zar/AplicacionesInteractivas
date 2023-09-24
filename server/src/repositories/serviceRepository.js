@@ -44,6 +44,17 @@ class ServiceRepository {
             return this.parseItems(dtos);
         }
     }
+    async getServiceByResponsible(userID) {
+        const dtos = await this.#dao.getItemByReferenceID("responsible", userID)
+        if (!dtos) return null
+        if (dtos.length === undefined) return new Service(dtos);
+        if (dtos.length === 1) {
+            return new Service(dtos[0]);
+        }
+        else{
+            return this.parseItems(dtos);
+        }
+    }
     async modifyByID(id, newService){
         let updateInfo = {
             name: newService.name,

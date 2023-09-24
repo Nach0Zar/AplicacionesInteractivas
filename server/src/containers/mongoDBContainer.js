@@ -1,5 +1,5 @@
 import { mongoDatabase } from '../db/mongoClient.js';
-import { ObjectId } from 'mongodb'
+import { ObjectId } from 'mongodb';
 export default class MongoDBContainer {
     constructor(dataType) {
         this.items = mongoDatabase.collection(dataType);
@@ -34,6 +34,11 @@ export default class MongoDBContainer {
             return null;
         }
         return (this.parseData(item))
+    }
+    async getItemByReferenceID(field, id){
+        let criteria = {};
+        criteria[field] = ObjectId(id);
+        return this.getItemByCriteria(criteria);
     }
     async modifyByID(idItem, newItemParam){
         delete newItemParam.id;

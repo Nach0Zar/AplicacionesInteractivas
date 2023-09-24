@@ -53,6 +53,20 @@ class ServiceService{
         }
         return serviceID;
     }
+    getUserServices = async (userID) => {
+        let services = await this.container.getServiceByResponsible(userID);
+        if(!services || services.length == 0){
+            throw new Error(`No service was found for the user with the id ${userID}`, 'NOT_FOUND');
+        }       
+        if(services.length === undefined) {
+            return services.toDTO();
+        }
+        let servicesDTO = [];
+        services.forEach(order => {
+            servicesDTO.push(order.toDTO())
+        });
+        return servicesDTO;
+    }
     static getInstance(){
         if(!instance){
             instance = new ServiceService();
