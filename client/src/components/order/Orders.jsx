@@ -10,25 +10,25 @@ const Orders = () => {
     const { usuario } = useUsuario();
     const { getOrders } = useOrder();
     const isLoggedIn = !(usuario === null);
-    const [compras, setCompras] = useState([])
-    const [comprasListadas, setComprasListadas] = useState(false)
+    const [orders, setOrders] = useState([])
+    const [ordersListadas, setOrdersListadas] = useState(false)
     useEffect(() => {
         const getAllOrdersFromUser = async () => {
             let listadoDB = await getOrders();
-            setCompras(listadoDB);
-            setComprasListadas(true);
+            setOrders(listadoDB);
+            setOrdersListadas(true);
         }
-        if (isLoggedIn && !comprasListadas){
+        if (isLoggedIn && !ordersListadas){
             getAllOrdersFromUser()
         }
-    }, [compras, isLoggedIn, comprasListadas, usuario, getOrders])
+    }, [orders, isLoggedIn, ordersListadas, usuario, getOrders])
     return (
         <main>
             <div className="containerOrders">
                 <div className="ordersDiv">
                     {(!isLoggedIn) && <Navigate to="/"/> }
-                    {compras.length > 0 ? 
-                    compras.map((compra, index, array)=>{
+                    {orders.length > 0 ? 
+                    orders.map((compra, index, array)=>{
                         if(index+1 === array.length){
                             return <div key={compra.id}>
                                 <Order order={compra}/>

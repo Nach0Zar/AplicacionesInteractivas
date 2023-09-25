@@ -36,10 +36,10 @@ const OrderContext = React.createContext([]);
           setOrders(orders);
           return orders;
         }
-        return orders;
+        return [];
       }).catch((err) => {
         console.log(err);
-        return orders; //esto va a funcionar como un cache. Si falla el get method, devuelvo data "vieja"
+        return [];
       })
     }
 

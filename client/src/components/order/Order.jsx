@@ -59,7 +59,7 @@ const Order = (props) => {
           }
           {(orderStatus === "approved") && (<Button variant="contained" color="violet" onClick={(e) => handleChangeStatus(e, "done")}>Finalizar</Button>)
           }
-          {(orderStatus === "requested") && (<Button variant="contained" color="error" onClick={(e) => handleChangeStatus(e, "cancelled")}>Cancelar</Button>)}
+          {(orderStatus === "requested" || orderStatus === "approved") && (<Button variant="contained" color="error" onClick={(e) => handleChangeStatus(e, "cancelled")}>Cancelar</Button>)}
           
         </ThemeProvider>  
       </div>
