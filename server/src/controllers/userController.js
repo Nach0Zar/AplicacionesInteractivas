@@ -21,7 +21,7 @@ class UserController{
         try{
             let userEmailValidated = await userService.loginUser(req.body.email);
             logger.info(`POST REQUEST successful for logging in user with email ${userEmailValidated}`);
-            res.cookie('email', userEmailValidated, {maxAge: config.SESSION.EXPIRY_TIME});
+            res.cookie('email', userEmailValidated/*, {maxAge: config.SESSION.EXPIRY_TIME}*/);
             res.sendStatus(200);
         }
         catch(error){

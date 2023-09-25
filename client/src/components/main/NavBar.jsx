@@ -32,6 +32,9 @@ const NavBar = () => {
             {isLoggedIn && (
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/services"}>Mis Servicios</NavLink></li>
             )}
+            {isLoggedIn && (
+            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Ordenes</NavLink></li>
+            )}
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/about"}>Acerca de nosotros</NavLink></li>
           </ul>
         </div>

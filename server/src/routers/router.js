@@ -31,7 +31,8 @@ routerAPI.post('/shoppingcartproducts',checkUserLogged, cartController.controlle
 routerAPI.delete('/shoppingcartproducts/:id_prod',checkUserLogged, cartController.controllerDeleteProductFromCart);
 //orders
 routerAPI.get('/orders',checkUserLogged, orderController.controllerGetOrders);
-routerAPI.post('/orders',checkUserLogged, orderController.controllerPostPurchaseCart);
+routerAPI.post('/orders', orderController.controllerPostOrder);
+routerAPI.post('/orders/:id',checkUserLogged, orderController.controllerPostUpdateOrder);
 //images
 routerAPI.post('/images', postImage('file'), imageController.controllerPostImage);
 //services

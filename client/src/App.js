@@ -13,11 +13,13 @@ import { useServicios } from './components/service/ServiciosContext';
 import Register from './components/register/Register';
 import Login from './components/user/Login';
 import { UsuarioProvider } from './components/user/UserContext';
+import { OrderProvider } from './components/order/OrderContext';
 import Profile from './components/user/Profile';
 import Faqs from './components/faqs/Faqs';
 import About from './components/about/About';
 import Services from './components/user/Services';
 import ServicePage from './components/servicePage/servicePage';
+import Orders from './components/order/Orders';
 
 
 function App() {
@@ -52,22 +54,25 @@ else
   return (
     <BrowserRouter>
       <UsuarioProvider>
-        <Header/>
-        <Routes>
-          <Route exact path="/" element={ <Home />} />
-          <Route exact path="/" element={ <Home />} />
-          <Route path="/service/:serviceID" element={ <ServicePage />} />
-          <Route path="/itemPage/:itemId" element={ <ItemPage />} />
-          <Route path="/category" element={ <CategoryItems />}/>
-          <Route path="/category/:categoryId" element={ <CategoryItems />}/>
-          <Route exact path="/register" element={ <Register />}/>
-          <Route exact path="/login" element={ <Login />}/>
-          <Route exact path="/user" element={ <Profile />}/>
-          <Route exact path="/faqs" element={ <Faqs />}/>
-          <Route exact path="/about" element={ <About />}/>
-          <Route exact path="/services" element={ <Services />}/>
-        </Routes>
-        <Footer/>
+        <OrderProvider>
+          <Header/>
+          <Routes>
+            <Route exact path="/" element={ <Home />} />
+            <Route exact path="/" element={ <Home />} />
+            <Route path="/service/:serviceID" element={ <ServicePage />} />
+            <Route path="/itemPage/:itemId" element={ <ItemPage />} />
+            <Route path="/category" element={ <CategoryItems />}/>
+            <Route path="/category/:categoryId" element={ <CategoryItems />}/>
+            <Route exact path="/register" element={ <Register />}/>
+            <Route exact path="/login" element={ <Login />}/>
+            <Route exact path="/user" element={ <Profile />}/>
+            <Route exact path="/faqs" element={ <Faqs />}/>
+            <Route exact path="/about" element={ <About />}/>
+            <Route exact path="/services" element={ <Services />}/>
+            <Route exact path="/orders" element={ <Orders />}/>
+          </Routes>
+          <Footer/>
+        </OrderProvider>
       </UsuarioProvider>
   </BrowserRouter>
   );

@@ -86,6 +86,9 @@ class UserService{
         let userFound = await this.container.getItemByCriteria({email: email});
         return (userFound !== null && userFound.length !== 0)
     }
+    getUser = async (email) => {
+        return await this.container.getItemByCriteria({email: email})
+    }
     updateUser = async (user) => {
         userDataValidation(user);
         let {id, email, password, name, lastname, phone, title, experience} = user;

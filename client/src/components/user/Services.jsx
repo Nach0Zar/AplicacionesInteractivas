@@ -30,14 +30,14 @@ const Services = () => {
                     {services.length > 0 ? 
                     services.map((service, index, array)=>{
                         if(index+1 === array.length){
-                            return <div>
-                                <Service key={service.id} service={service}/>
+                            return <div key={service.id} >
+                                <Service service={service}/>
                                 <br />
                             </div>
                         }
                         else{
-                            return <div>
-                                <Service key={service.id} service={service}/>
+                            return <div key={service.id} >
+                                <Service service={service}/>
                                 <hr/>
                             </div>
                         }

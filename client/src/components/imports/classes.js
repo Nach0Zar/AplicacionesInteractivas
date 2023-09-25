@@ -66,8 +66,15 @@ export class Categoria{
 }
 
 export class Usuario{
+    static idCounter = 0;
     constructor({id, name, lastname, password, email, phone, title, experience}){
-        this.id = id;
+        if (id === -1){ 
+            this.id = Categoria.getIdCounter();
+            Categoria.idCounter++
+        } 
+        else {
+            this.id = id;
+        }
         this.name = name;
         this.lastname = lastname;
         this.password = password;
@@ -76,4 +83,29 @@ export class Usuario{
         this.title = title;
         this.experience = experience;
     }
+    static getIdCounter(){
+        return Categoria.idCounter;
+    }
 };
+
+export class Order{
+    static idCounter = 0;
+    constructor({id, service, applicant, message, status, timestamp, responsible}){
+        if (id === -1){ 
+            this.id = Categoria.getIdCounter();
+            Categoria.idCounter++
+        } 
+        else {
+            this.id = id;
+        }
+        this.service = service;//full service info, with responsible
+        this.applicant = applicant;//with name, lastname, email, phone, time
+        this.message = message;
+        this.status = status; //requested, approved, cancelled, done
+        this.timestamp = timestamp;
+        this.responsible = responsible;
+    }
+    static getIdCounter(){
+        return Categoria.idCounter;
+    }
+}
