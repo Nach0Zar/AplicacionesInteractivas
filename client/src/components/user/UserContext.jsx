@@ -57,8 +57,22 @@ const UsuarioContext = React.createContext([]);
       setUsuario(null);
     }
 
-    const restorePassword = async () => {
-      //TODO restore password functionality
+    const restorePassword = async (userID) => {
+      return await fetch("http://localhost:8080/api/users/password/"+userID, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        credentials: 'include'
+      }).then(async (response) => {
+        if(!(response.ok)){
+          return false;
+        }
+        return true;
+      }).catch((err)=>{
+        console.log("User password reset failed with error: "+err);
+        return null;
+      })
     }
 
     const registerUser = async (usuario) => {
@@ -95,8 +109,26 @@ const UsuarioContext = React.createContext([]);
         }
         return true;
       }).catch((err)=>{
-        console.log("User register validation failed with error: "+err);
+        console.log("User update validation failed with error: "+err);
         return null;
+      })
+    }
+
+    const checkExistingUser = async (email) => {
+      return await fetch("http://localhost:8080/api/users/"+email, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        credentials: 'include'
+      }).then(async (response) => {
+        if(!(response.ok)){
+          return undefined;
+        }
+        return await response.json();
+      }).catch((err)=>{
+        console.log("User check validation failed with error: "+err);
+        return undefined;
       })
     }
     
@@ -107,6 +139,7 @@ const UsuarioContext = React.createContext([]);
       restorePassword,
       instantiateUser,
       updateUser,
+      checkExistingUser,
       desloguearUser
     }
     

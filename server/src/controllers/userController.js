@@ -46,8 +46,29 @@ class UserController{
     }
     controllerPostUpdateUser = async (req, res, next) => {
         try{
-            await userService.updateUser(req.body);
+            await userService.updateUser(req.params.id, req.body);
             logger.info(`POST REQUEST successful for updating the user ${req.body.id}`);
+            res.sendStatus(200);
+        }
+        catch(error){
+            next(error);
+        }
+    }
+    controllerGetUserExisting = async (req, res, next) => {
+        try{
+            await userService.checkExistingUser(req.params.email);
+            let user = await userService.getUserInformation(req.params.email);
+            logger.info(`POST REQUEST successful for checking the user ${req.params.email}`);
+            res.status(200).json(user.id);
+        }
+        catch(error){
+            next(error);
+        }
+    }
+    controllerPostResetPassword = async (req, res, next) => {
+        try{
+            await userService.resetPassword(req.params.id);
+            logger.info(`POST REQUEST successful for resetting the password for the user ${req.params.id}`);
             res.sendStatus(200);
         }
         catch(error){

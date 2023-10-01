@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import emailImagen from '../../images/email.svg';
 import passwordImagen from '../../images/password.svg';
 import { useState } from 'react';
 import { useUsuario } from './UserContext';
 import { useNavigate } from 'react-router-dom';
+import ModalPassword from './ModalPassword';
 import swal from 'sweetalert';
 import './style.scss'
 
@@ -12,16 +13,24 @@ const Login = () => {
     const { loguearUser } = useUsuario();
     const [emailUsuario, setEmailUsuario] = useState('');
     const [password, setPassword] = useState('');
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const handleChangeEmailUsuario = (e) => {
         setEmailUsuario(e.target.value);
     }
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
     }
+    
+    useEffect(() => {
+    }, [emailUsuario])
+
     const loguearUsuario = async (e) => {
         let inputElements = document.querySelectorAll("input");
         let allInputsFilled = true;
         inputElements.forEach(function(input) {
+            //TODO validate email format
             if(input.value === ""){
                 allInputsFilled = false;
             }
@@ -52,7 +61,7 @@ const Login = () => {
         <div id="loginDiv">
             <h2>Login</h2>
             <form onSubmit={(e)=>{e.preventDefault();}}>
-                <div id="container">
+                <div className="container">
                     <label htmlFor="email" className="loginLabelForm">
                         <img src={emailImagen} alt=""/>
                         <span>Direccion de correo</span>
@@ -63,7 +72,11 @@ const Login = () => {
                         <span>Contraseña</span>
                         <input type="password" id="contrasenia" value={password} onChange={handleChangePassword} required/>
                     </label>
-                    <button type="submit" className="btn btn-outline-dark" id="buttonLoginForm" onClick={loguearUsuario}>Loguearse</button>
+                    <div id="containerButton">
+                        <button type="submit" className="btn btn-outline-dark" id="buttonLoginForm" onClick={loguearUsuario}>Loguearse</button>
+                        <button className="btn btn-outline-dark" id="buttonLoginForm" onClick={handleShow}>Olvide contraseña</button>
+                        <ModalPassword email={emailUsuario} show={show} onHide={handleClose}/>
+                    </div>
                 </div>
             </form>
         </div>

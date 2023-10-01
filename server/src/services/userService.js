@@ -89,13 +89,13 @@ class UserService{
     getUser = async (email) => {
         return await this.container.getItemByCriteria({email: email})
     }
-    updateUser = async (user) => {
+    updateUser = async (userID, user) => {
         userDataValidation(user);
         let {id, email, password, name, lastname, phone, title, experience} = user;
-        let userData = await this.container.getItemByID(id);
+        let userData = await this.container.getItemByID(userID);
         let userFound = (userData !== null)
         if(!userFound){
-            throw new Error(`The specified user could not be found ${id}`, 'CONFLICT');
+            throw new Error(`The specified user could not be found ${userID}`, 'CONFLICT');
         }
         let newUser = new User({
             name: name,
@@ -110,6 +110,23 @@ class UserService{
             // mailer.send({
             //     to: config.MAIL_ADMIN,
             //     subject: 'usuario actualizado!',
+            //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
+            // })
+            return status;
+        }).catch((error)=>{            
+            throw new Error(error, 'INTERNAL_ERROR')
+        });
+    }
+    resetPassword = async (userID) => {
+        let user = await this.container.getItemByID(userID)
+        if(!user){
+            throw new Error(`No user was found with the id ${userID}`, 'NOT_FOUND')
+        }
+        user.setPassword(jwt.sign("defaultPassword", config.SESSION.secret))
+        await this.container.modifyByID(userID, user).then((status)=>{
+            // mailer.send({
+            //     to: config.MAIL_ADMIN,
+            //     subject: 'contraseña actualizada!',
             //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
             // })
             return status;
