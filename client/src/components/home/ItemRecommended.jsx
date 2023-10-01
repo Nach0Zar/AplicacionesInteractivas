@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const ItemRecommended = (props) => {
     const [servicio, setServicio] = useState({});
     const [image, setImage] = useState("");
-    const URLPage = "/ItemPage/1"/*+servicio.id*/;
+    const URLPage = "/service/"+servicio.id;
     useEffect(() => {
         setServicio(props.servicio);
         if(image === ""){
