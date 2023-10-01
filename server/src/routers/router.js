@@ -43,6 +43,7 @@ routerAPI.get('/services/:id', serviceController.controllerGetServiceByID);
 routerAPI.post('/services', serviceController.controllerPostService);
 routerAPI.get('/services/user/:id', serviceController.controllerGetServiceByUser);
 routerAPI.get('/services/category/:id', serviceController.controllerGetServiceByCategory);
+routerAPI.get('/services/recommended/:qty', serviceController.controllerGetServiceByQuantity);
 //categories
 routerAPI.get('/categories', categoryController.controllerGetAllCategories);
 routerAPI.get('/categories/:id', categoryController.controllerGetCategoryByID);

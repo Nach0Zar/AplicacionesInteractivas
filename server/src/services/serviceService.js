@@ -62,8 +62,8 @@ class ServiceService{
             return services.toDTO();
         }
         let servicesDTO = [];
-        services.forEach(order => {
-            servicesDTO.push(order.toDTO())
+        services.forEach(service => {
+            servicesDTO.push(service.toDTO())
         });
         return servicesDTO;
     }
@@ -76,9 +76,23 @@ class ServiceService{
             return services.toDTO();
         }
         let servicesDTO = [];
-        services.forEach(order => {
-            servicesDTO.push(order.toDTO())
+        services.forEach(service => {
+            servicesDTO.push(service.toDTO())
         });
+        return servicesDTO;
+    }
+    getServicesByQuantity = async (quantity) => {
+        let services = await this.container.getAllItems();
+        if(!services || services.length == 0){
+            throw new Error(`No service was found for the category with the id ${categoryID}`, 'NOT_FOUND');
+        }       
+        if(services.length === undefined) {
+            return services.toDTO();
+        }
+        let servicesDTO = [];
+        for(let index = 0; index < quantity; index++){
+            servicesDTO.push(services[index].toDTO())
+        }
         return servicesDTO;
     }
     static getInstance(){

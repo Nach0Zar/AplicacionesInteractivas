@@ -55,6 +55,16 @@ class ServiceController{
             next(error);
         }
     }
+    controllerGetServiceByQuantity = async (req, res, next) => {
+        try{
+            let item = await serviceService.getServicesByQuantity(req.params.qty);
+            logger.info(`GET REQUEST successful for recommended ${req.params.qty} services.`);
+            res.status(200).json(item);
+        }
+        catch(error){
+            next(error);
+        }
+    }
     static getInstance(){
         if(!instance){
             instance = new ServiceController();
