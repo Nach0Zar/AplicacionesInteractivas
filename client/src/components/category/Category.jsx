@@ -16,8 +16,11 @@ const CategoryItems = () => {
   const [qualification, setQualification] = useState(null);
   const [frequency, setFrequency] = useState(null);
   const [itemsLoaded, setItemsLoaded] = useState(false);
+  const [filters, setFilters] = useState(false);
   let {categoryId} = useParams();
   const previousCategoryId = useRef();
+
+
   useEffect(() => {
     const handleFiltering = (services) => {
       if(type !== null){
@@ -33,6 +36,7 @@ const CategoryItems = () => {
     }
     const setItemsByCategory = async () => {
       if(categoryId !== undefined){
+        setFilters(true);
         let categoryFound = await (obtenerCategoriaPorID(categoryId));
         let services = await obtenerServiciosPorCategoria(categoryFound.id);
         setCategoria(categoryFound);
@@ -50,21 +54,54 @@ const CategoryItems = () => {
       previousCategoryId.current = categoryId
       setItemsByCategory();
     }
-  }, [itemsLoaded, categoryId, categoria, setCategoria, itemsCategory, setItemsCategory, obtenerCategoriaPorID, 
-    obtenerServiciosPorCategoria, serviciosListadoDB, setQualification, setFrequency, setType, qualification, frequency, type]);
+  }, [itemsLoaded, categoryId, categoria, itemsCategory, obtenerCategoriaPorID, 
+    obtenerServiciosPorCategoria, serviciosListadoDB, qualification, frequency, type, filters]); 
+  
+    const checkFilters = (qualification, frequency, type, categoria) => {
+      if(qualification === null && frequency === null && type === null && categoria === null){
+        setFilters(false);
+      }
+    }
+
   const filterByQualification = (event, rate) => {
     event.preventDefault();
     setQualification(rate);
+    setFilters(true);
+    setItemsLoaded(false);
+  }
+  const removeQualificationFilter = (event) => {
+    event.preventDefault();
+    setQualification(null);
+    checkFilters(null, frequency, type, categoria);
     setItemsLoaded(false);
   }
   const filterByFrequency = (event, frequency) => {
     event.preventDefault();
     setFrequency(frequency);
+    setFilters(true);
+    setItemsLoaded(false);
+  }
+  const removeFrequencyFilter = (event) => {
+    event.preventDefault();
+    setFrequency(null);
+    checkFilters(qualification, null, type, categoria);
     setItemsLoaded(false);
   }
   const filterByType = (event, type) => {
     event.preventDefault();
     setType(type);
+    setFilters(true);
+    setItemsLoaded(false);
+  }
+  const removeTypeFilter = (event) => {
+    event.preventDefault();
+    setType(null);
+    checkFilters(qualification, frequency, null, categoria);
+    setItemsLoaded(false);
+  }
+  const removeCategoryFilter = (event) => {
+    event.preventDefault();
+    checkFilters(qualification, frequency, type, null);
     setItemsLoaded(false);
   }
   const restartFiltering = (event) => {
@@ -72,12 +109,50 @@ const CategoryItems = () => {
     setType(null);
     setQualification(null);
     setFrequency(null);
+    setFilters(false);
     setItemsLoaded(false);
-    
   }
   return (
     <main>
       <div id="catalog">
+        <div>
+          {(filters === true) &&  
+          <div id="sideBar">
+            <div className="category">
+              <span onClick={(e) => restartFiltering(e)} >
+                <Link className="noDecoration" to={"/category/"}>Remover filtros</Link>
+              </span>
+            </div>
+            <div className="category">
+              <span>Filtros</span>
+              <div className="subCategory">
+            {(qualification !== null) &&
+              <span style={{ cursor: 'pointer' }} onClick={(e) => removeQualificationFilter(e)}>{(qualification === 1) ? "1 estrella" : qualification+" estrellas"}</span>
+            }
+            {(qualification !== null) &&
+              <br/>
+            }
+            {(frequency !== null) &&              
+              <span style={{ cursor: 'pointer' }} onClick={(e) => removeFrequencyFilter(e)}>{frequency}</span>
+            }
+            {(frequency !== null) &&
+              <br/>
+            }
+            {(type !== null) &&
+              <span style={{ cursor: 'pointer' }} onClick={(e) => removeTypeFilter(e)}>{type}</span>
+            }
+            {(type !== null) &&
+              <br/>
+            }
+            {(categoria !== null) &&
+              <span onClick={(e) => removeCategoryFilter(e)}><Link className="noDecoration" to={"/category/"}>{categoria.name}</Link></span>
+            }{(categoria !== undefined) &&
+              <br/>
+            }
+            </div>
+            </div>
+          </div>
+          }
         <div id="sideBar">
           <div className="category">
             <span onClick={(e) => restartFiltering(e)} >
@@ -131,8 +206,10 @@ const CategoryItems = () => {
               }
             </div>
           }
-          </div>
-          <div id="elementsList">
+        </div>
+        </div>
+        
+        <div id="elementsList">
           { (itemsCategory.length !== 0) ? (itemsCategory.map((item) => (
             <div key={item.id}>
               <ServicioListed servicio={item}/>
@@ -149,6 +226,7 @@ const CategoryItems = () => {
           )
           }
         </div>
+        
       </div>
       <hr />
     </main>
