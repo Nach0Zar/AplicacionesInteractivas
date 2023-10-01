@@ -22,7 +22,17 @@ const ModalPassword = (props) => {
         setEmail(e.target.value);
     }
     const validateEmailFormat = () => {
-        //TODO validate email format
+        let lastAtPos = email.lastIndexOf("@");
+        let lastDotPos = email.lastIndexOf(".");
+        if (!(
+                lastAtPos < lastDotPos &&
+                lastAtPos > 0 &&
+                lastDotPos > 2 &&
+                email.toString().length - lastDotPos > 2 &&
+                lastDotPos - lastAtPos > 1
+            )) {
+                return false;
+            }
         return true;
     }
     const validateEmail = async () => {
@@ -45,6 +55,9 @@ const ModalPassword = (props) => {
                 swal("Información errónea", "Los datos de email son incorrectos. Por favor, revisar e intentar nuevamente.", "error");
             }
         }
+        else{
+            swal("Información errónea", "El formato de email es incorrecto. Por favor, revisar e intentar nuevamente.", "error");
+        }
     }
   return (
     <>
@@ -62,7 +75,7 @@ const ModalPassword = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Mail de contacto</span>
                             </div>
-                        <input type="email" className="form-control" placeholder="Mail del usuario" name="email" defaultValue={email} onChange={handleChangeEmail}/>
+                        <input type="text" className="form-control" placeholder="Mail del usuario" name="email" defaultValue={email} onChange={handleChangeEmail}/>
                         </div>
                     </div>
                 <p>La contraseña temporal sera enviada al mail seleccionado.</p>

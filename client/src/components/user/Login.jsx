@@ -29,31 +29,48 @@ const Login = () => {
     const loguearUsuario = async (e) => {
         let inputElements = document.querySelectorAll("input");
         let allInputsFilled = true;
+        let emailFormat = true;
         inputElements.forEach(function(input) {
-            //TODO validate email format
+            if(input.id === 'email'){
+                let lastAtPos = input.value.lastIndexOf("@");
+                let lastDotPos = input.value.lastIndexOf(".");
+                if (!(
+                    lastAtPos < lastDotPos &&
+                    lastAtPos > 0 &&
+                    lastDotPos > 2 &&
+                    input.value.toString().length - lastDotPos > 2 &&
+                    lastDotPos - lastAtPos > 1
+                )) {
+                    emailFormat = false;
+                }
+            }
             if(input.value === ""){
                 allInputsFilled = false;
             }
-
         });
-        if (allInputsFilled){
-            let loggedUser = await loguearUser({email: emailUsuario, password: password});
-            if(loggedUser === true){
-                swal("Login","Usuario logueado correctamente!", "success");
-                let path = `/`; 
-                navigate(path);
+        if(emailFormat){
+            if (allInputsFilled){
+                let loggedUser = await loguearUser({email: emailUsuario, password: password});
+                if(loggedUser === true){
+                    swal("Login","Usuario logueado correctamente!", "success");
+                    let path = `/`; 
+                    navigate(path);
+                }
+                else {
+                    if(loggedUser === false){
+                        swal("Información errónea","Contraseña incorrecta, por favor indicar la contraseña correcta","warning");
+                    }
+                    else{
+                        swal("Error del sistema","No se pudo validar el login de usuario, por favor vuelva a intentar mas tarde","error");
+                    }
+                }
             }
-            else {
-                if(loggedUser === false){
-                    swal("Información errónea","Contraseña incorrecta, por favor indicar la contraseña correcta","warning");
-                }
-                else{
-                    swal("Error del sistema","No se pudo validar el login de usuario, por favor vuelva a intentar mas tarde","error");
-                }
+            else{
+                swal("Informacion faltante","Por favor, ingrese email y contraseña", "error");
             }
         }
         else{
-            swal("Informacion faltante","Por favor, ingrese email y contraseña", "error");
+            swal("Informacion erronea","Formato de email incorrecto. Por favor, ingrese email y contraseña", "error");
         }
     }
   return (

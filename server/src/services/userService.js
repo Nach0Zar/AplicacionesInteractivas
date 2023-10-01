@@ -122,7 +122,7 @@ class UserService{
         if(!user){
             throw new Error(`No user was found with the id ${userID}`, 'NOT_FOUND')
         }
-        user.setPassword(jwt.sign("defaultPassword", config.SESSION.secret))
+        user.setPassword(jwt.sign("default", config.SESSION.secret))
         await this.container.modifyByID(userID, user).then((status)=>{
             // mailer.send({
             //     to: config.MAIL_ADMIN,
