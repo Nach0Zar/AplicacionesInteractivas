@@ -10,11 +10,11 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, FormLabel } from '@mui/material';
 import { Divider, Avatar, Grid, Paper } from "@mui/material";
+import ModalContactForm from "../contactForm/ModalContactForm"
 
 import swal from 'sweetalert';
 import Comment from "../comment/Comment"
 import './style.scss';
-import ContactForm from '../contactForm/ContactForm';
 
 const ItemPage = () => {
 var {itemId} = useParams();
@@ -26,6 +26,9 @@ const [articuloCapturado, setArticuloCapturado] = useState([]);
 const [comentarios, setComentarios] = useState([])
 const [categoriasItem, setCategoriasItem] = useState([]);
 const [texto, setTexto] = useState("");
+const [show, setShow] = useState(false);
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
 useEffect(() => {
   console.log("entre")
   const getItemByID = new Promise((resolve) => {
@@ -96,6 +99,8 @@ const cambiarEstadoArticuloEnCarrito = (event) => {
                     </div>
                     <div id="variedInfo">
                       <h5 className="priceElement">${articuloCapturado.cost}</h5>
+                      <Button variant="contained" onClick={handleShow}>Contactar</Button>
+                      <ModalContactForm costoTotal={ articuloCapturado.cost } show={show} onHide={handleClose}/>
                       <h5 className="priceElement">Categorías</h5>
                       <div className="categories">
                         {categoriasItem.map((categoria) => (
@@ -108,11 +113,6 @@ const cambiarEstadoArticuloEnCarrito = (event) => {
               </div>
           </div>
         </div>
-        <Paper style={{ padding: "40px 20px" }}>
-          <h1>¿Te interesa?</h1>
-          <h3>Contacta al profe completando el siguiente formulario</h3>
-          <ContactForm></ContactForm>
-        </Paper>
         {
           <Paper style={{ padding: "40px 20px" }}>
             <h1>Otros alumnos opinan</h1>

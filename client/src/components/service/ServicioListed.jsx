@@ -7,7 +7,6 @@ const ServiceListed = (props) => {
     const [servicio, setServicio] = useState({});
     const URLPage = "/service/"+servicio.id;
     useEffect(() => {
-        
         setServicio(props.servicio);
         if(image === ""){
             try{

@@ -5,6 +5,9 @@ import { useCart } from '../cart/CartContext';
 import { useServicios } from '../service/ServiciosContext';
 import { useCategorias } from '../category/CategoryContext';
 import { useUsuario } from '../user/UserContext';
+import ModalContactForm from "../contactForm/ModalContactForm"
+import { Divider, Avatar, Grid, Paper } from "@mui/material";
+import Comment from "../comment/Comment"
 import swal from 'sweetalert';
 import './style.scss';
 
@@ -20,6 +23,9 @@ const [commentsItem, setCommentsItem] = useState([]);
 const [image, setImage] = useState("");
 const [texto, setTexto] = useState("");
 const [estilo, setEstilo] = useState("");
+const [show, setShow] = useState(false);
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
 const idStlye = "boton"+serviceID;
 useEffect(() => {
   let getItemByID = new Promise((resolve) => {
@@ -27,6 +33,7 @@ useEffect(() => {
   })
   
   getItemByID.then((data)=> {
+    console.log(data)
     setServicioCapturado(data);
     setCommentsItem(data.comments)
     try{
@@ -34,14 +41,6 @@ useEffect(() => {
     }
     catch{
       setImage(require("../../images/services/default.jpg"));
-    }
-    if(!isInCart(data.id)){
-      setTexto("Agregar Servicio");
-      setEstilo("btn btn-outline-dark botonAgregarCarrito");
-    }
-    else {
-      setTexto("Servicio Añadido");
-      setEstilo("btn btn-dark botonAgregarCarrito");
     }
     
     const getCategoryByID = new Promise((resolve) => {
@@ -57,39 +56,29 @@ useEffect(() => {
   });
 }, [serviceID, isInCart, obtenerCategoriasPorServicio, obtenerServicioPorID]);
   
-useEffect(() => {
-  const actualizarBoton = () => {
-    if(!isInCart(servicioCapturado.id)){
-      setTexto("Agregar Servicio");
-      setEstilo("btn btn-outline-dark botonAgregarCarrito");
-    }
-    else {
-      setTexto("Servicio Añadido");
-      setEstilo("btn btn-dark botonAgregarCarrito");
-    }
-  }
-  actualizarBoton();
-},[texto, servicioCapturado, addItem, removeItem, isInCart])
-  
-const cambiarEstadoServicioEnCarrito = (event) => {
-  event.preventDefault();
-  if(!isInCart(servicioCapturado.id)){
-    setTexto("Agregar Servicio");
-    setEstilo("btn btn-outline-dark botonAgregarCarrito");
-    if(!(usuario === null)){
-      addItem(servicioCapturado.id,1);
-    }
-    else{
-      swal("Usuario no logueado", "Debes estar logueado para poder agregar servicios a tu carrito!", "warning");
-    }
-  }
-  else {
-    setTexto("Servicio Añadido");
-    setEstilo("btn btn-dark botonAgregarCarrito");
-    removeItem(servicioCapturado.id);
-  }
-}
+  const handleNewComment = (newComment) => {
 
+  }
+
+  
+
+  const renderComments = () => {
+    if(commentsItem.length == 0) {
+      return <h1>No hay comentarios para este servicio</h1>
+    }
+    return <div>
+    <h1>Otros alumnos opinan</h1>
+      {
+        commentsItem.map((comment, index) => {
+          return (
+            <div key={index}>
+              <Comment comment={comment} editMode={false} onSave={null}></Comment>
+            </div>
+          )
+        })
+      }
+    </div>
+  }
 
   return (
     <main>
@@ -109,8 +98,9 @@ const cambiarEstadoServicioEnCarrito = (event) => {
                       <h5 className="priceElement">Responsable: {servicioCapturado.responsible}</h5>
                       <h5 className="priceElement">${servicioCapturado.price}</h5>
                       <div className="buttonElementContainer">
-                        <button type="button" onClick={cambiarEstadoServicioEnCarrito} className={estilo} id={idStlye}>{texto}</button>
+                        <button type="button" onClick={handleShow} className="btn btn-outline-dark botonAgregarCarrito" id={idStlye}>Contactar</button>
                       </div>
+                      <ModalContactForm costoTotal={ servicioCapturado.cost } show={show} onHide={handleClose}/>
                       <h5 className="priceElement">Categorías</h5>
                       <div className="categories">
                         {categoriasItem.map((categoria) => (
@@ -124,17 +114,13 @@ const cambiarEstadoServicioEnCarrito = (event) => {
           </div>
         </div>
       </div>
-      <hr />
+      <hr></hr>
       <div className="container">
-      {commentsItem.map((comment) => (
-        <div key={comment.user+"Message"}>
-          <div className="comment">
-            <p className="descriptionElement commentMessage">{comment.user+": "}</p>
-            <p className="descriptionElement commentMessage">{comment.message}</p>
-          </div>
-          <br />
-        </div>
-      ))}
+        <Paper style={{ padding: "40px 20px" }}>
+          {renderComments()}
+          <h2>¿Queres dejar tu comentario?</h2>
+          <Comment editMode={true} onSave={handleNewComment}></Comment>
+        </Paper>
       </div>
       <hr />
     </main>
