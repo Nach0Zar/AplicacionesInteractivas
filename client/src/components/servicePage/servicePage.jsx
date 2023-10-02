@@ -35,7 +35,7 @@ useEffect(() => {
   getItemByID.then((data)=> {
     console.log(data)
     setServicioCapturado(data);
-    setCommentsItem(data.comments)
+    setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
     try{
       setImage(require("../../images/services/"+data.image));
     }
@@ -46,7 +46,10 @@ useEffect(() => {
     const getCategoryByID = new Promise((resolve) => {
       resolve(obtenerCategoriasPorServicio(data));
     });
-    getCategoryByID.then((data)=> {setCategoriasItem(data)})
+    getCategoryByID.then((data)=> {
+      console.log(data)
+      setCategoriasItem(data)
+    })
     
     .catch((err)=>console.log(err));
       
@@ -57,7 +60,8 @@ useEffect(() => {
 }, [serviceID, isInCart, obtenerCategoriasPorServicio, obtenerServicioPorID]);
   
   const handleNewComment = (newComment) => {
-
+    //llamar servicio
+    setCommentsItem(current => [...current, newComment])
   }
 
   
@@ -104,7 +108,7 @@ useEffect(() => {
                       <h5 className="priceElement">Categorías</h5>
                       <div className="categories">
                         {categoriasItem.map((categoria) => (
-                        <p className="descriptionElement" key={categoria.idCategoria}>{categoria.nombreCategoria}</p>
+                        <p className="descriptionElement" key={categoria.id}>{categoria.name}</p>
                           ))
                           }
                       </div>
