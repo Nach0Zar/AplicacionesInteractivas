@@ -3,6 +3,7 @@ import { useUsuario } from '../user/UserContext';
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import PendingComments from '../comment/PendingComments';
 
 const Profile = () => {
     const { usuario, instantiateUser, updateUser} = useUsuario();

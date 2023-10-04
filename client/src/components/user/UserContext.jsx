@@ -72,7 +72,7 @@ const UsuarioContext = React.createContext([]);
       }).catch((err)=>{
         console.log("User password reset failed with error: "+err);
         return null;
-      })
+      })    
     }
 
     const registerUser = async (usuario) => {
