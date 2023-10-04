@@ -43,9 +43,9 @@ const Services = () => {
     }, [services, isLoggedIn, comprasListadas, usuario, obtenerServiciosPorResponsable])
 
     const onEditService = (service) =>{
+        handleShow()
         setServiceToEdit(service)
         setEdicion(true)
-        handleShow()
     }
 
     const onPendingComments = (service) =>{
@@ -138,7 +138,7 @@ const Services = () => {
                     <div className="buttonElementContainer">
                         <button type="button" onClick={onCreateService} className="btn btn-outline-dark botonAgregarCarrito">Crear nuevo servicio</button>
                     </div>
-                    <ModalServiceForm show={show} onHide={handleClose} service={{serviceToEdit}} edicion={{edicion}}/>  
+                    <ModalServiceForm show={show} onHide={handleClose} service={serviceToEdit} edicion={edicion}/>  
                 </div>
             </div>
             <div className="containerServices">

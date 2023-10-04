@@ -20,6 +20,21 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     })
     return serviciosLista;
   }
+  const guardarServicio = async (servicio) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(servicio)
+    };
+    return await fetch("http://localhost:8080/api/services", requestOptions).then(async (data) => {
+      let jsonData = await data.json();
+      let serviceCreado = instantiateServicio(jsonData);
+      return serviceCreado;
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
   const cargarServicios = async () => {
     await fetch("http://localhost:8080/api/services").then(async (data) => {
       let listadoDB = []
@@ -84,7 +99,8 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     instantiateServicio,
     obtenerServiciosPorCategoria,
     obtenerServiciosPorCantidad,
-    obtenerServiciosPorResponsable
+    obtenerServiciosPorResponsable,
+    guardarServicio
   }
   return (
     <ServiciosContext.Provider value={context}>

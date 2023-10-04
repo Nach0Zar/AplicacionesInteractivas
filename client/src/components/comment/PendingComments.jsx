@@ -17,11 +17,9 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 
 const PendingComments = (serviceComments) => {
     const { usuario, instantiateUser, updateUser} = useUsuario();
-    const { obtenerServiciosPorResponsable } = useServicios();
     const isLoggedIn = !(usuario === null);
     const [comments, setComments] = useState(serviceComments);
     const [filteredComments, setFilteredComments] = useState([])
-    const [refresh, setRefresh] = useState(false)
     useEffect(() => {
             let allComments = []
             allComments = allComments.filter(comment => comment.reviewed == false)
@@ -50,12 +48,6 @@ const PendingComments = (serviceComments) => {
                             <p>{row.message}</p>
                         </TableCell>
                         <TableCell align="right">{row.qualification}</TableCell>
-                        <TableCell align="right">
-                            <div style={{flexDirection:"column"}}>
-                                <p>aaa</p>
-                                <p>aaaa</p>
-                            </div>
-                        </TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

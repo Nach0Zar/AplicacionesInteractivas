@@ -14,33 +14,39 @@ const ModalServiceForm = (props) => {
     const { usuario } = useUsuario();
     const [service, setService] = useState(props.service)
     const [edicion, setEdicion] = useState(props.edicion)
-    const [name, setName] = useState(props.service.name !== null ? props.service.name : "")
-    const [description, setDescription] = useState(props.service.description !== null ? props.service.description : "")
-    const [frequency, setFrequency] = useState(props.service.frequency !== null ? props.service.frequency : "")
-    const [qualification, setQualification] = useState(props.service.qualification !== null ? props.service.qualification : "")
-    const [type, setType] = useState(props.service.type !== null ? props.service.type : "")
-    const [categories, setCategories] = useState(props.service.categories !== null ? props.service.categories : [])
-    const [price, setPrice] = useState(props.service.price !== null ? props.service.price : "")
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [frequency, setFrequency] = useState("")
+    const [type, setType] = useState("")
+    const [categories, setCategories] = useState([])
+    const [price, setPrice] = useState("")
     
     useEffect(() => {
+        console.log(props.service)
         setService(props.service)
         setEdicion(props.edicion)
-    }, [props.service])
+        setName(props.service.name !== null ? props.service.name : "")
+        setDescription(props.service.description !== null ? props.service.description : "")
+        setFrequency(props.service.frequency !== null ? props.service.frequency : "")
+        setType(props.service.type !== null ? props.service.type : "")
+        setCategories(props.service.categories !== null ? props.service.categories : [])
+        setPrice(props.service.price !== null ? props.service.price : "")
+    }, [props.service, props.edicion])
     const realizarComentario = (e) => {
         e.preventDefault()
-        const { email, dni, telefono } = e.target.elements
+        const { name, description, frequency, type, categories, price } = e.target.elements
+        const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         let conFom = {
-          email: email.value,
-          dni: dni.value,
-          telefono: telefono.value,
+            name: name.value,
+            description: description.value,
+            frequency: frequency.value,
+            type: type.value,
+            categories: selectedCategories,
+            price: price.value
         }
         console.log(conFom)
         swal("Operacion Exitosa")
-        handleClose()
-    }
-
-    const onShow = () => {
-
+        //handleClose()
     }
   return (
     <>
@@ -73,7 +79,42 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Frecuencia</span>
                             </div>
-                        <input type="text" className="form-control" placeholder="99999999" name="frequency" defaultValue={frequency}/>
+                        <select className="form-control" defaultValue={frequency} name='frequency'>
+                            <option value="Unica">Unica</option>
+                            <option value="Semanal">Semanal</option>
+                            <option value="Mensual">Mensual</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Tipo</span>
+                            </div>
+                        <select className="form-control" defaultValue={type} name='type'>
+                            <option value="Individual">Individual</option>
+                            <option value="Grupal">Grupal</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Categorias</span>
+                            </div>
+                        <select className="form-control" defaultValue={categories} name='categories' multiple={true}>
+                            <option value="Historia">Historia</option>
+                            <option value="Matematica">Matematica</option>
+                            <option value="Lengua">Lengua</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group mb-1">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Precio</span>
+                            </div>
+                        <input type="number" className="form-control" placeholder="Precio de tu servicio" name="price" defaultValue={price}/>
                         </div>
                     </div>
             </div>
