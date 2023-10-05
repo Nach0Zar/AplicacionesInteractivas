@@ -23,7 +23,7 @@ const PendingComments = (serviceComments) => {
     const [comments, setComments] = useState(serviceComments);
     const [filteredComments, setFilteredComments] = useState([])
     useEffect(() => {
-            let allComments = []
+            let allComments = serviceComments !== null ? serviceComments : []
             allComments = serviceComments.comments.filter(comment => comment.reviewed == false)
             setFilteredComments(allComments)
     }, [serviceComments])
