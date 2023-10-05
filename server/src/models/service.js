@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { ObjectId } from 'mongodb';
 class Service{
     #name
     #price
@@ -12,7 +13,8 @@ class Service{
     #comments
     #qualification
     #type
-    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification, type}){
+    #published
+    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification, type, published}){
         this.#name = name;
         this.#price = +price;
         this.#image = image;
@@ -25,6 +27,7 @@ class Service{
         this.#comments = comments;
         this.#qualification = qualification;
         this.#type = type;
+        this.#published = published
     }
     getName(){
         return this.#name;
@@ -123,13 +126,14 @@ class Service{
             image: this.#image,
             categories: this.#categories,
             description: this.#description,
-            responsible: this.#responsible,
+            responsible: ObjectId(this.#responsible),
             duration: this.#duration,
             frequency: this.#frequency,
             comments: this.#comments,
             qualification: this.#qualification,
             type: this.#type,
-            id: this.#id
+            id: this.#id,
+            published: this.#published
         }
         return dto
     }

@@ -72,11 +72,9 @@ class ServiceRepository {
             price: newService.price,
             image: newService.image,
             description: newService.description,
-            responsible: newService.responsible,
             duration: newService.duration,
             frequency: newService.frequency,
-            comments: newService.comments,
-            qualification: newService.qualification,
+            published: newService.published
         }
         return await this.#dao.modifyByID(id, updateInfo);
     }

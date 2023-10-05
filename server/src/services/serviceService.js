@@ -32,7 +32,7 @@ class ServiceService{
         let serviceFound = await this.container.getItemByID(serviceID);
         return (serviceFound !== null && serviceFound.length !== 0);
     }
-    createService = async (name, price, image, description, categories, responsible, duration, frequency, comments, qualification) => {
+    createService = async (name, price, image, description, categories, responsible, duration, frequency, comments, qualification, published) => {
         //TODO serviceDataValidation(name, price, image, description, categories, responsible, duration, frequency, comments, qualification);
         let newService = new Service({
             name: name, 
@@ -44,7 +44,8 @@ class ServiceService{
             duration: duration,
             frequency: frequency,
             comments: comments,
-            qualification: qualification
+            qualification: qualification,
+            published: published
         }
         );
         let serviceID = await this.container.save(newService);
@@ -52,6 +53,39 @@ class ServiceService{
             throw new Error(`There was an error creating the service`, 'INTERNAL_ERROR') 
         }
         return serviceID;
+    }
+    updateService = async(id, name, price, image, description, categories, duration, frequency, published) => {
+        // let toUpdate = new Service({
+        //     name: name, 
+        //     price: +price, 
+        //     image: image,
+        //     description: description,
+        //     id: id,
+        //     categories: categories,
+        //     responsible: responsible,
+        //     duration: duration,
+        //     frequency: frequency,
+        //     comments: comments,
+        //     qualification: qualification,
+        //     published: published
+        // }
+        console.log("servicio")
+        let toUpdate = {
+            name: name, 
+            price: +price, 
+            image: image,
+            description: description,
+            id: id,
+            categories: categories,
+            duration: duration,
+            frequency: frequency,
+            published: published
+        }
+        
+        let count = await this.container.modifyByID(id, toUpdate)
+        if(count == 0) {
+            throw new Error("There was an error updating the service, nothing impacted", "NOT_FOUND")
+        }
     }
     getUserServices = async (userID) => {
         let services = await this.container.getServiceByResponsible(userID);

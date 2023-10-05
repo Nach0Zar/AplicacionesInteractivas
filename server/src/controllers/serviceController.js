@@ -47,9 +47,23 @@ class ServiceController{
     controllerPostService = async (req, res, next) => {
         try{
             let serviceID = await serviceService.createService(req.body.name, req.body.price, req.body.image, req.body.description, req.body.categories, 
-                                                               req.body.responsible, req.body.duration, req.body.frequency, req.body.comments, req.body.qualification);
+                                                               req.body.responsible, req.body.duration, req.body.frequency, req.body.comments, req.body.qualification, req.body.published);
             logger.info(`POST REQUEST successful for service ${serviceID}`);
             res.status(200).json({message: `The service with ID ${serviceID} was added to the catalog.`});
+        }
+        catch(error){
+            next(error);
+        }
+    }
+    controllerPatchService = async (req, res, next) => {
+        try{
+            let serviceId = req.params.id
+            console.log(serviceId)
+            await serviceService.updateService(serviceId, req.body.name, req.body.price, req.body.image, req.body.description, req.body.categories, 
+                                                            req.body.duration, req.body.frequency, req.body.published);
+            console.log("guarde :)")
+            logger.info(`PATCH REQUEST successful for service ${serviceId}`);
+            res.status(200).json({message: `The service with ID ${serviceId} was updated to the catalog.`});
         }
         catch(error){
             next(error);

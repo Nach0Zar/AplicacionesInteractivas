@@ -40,6 +40,7 @@ routerAPI.post('/images', postImage('file'), imageController.controllerPostImage
 //services
 routerAPI.get('/services', serviceController.controllerGetAllServices);
 routerAPI.get('/services/:id', serviceController.controllerGetServiceByID);
+routerAPI.patch('/services/:id', serviceController.controllerPatchService);
 routerAPI.post('/services', serviceController.controllerPostService);
 routerAPI.get('/services/user/:id', serviceController.controllerGetServiceByUser);
 routerAPI.get('/services/category/:id', serviceController.controllerGetServiceByCategory);
