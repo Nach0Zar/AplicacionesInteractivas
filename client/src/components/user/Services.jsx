@@ -16,11 +16,12 @@ import { Button, IconButton, Paper, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Edit } from '@mui/icons-material';
+import CommentIcon from '@mui/icons-material/Comment';
 import PendingComments from '../comment/PendingComments';
 
 const Services = () => {
     const { usuario } = useUsuario();
-    const { obtenerServiciosPorResponsable } = useServicios();
+    const { obtenerServiciosPorResponsable, guardarServicio, actualizarServicio } = useServicios();
     const isLoggedIn = !(usuario === null);
     const [services, setServices] = useState([]);
     const [comprasListadas, setComprasListadas] = useState(false);
@@ -28,6 +29,7 @@ const Services = () => {
     const [comments, setComments] = useState([])
     const [edicion, setEdicion] = useState(false)
     const [show, setShow] = useState(false);
+    const [onSave, setOnSave] = useState()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -42,10 +44,27 @@ const Services = () => {
         }
     }, [services, isLoggedIn, comprasListadas, usuario, obtenerServiciosPorResponsable])
 
-    const onEditService = (service) =>{
+    const onCreateService = (newService) => {
+        console.log("voy a crear")
+        newService.responsible = usuario.id
+        guardarServicio(newService)
+    }
+
+    const onEditService = (updatedService) => {
+        console.log("voy a editar")
+        actualizarServicio(updatedService)
+    }
+
+    const openForEdit = (service) =>{
         handleShow()
         setServiceToEdit(service)
         setEdicion(true)
+    }
+
+    const openForCreation = () =>{
+        setServiceToEdit({})
+        setEdicion(false)
+        handleShow() 
     }
 
     const onPendingComments = (service) =>{
@@ -56,12 +75,6 @@ const Services = () => {
     const onDeleteService = (servicio) => {
         console.log("servicio a borrar : ")
         console.log(servicio)
-    }
-
-    const onCreateService = () =>{
-        setServiceToEdit({})
-        setEdicion(false)
-        handleShow() 
     }
 
     const renderServices = () => {
@@ -102,7 +115,7 @@ const Services = () => {
                         <TableCell align="center">
                             <div style={{flexDirection:"row", display:"flex"}}>
                                 <Tooltip aria-label="Bold" title="Editar">
-                                    <IconButton size="medium" onClick={() => onEditService(row)}>
+                                    <IconButton size="medium" onClick={() => openForEdit(row)}>
                                         <EditIcon></EditIcon>
                                     </IconButton>
                                 </Tooltip>
@@ -113,7 +126,7 @@ const Services = () => {
                                 </Tooltip>
                                 <Tooltip aria-label="Bold" title="Comentarios">
                                     <IconButton size="medium" onClick={() => onPendingComments(row)}>
-                                        <EditIcon></EditIcon>
+                                        <CommentIcon></CommentIcon>
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -136,9 +149,9 @@ const Services = () => {
                     {(!isLoggedIn) && <Navigate to="/"/> }
                     {renderServices()}
                     <div className="buttonElementContainer">
-                        <button type="button" onClick={onCreateService} className="btn btn-outline-dark botonAgregarCarrito">Crear nuevo servicio</button>
+                        <button type="button" onClick={openForCreation} className="btn btn-outline-dark botonAgregarCarrito">Crear nuevo servicio</button>
                     </div>
-                    <ModalServiceForm show={show} onHide={handleClose} service={serviceToEdit} edicion={edicion}/>  
+                    <ModalServiceForm show={show} onHide={handleClose} service={serviceToEdit} edicion={edicion} onSave={edicion ? onEditService : onCreateService}/>  
                 </div>
             </div>
             <div className="containerServices">

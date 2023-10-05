@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useUsuario } from '../user/UserContext';
 import { Usuario } from '../imports/classes';
 import { useNavigate } from 'react-router-dom';
+import Checkbox from '@mui/material/Checkbox';
 import swal from 'sweetalert';
 
 const ModalServiceForm = (props) => {
@@ -20,6 +21,7 @@ const ModalServiceForm = (props) => {
     const [type, setType] = useState("")
     const [categories, setCategories] = useState([])
     const [price, setPrice] = useState("")
+    const [published, setPublished] = useState(false)
     
     useEffect(() => {
         console.log(props.service)
@@ -31,10 +33,11 @@ const ModalServiceForm = (props) => {
         setType(props.service.type !== null ? props.service.type : "")
         setCategories(props.service.categories !== null ? props.service.categories : [])
         setPrice(props.service.price !== null ? props.service.price : "")
-    }, [props.service, props.edicion])
-    const realizarComentario = (e) => {
+        setPublished(props.service.published !== null ? props.service.published : false)        
+    }, [props.service, props.edicion, props.onSave])
+    const realizarAccion = (e) => {
         e.preventDefault()
-        const { name, description, frequency, type, categories, price } = e.target.elements
+        const { name, description, frequency, type, categories, price, published} = e.target.elements
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         let conFom = {
             name: name.value,
@@ -42,9 +45,11 @@ const ModalServiceForm = (props) => {
             frequency: frequency.value,
             type: type.value,
             categories: selectedCategories,
-            price: price.value
+            price: price.value,
+            published: published.checked,
+            id: props.service.id
         }
-        console.log(conFom)
+        props.onSave(conFom)
         swal("Operacion Exitosa")
         //handleClose()
     }
@@ -54,7 +59,7 @@ const ModalServiceForm = (props) => {
         <Modal.Header closeButton>
             <Modal.Title>{edicion ? "Edita tu servicio" : "Crea tu servicio"}</Modal.Title>
         </Modal.Header>
-        <form className="form-horizontal" onSubmit={realizarComentario}>
+        <form className="form-horizontal" onSubmit={realizarAccion}>
             <Modal.Body>
             <div className="centered">
                 <p>Te pedimos que verifiques que la informacion es la correcta antes de confirmar</p>
@@ -115,6 +120,14 @@ const ModalServiceForm = (props) => {
                                 <span className="input-group-text" id="basic-addon1">Precio</span>
                             </div>
                         <input type="number" className="form-control" placeholder="Precio de tu servicio" name="price" defaultValue={price}/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group mb-1">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Marcar como Publicado</span>
+                            </div>
+                        <Checkbox checked={published} name='published'></Checkbox>
                         </div>
                     </div>
             </div>
