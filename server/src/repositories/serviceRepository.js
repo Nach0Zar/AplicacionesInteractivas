@@ -78,6 +78,12 @@ class ServiceRepository {
         }
         return await this.#dao.modifyByID(id, updateInfo);
     }
+    async addComment(id, newComment){
+        return await this.#dao.addComment(id, newComment);
+    }
+    async modifyCommentsArray(id, comments){
+        return await this.#dao.modifyCommentsArray(id, comments)
+    }
     async deleteByID(id){
         return this.#dao.deleteByID(id)
     }

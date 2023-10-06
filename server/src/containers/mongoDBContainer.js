@@ -6,6 +6,7 @@ export default class MongoDBContainer {
     }
     async save(object) {
         delete object.id;//removes the object ID
+        console.log(object)
         return (await this.items.insertOne(object)).insertedId.toString()
     }
     async getItemByID(idItem) {
@@ -44,6 +45,36 @@ export default class MongoDBContainer {
         delete newItemParam.id;
         let query = await this.items.updateOne({ _id: ObjectId(idItem) }, { $set: newItemParam });
         return (query.modifiedCount > 0);
+    }
+    async addComment(serviceId, newComment) {
+        const service = await this.getItemByID(serviceId)
+        delete service.id;
+        console.log(service)
+        service.comments.push(newComment)
+        let query = await this.items.updateOne({ _id: ObjectId(serviceId) }, { $set: service });
+        return (query.modifiedCount > 0);
+    }
+    async modifyCommentsArray(serviceId, newArray) {
+        const service = await this.getItemByID(serviceId)
+        delete service.id;
+        service.comments = newArray
+        let query = await this.items.updateOne({ _id: ObjectId(serviceId) }, { $set: service });
+        return (query.modifiedCount > 0);
+    }
+    async markAsReviewed(serviceId, commentId) {
+        const service = this.getItemByID(serviceId)
+        service.comments.forEach((comment) => {
+            if(comment.id == commentId){
+                comment.reviewed = true
+            }
+        })
+        return this.modifyByID(serviceId, service)
+    }
+    async deleteNotAccepted(serviceId, commentId) {
+        const service = this.getItemByID(serviceId)
+        const newComments = service.comments.filter((comment) => comment.id != commentId)
+        service.comments = newComments
+        return this.modifyByID(serviceId, service)
     }
     async deleteByID(idItem){
         let criterio = { _id: ObjectId(idItem) };

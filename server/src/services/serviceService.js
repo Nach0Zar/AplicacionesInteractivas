@@ -1,6 +1,7 @@
 import { Error } from "../error/error.js";
 import Service from "../models/service.js";
 import serviceRepository from "../repositories/serviceRepository.js";
+import { randomUUID } from 'crypto';
 
 let instance = null;
 
@@ -32,8 +33,9 @@ class ServiceService{
         let serviceFound = await this.container.getItemByID(serviceID);
         return (serviceFound !== null && serviceFound.length !== 0);
     }
-    createService = async (name, price, image, description, categories, responsible, duration, frequency, comments, qualification, published) => {
+    createService = async (name, price, image, description, categories, responsible, duration, frequency, comments, qualification, published, type) => {
         //TODO serviceDataValidation(name, price, image, description, categories, responsible, duration, frequency, comments, qualification);
+        console.log(type)
         let newService = new Service({
             name: name, 
             price: +price, 
@@ -43,9 +45,10 @@ class ServiceService{
             responsible: responsible,
             duration: duration,
             frequency: frequency,
-            comments: comments,
+            comments: comments == null ? [] : comments,
             qualification: qualification,
-            published: published
+            published: published,
+            type: type
         }
         );
         let serviceID = await this.container.save(newService);
@@ -55,21 +58,6 @@ class ServiceService{
         return serviceID;
     }
     updateService = async(id, name, price, image, description, categories, duration, frequency, published) => {
-        // let toUpdate = new Service({
-        //     name: name, 
-        //     price: +price, 
-        //     image: image,
-        //     description: description,
-        //     id: id,
-        //     categories: categories,
-        //     responsible: responsible,
-        //     duration: duration,
-        //     frequency: frequency,
-        //     comments: comments,
-        //     qualification: qualification,
-        //     published: published
-        // }
-        console.log("servicio")
         let toUpdate = {
             name: name, 
             price: +price, 
@@ -81,11 +69,39 @@ class ServiceService{
             frequency: frequency,
             published: published
         }
-        
         let count = await this.container.modifyByID(id, toUpdate)
         if(count == 0) {
             throw new Error("There was an error updating the service, nothing impacted", "NOT_FOUND")
         }
+    }
+    reviewComment = async(serviceId, commentId, accepted) => {
+        console.log(serviceId)
+        let toUpdate = (await this.container.getItemByID(serviceId)).toDTO();
+        let newCommentsArray
+        if(accepted) {
+            newCommentsArray = toUpdate.comments
+            newCommentsArray.forEach((comment) => {
+                if(comment.id == commentId){
+                    comment.reviewed = true
+                }
+            })
+        } else {
+            newCommentsArray = toUpdate.comments.filter((comment) => comment.id != commentId)
+        }
+        let count = await this.container.modifyCommentsArray(serviceId, newCommentsArray)
+        if(count == 0) {
+            throw new Error("There was an error updating the comment, nothing impacted", "NOT_FOUND")
+        }
+    }
+    addComment = async(serviceId, user, message, qualification) => {
+        const newComment = {
+            user,
+            message,
+            qualification,
+            reviewed: false,
+            id: randomUUID()
+        }
+        let count = await this.container.addComment(serviceId, newComment)
     }
     getUserServices = async (userID) => {
         let services = await this.container.getServiceByResponsible(userID);
