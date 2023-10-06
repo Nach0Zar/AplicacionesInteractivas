@@ -10,12 +10,14 @@ import { Divider, Avatar, Grid, Paper } from "@mui/material";
 import Comment from "../comment/Comment"
 import swal from 'sweetalert';
 import './style.scss';
+import { useOrder } from '../order/OrderContext';
 
 const ServicePage = () => {
 var {serviceID} = useParams();
 const { usuario } = useUsuario();
 const { obtenerCategoriasPorServicio } = useCategorias();
 const { obtenerServicioPorID, guardarComentario } = useServicios();
+const { createOrder } = useOrder();
 const { isInCart, addItem, removeItem} = useCart();
 const [servicioCapturado, setServicioCapturado] = useState([]);
 const [categoriasItem, setCategoriasItem] = useState([]);
