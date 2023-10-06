@@ -16,6 +16,9 @@ const Comment = ({comment, onSave, editMode}) => {
           qualification: qualification.value,
         }
         onSave(conFom)
+        user.value = ""
+        message.value = ""
+        qualification.value = 0
       }
 
     const renderComment = (comment, editMode) => {

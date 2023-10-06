@@ -20,6 +20,8 @@ const [categoriasItem, setCategoriasItem] = useState([]);
 const [commentsItem, setCommentsItem] = useState([]);
 const [image, setImage] = useState("");
 const [responsible, setResponsible] = useState("");
+const [title, setTitle] = useState("");
+const [experience, setExperience] = useState("");
 const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
@@ -32,6 +34,7 @@ const getItemByID = new Promise((resolve) => {
 useEffect(() => {
     getItemByID.then((data)=> {
       setServicioCapturado(data);
+      console.log(data)
       setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
       try{
         setImage(require("../../images/services/"+data.image));
@@ -45,6 +48,8 @@ useEffect(() => {
       });
       getResponsible.then((data)=> {
         setResponsible(data.name + " " + data.lastname)
+        setExperience(data.experience)
+        setTitle(data.title)
       })
       .catch((err)=>console.log(err));
       const getCategoryByID = new Promise((resolve) => {
@@ -104,6 +109,15 @@ useEffect(() => {
                     <div id="detailPageColumn">
                       <h4 className="nameElement">{servicioCapturado.name}</h4>
                       <p className="descriptionElement">{servicioCapturado.description}</p>
+
+                      <h4 className="nameElement">Sobre tu curso</h4>
+                      <p className="descriptionElement">Duracion : {servicioCapturado.duration}</p>
+                      <p className="descriptionElement">Frecuencia : {servicioCapturado.frequency}</p>
+                      <p className="descriptionElement">Tipo de curso : {servicioCapturado.type}</p>
+
+                      <h4 className="nameElement">Sobre tu profe</h4>
+                      <p className="descriptionElement">Titulo : {title}</p>
+                      <p className="descriptionElement">{experience}</p>
                     </div>
                     <div id="variedInfo">
                       <h5 className="priceElement">Responsable: {responsible}</h5>

@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import PendingComments from '../comment/PendingComments';
 
 const Profile = () => {
-    const { usuario, instantiateUser, updateUser} = useUsuario();
+    const { usuario, instantiateUser, updateUser, setUsuarioNuevo} = useUsuario();
     const  [userPerfil, setUserPerfil] = useState("");
     const isLoggedIn = !(usuario === null);
     const [newExperience, setExperience] = useState('');
@@ -109,7 +109,7 @@ const Profile = () => {
             }
             else{
                 swal("Usuario modificado!", "Los datos de usuario se registraron correctamente!", "success");
-                setUserPerfil(usuario); 
+                setUsuarioNuevo(newUserInfo); 
             }
         }
         else{
@@ -180,7 +180,7 @@ const Profile = () => {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1">Reingresar Contraseña</span>
                                 </div>
-                            <input type="password" className="form-control" placeholder="Reingresar Contraseña" name="passwordConfirm"/>
+                            <input type="password" className="form-control" placeholder="Reingresar Contraseña" value={newPassword} name="passwordConfirm"/>
                             </div>
                         </div>
                         <button type="submit" className="btn btn-outline-secondary" name="cambiarUsuario" value="Submit" onClick={realizarCambios}>Cambiar datos</button>

@@ -149,6 +149,10 @@ const UsuarioContext = React.createContext([]);
         return undefined;
       })
     }
+
+    const setUsuarioNuevo = (usuario) =>{
+      setUsuario(usuario)
+    }
     
     const context = {
       usuario,
@@ -159,7 +163,8 @@ const UsuarioContext = React.createContext([]);
       updateUser,
       checkExistingUser,
       desloguearUser,
-      getUserByID
+      getUserByID,
+      setUsuarioNuevo
     }
     
   return (
