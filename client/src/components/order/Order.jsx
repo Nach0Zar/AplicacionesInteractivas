@@ -49,6 +49,7 @@ const Order = (props) => {
       <h4>Fecha de orden: {order.timestamp}</h4>
       <h4>Servicio solicitado: {order.service.name}</h4>
       <h4>Email del solicitante: {order.applicant.email}</h4>
+      <h4>DNI del solicitante: {order.applicant.dni}</h4>
       <h4>Telefono del solicitante: {order.applicant.phone}</h4>
       <h4>Mensaje: {order.message}</h4>
       <h4>Status: {orderStatus}</h4>

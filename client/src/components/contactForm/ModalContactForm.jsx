@@ -33,7 +33,7 @@ const ModalContactForm = (props) => {
             applicant: {
                 email: email.value,
                 dni: dni.value,
-                telefono: telefono.value,
+                phone: telefono.value,
             },
             message: message.value
         }
