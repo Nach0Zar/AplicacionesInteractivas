@@ -54,8 +54,8 @@ const ModalServiceForm = (props) => {
             duration: duration.value
         }
         props.onSave(conFom)
-        swal("Operacion Exitosa")
-        //handleClose()
+        swal("Operacion Exitosa", "", "success")
+        handleClose()
     }
   return (
     <>

@@ -5,6 +5,7 @@ import { useUsuario } from '../user/UserContext';
 import { Usuario } from '../imports/classes';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import { useOrder } from '../order/OrderContext';
 
 const ModalContactForm = (props) => {
     let navigate = useNavigate();
@@ -12,6 +13,7 @@ const ModalContactForm = (props) => {
     const handleClose = props.onHide;
     const [usuarioDatos, setUsuarioDatos] = useState('');
     const { usuario } = useUsuario();
+    const { createOrder } = useOrder();
 
     useEffect(() => {
         if(usuario === null){

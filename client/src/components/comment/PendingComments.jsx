@@ -16,6 +16,7 @@ import { useUsuario } from '../user/UserContext';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import swal from 'sweetalert';
 
 const PendingComments = (props) => {
     const { usuario, instantiateUser, updateUser} = useUsuario();
@@ -36,17 +37,13 @@ const PendingComments = (props) => {
 
     const handleAccept = (comment) => {
         console.log(commentServiceId)
-        const req = {
-            accepted: true
-        }
-        reviewComentario(req, commentServiceId, comment.id)
+        props.onSave(commentServiceId, comment.id, true)
     }
 
     const handleBlock = (comment) => {
-        const req = {
-            accepted: false
-        }
-        reviewComentario(req, commentServiceId, comment.id)
+        console.log("envio id; ")
+        console.log(commentServiceId)
+        props.onSave(commentServiceId, comment.id, false)
     }
     
     return <div style={{justifyContent: "center", alignContent: "center"}}>

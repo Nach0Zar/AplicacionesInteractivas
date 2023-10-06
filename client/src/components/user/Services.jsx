@@ -18,10 +18,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Edit } from '@mui/icons-material';
 import CommentIcon from '@mui/icons-material/Comment';
 import PendingComments from '../comment/PendingComments';
+import swal from 'sweetalert';
 
 const Services = () => {
     const { usuario } = useUsuario();
-    const { obtenerServiciosPorResponsable, guardarServicio, actualizarServicio } = useServicios();
+    const { obtenerServiciosPorResponsable, guardarServicio, actualizarServicio, borrarServicio, reviewComentario} = useServicios();
     const isLoggedIn = !(usuario === null);
     const [services, setServices] = useState([]);
     const [comprasListadas, setComprasListadas] = useState(false);
@@ -37,24 +38,27 @@ const Services = () => {
     const getAllServicesFromUser = async () => {
         let listadoDB = await obtenerServiciosPorResponsable(usuario.id);
         setServices(listadoDB);
-        setComprasListadas(true);
     }
 
     useEffect(() => {
         if (isLoggedIn && !comprasListadas){
             getAllServicesFromUser();
+            setComprasListadas(true);
         }
     }, [services, isLoggedIn, comprasListadas, usuario, obtenerServiciosPorResponsable])
 
     const onCreateService = (newService) => {
         console.log("voy a crear")
         newService.responsible = usuario.id
-        guardarServicio(newService)
+        guardarServicio(newService).then(() => {
+            getAllServicesFromUser();
+        })
     }
 
     const onEditService = (updatedService) => {
         console.log("voy a editar")
         actualizarServicio(updatedService)
+        getAllServicesFromUser();
     }
 
     const openForEdit = (service) =>{
@@ -72,12 +76,29 @@ const Services = () => {
     const onPendingComments = (service) =>{
         setPendingCommentsServiceId(service.id)
         setComments(service.comments)
-        console.log(pendingCommentsServiceId)
     }
 
     const onDeleteService = (servicio) => {
         console.log("servicio a borrar : ")
         console.log(servicio)
+        borrarServicio(servicio.id).then(() => {
+            getAllServicesFromUser();
+        })
+        swal("El servicio ha sido eliminado", "", "success")
+    }
+
+    const handleReview = (serviceId, commentId, accepted) =>{
+        const req = {
+            accepted
+        }
+        reviewComentario(req, serviceId, commentId).then(() => {
+            getAllServicesFromUser().then(() => {
+                const selectedService = services.filter((service) => service.id == serviceId)
+                const currentComments = comments.filter((comment) => comment.id != commentId)
+                setComments(currentComments)
+            });
+        })
+        swal("El comentario ha sido " + (accepted ? "aprobado" : "bloqueado"), "success")
     }
 
     const renderServices = () => {
@@ -159,7 +180,7 @@ const Services = () => {
             </div>
             <div className="containerServices">
             <div className='servicesDiv'>
-                    <PendingComments serviceComments={comments} serviceId={pendingCommentsServiceId}></PendingComments>
+                    <PendingComments serviceComments={comments} serviceId={pendingCommentsServiceId} onSave={handleReview}></PendingComments>
                 </div>
             </div>
         <hr />

@@ -47,7 +47,6 @@ useEffect(() => {
       resolve(obtenerCategoriasPorServicio(data));
     });
     getCategoryByID.then((data)=> {
-      console.log(data)
       setCategoriasItem(data)
     })
     
@@ -61,10 +60,10 @@ useEffect(() => {
   
   const handleNewComment = (newComment) => {
     //llamar servicio
-    console.log(newComment)
     guardarComentario(newComment, serviceID).then(() => {
       getItemByID.then((data) => {
         setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
+        swal("Su comentario ha sido creado", "Debera ser revisado por el profesor antes de ser publicado", "success")
       })
     })
   }

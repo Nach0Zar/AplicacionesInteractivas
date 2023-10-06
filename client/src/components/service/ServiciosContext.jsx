@@ -52,6 +52,20 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
       return null
     })
   }
+  const borrarServicio = async (id) => {
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    return await fetch("http://localhost:8080/api/services/"+id, requestOptions).then(async (data) => {
+      // let jsonData = await data.json();
+      // let serviceCreado = instantiateServicio(jsonData);
+      return null;
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
   const cargarServicios = async () => {
     await fetch("http://localhost:8080/api/services").then(async (data) => {
       let listadoDB = []
@@ -152,7 +166,8 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     guardarServicio,
     actualizarServicio,
     guardarComentario,
-    reviewComentario
+    reviewComentario,
+    borrarServicio
   }
   return (
     <ServiciosContext.Provider value={context}>
