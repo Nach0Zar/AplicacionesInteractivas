@@ -5,7 +5,7 @@ import { useServicios } from '../service/ServiciosContext';
 import { useCategorias } from '../category/CategoryContext';
 import { useUsuario } from '../user/UserContext';
 import ModalContactForm from "../contactForm/ModalContactForm"
-import { Divider, Avatar, Grid, Paper } from "@mui/material";
+import { Divider, Avatar, Grid, Paper, Rating } from "@mui/material";
 import Comment from "../comment/Comment"
 import swal from 'sweetalert';
 import './style.scss';
@@ -101,7 +101,9 @@ useEffect(() => {
       <div className="container">
         <div className="item">
           <div className="imageDetailContainer">
-              <img src={image} alt=""/>
+            <div style={{flexDirection: "column"}}>
+              <img src={image} alt="" style={{marginTop: "20%"}}/>
+            </div>
           </div>
           <div className="containerTextsButtonDetail">
               <div className="textContainer">

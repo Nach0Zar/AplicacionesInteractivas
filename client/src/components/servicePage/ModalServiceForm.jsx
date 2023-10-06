@@ -26,6 +26,10 @@ const ModalServiceForm = (props) => {
     const [published, setPublished] = useState(false)
     const [duration, setDuration] = useState()
     
+    const isBlank = (input) => {
+        return input.length === 0
+    }
+
     useEffect(() => {
         setService(props.service)
         setEdicion(props.edicion)
@@ -42,20 +46,27 @@ const ModalServiceForm = (props) => {
         e.preventDefault()
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
-        let conFom = {
-            name: name.value,
-            description: description.value,
-            frequency: frequency.value,
-            type: type.value,
-            categories: selectedCategories,
-            price: price.value,
-            published: published.checked,
-            id: props.service.id,
-            duration: duration.value
+        console.log(description)
+        if(isBlank(name.value) || isBlank(description.value) || isBlank(frequency.value) || isBlank(duration.value) || isBlank(price.value)){
+            swal("Error de validacion, revise los campos","", "error");
         }
-        props.onSave(conFom)
-        swal("Operacion exitosa!","", "success");
-        handleClose()
+        else {
+            console.log(type.value)
+            let conFom = {
+                name: name.value,
+                description: description.value,
+                frequency: frequency.value,
+                type: type.value,
+                categories: selectedCategories,
+                price: price.value,
+                published: published.checked,
+                id: props.service.id,
+                duration: duration.value
+            }
+            props.onSave(conFom)
+            swal("Operacion exitosa!","", "success");
+            handleClose()
+        }
     }
   return (
     <>
@@ -141,7 +152,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Marcar como Publicado</span>
                             </div>
-                        <input type="checkbox" defaultChecked={published} name='published'/>
+                        <input type="checkbox" defaultChecked={published} name='published' style={{marginLeft: "2%"}}/>
                         </div>
                     </div>
             </div>

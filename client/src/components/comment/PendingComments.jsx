@@ -28,7 +28,7 @@ const PendingComments = (props) => {
             let serviceComments = props.serviceComments
             let serviceId = props.serviceId
             let allComments = serviceComments !== null ? serviceComments : []
-            allComments = serviceComments.filter(comment => comment.reviewed == false)
+            allComments = allComments.filter(comment => comment.reviewed == false)
             setFilteredComments(allComments)
             setCommentServiceId(serviceId)
     }, [props.serviceComments, props.serviceId])

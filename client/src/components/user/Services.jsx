@@ -3,7 +3,7 @@ import Service from './Service';
 import { useUsuario } from './UserContext';
 import { useServicios } from '../service/ServiciosContext';
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -23,7 +23,7 @@ import swal from 'sweetalert';
 
 const Services = () => {
     const { usuario } = useUsuario();
-    const { obtenerServiciosPorResponsable, guardarServicio, actualizarServicio, borrarServicio, reviewComentario} = useServicios();
+    const { obtenerServiciosPorResponsable, guardarServicio, actualizarServicio, borrarServicio, reviewComentario, cargarServicios} = useServicios();
     const isLoggedIn = !(usuario === null);
     const [services, setServices] = useState([]);
     const [comprasListadas, setComprasListadas] = useState(false);
@@ -52,13 +52,17 @@ const Services = () => {
     const onCreateService = (newService) => {
         newService.responsible = usuario.id
         guardarServicio(newService).then(() => {
+            cargarServicios()
             getAllServicesFromUser();
         })
     }
 
     const onEditService = (updatedService) => {
-        actualizarServicio(updatedService)
-        getAllServicesFromUser();
+        actualizarServicio(updatedService).then(() => {
+            cargarServicios()
+            getAllServicesFromUser();
+        })
+        
     }
 
     const openForEdit = (service) =>{
@@ -80,6 +84,7 @@ const Services = () => {
 
     const onDeleteService = (servicio) => {
         borrarServicio(servicio.id).then(() => {
+            cargarServicios()
             getAllServicesFromUser();
         })
         swal("El servicio ha sido eliminado", "", "success")
@@ -96,7 +101,14 @@ const Services = () => {
                 setComments(currentComments)
             });
         })
-        swal("El comentario ha sido " + (accepted ? "aprobado" : "bloqueado"), "success")
+        swal("El comentario ha sido " + (accepted ? "aprobado" : "bloqueado"), "", "success")
+    }
+
+    const hasPendingComments = (service) => {
+        if(service.comments == null){
+            return false
+        }
+        return service.comments.filter((comment) => comment.reviewed == false).length > 0
     }
 
     const renderServices = () => {
@@ -119,13 +131,18 @@ const Services = () => {
                         <TableCell align="right">Tipo</TableCell>
                         <TableCell align="right">Categorias</TableCell>
                         <TableCell align="right">Precio</TableCell>
+                        <TableCell align="right">Publicado</TableCell>
                         <TableCell align="center">Acciones</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
                     {services.map((row) => (
                         <TableRow key={row.id}>
-                        <TableCell align="right">{row.name}</TableCell>
+                        <TableCell align="right">
+                            <Link to={"/service/"+row.id} className="noDecoration">
+                                {row.name}
+                            </Link>
+                        </TableCell>
                         <TableCell sx={{wordBreak:"break-word", maxWidth: "300px"}} align="left">
                             <p>{row.description}</p>
                         </TableCell>
@@ -136,13 +153,12 @@ const Services = () => {
                         {console.log("categories",categories)}
                         <TableCell align="right">{row.categories.map((id) => {
                                                                                 const matchingObject = categories.find((obj) => obj.id === id);
-                                                                                console.log("matchingObject",matchingObject)
                                                                                 if(matchingObject == undefined) {
-                                                                                    console.log(id)
                                                                                 }
                                                                                 return matchingObject ? matchingObject.name : "";
                                                                             }).join(', ')}</TableCell>
                         <TableCell align="right">{row.price}</TableCell>
+                        <TableCell align="right">{row.published ? "SI" : "NO"}</TableCell>
                         <TableCell align="center">
                             <div style={{flexDirection:"row", display:"flex"}}>
                                 <Tooltip aria-label="Bold" title="Editar">
@@ -152,12 +168,12 @@ const Services = () => {
                                 </Tooltip>
                                 <Tooltip aria-label="Bold" title="Borrar">
                                     <IconButton size="medium" onClick={() => onDeleteService(row)}>
-                                        <DeleteIcon></DeleteIcon>
+                                        <DeleteIcon color='error'></DeleteIcon>
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip aria-label="Bold" title="Comentarios">
                                     <IconButton size="medium" onClick={() => onPendingComments(row)}>
-                                        <CommentIcon></CommentIcon>
+                                        <CommentIcon color={hasPendingComments(row) ? "warning" : "info"}></CommentIcon>
                                     </IconButton>
                                 </Tooltip>
                             </div>
