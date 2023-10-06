@@ -59,7 +59,7 @@ class ServiceController{
         try{
             let serviceId = req.params.id
             await serviceService.updateService(serviceId, req.body.name, req.body.price, req.body.image, req.body.description, req.body.categories, 
-                                                            req.body.duration, req.body.frequency, req.body.published);
+                                                            req.body.duration, req.body.frequency, req.body.published, req.body.type);
             logger.info(`PATCH REQUEST successful for service ${serviceId}`);
             res.status(200).json({message: `The service with ID ${serviceId} was updated to the catalog.`});
         }

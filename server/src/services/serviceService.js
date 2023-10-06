@@ -56,7 +56,7 @@ class ServiceService{
         }
         return serviceID;
     }
-    updateService = async(id, name, price, image, description, categories, duration, frequency, published) => {
+    updateService = async(id, name, price, image, description, categories, duration, frequency, published, type) => {
         let toUpdate = {
             name: name, 
             price: +price, 
@@ -66,7 +66,8 @@ class ServiceService{
             categories: categories,
             duration: duration,
             frequency: frequency,
-            published: published
+            published: published,
+            type: type
         }
         let count = await this.container.modifyByID(id, toUpdate)
         if(count == 0) {

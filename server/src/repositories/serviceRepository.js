@@ -74,8 +74,10 @@ class ServiceRepository {
             description: newService.description,
             duration: newService.duration,
             frequency: newService.frequency,
-            published: newService.published
+            published: newService.published,
+            type: newService.type
         }
+        console.log(updateInfo)
         return await this.#dao.modifyByID(id, updateInfo);
     }
     async addComment(id, newComment){
