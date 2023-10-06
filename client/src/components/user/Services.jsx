@@ -96,7 +96,6 @@ const Services = () => {
         }
         reviewComentario(req, serviceId, commentId).then(() => {
             getAllServicesFromUser().then(() => {
-                const selectedService = services.filter((service) => service.id == serviceId)
                 const currentComments = comments.filter((comment) => comment.id != commentId)
                 setComments(currentComments)
             });
@@ -109,6 +108,19 @@ const Services = () => {
             return false
         }
         return service.comments.filter((comment) => comment.reviewed == false).length > 0
+    }
+
+    const getQualification = (service) => {
+        if(service.comments == null){
+            return ""
+        }
+        const comments = service.comments.filter((comment) => comment.reviewed == true)
+        let totalQ = 0
+        comments.forEach((comment) => totalQ += parseFloat(comment.qualification))
+        if(totalQ == 0){
+            return ""
+        }
+        return totalQ / comments.length
     }
 
     const renderServices = () => {
@@ -147,7 +159,7 @@ const Services = () => {
                             <p>{row.description}</p>
                         </TableCell>
                         <TableCell align="right">{row.frequency}</TableCell>
-                        <TableCell align="right">{row.qualification}</TableCell>
+                        <TableCell align="right">{getQualification(row)}</TableCell>
                         <TableCell align="right">{row.type}</TableCell>
                         {console.log("row.categories",row.categories)}
                         {console.log("categories",categories)}
@@ -163,7 +175,7 @@ const Services = () => {
                             <div style={{flexDirection:"row", display:"flex"}}>
                                 <Tooltip aria-label="Bold" title="Editar">
                                     <IconButton size="medium" onClick={() => openForEdit(row)}>
-                                        <EditIcon></EditIcon>
+                                        <EditIcon color="success"></EditIcon>
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip aria-label="Bold" title="Borrar">
