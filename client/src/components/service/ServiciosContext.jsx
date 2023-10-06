@@ -107,6 +107,38 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     })
   }
 
+  const guardarComentario = async (comentario, serviceId) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(comentario)
+    };
+    return await fetch("http://localhost:8080/api/services/"+serviceId+"/comment", requestOptions).then(async (data) => {
+      //let jsonData = await data.json();
+      //let serviceCreado = instantiateServicio(jsonData);
+      //return serviceCreado;
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
+
+  const reviewComentario = async (req, serviceId, commentID) => {
+    const requestOptions = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    };
+    return await fetch("http://localhost:8080/api/services/"+serviceId+"/comment/"+commentID, requestOptions).then(async (data) => {
+      //let jsonData = await data.json();
+      //let serviceCreado = instantiateServicio(jsonData);
+      //return serviceCreado;
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
+
   const context = {
     serviciosLoaded,
     serviciosListadoDB,
@@ -118,7 +150,9 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     obtenerServiciosPorCantidad,
     obtenerServiciosPorResponsable,
     guardarServicio,
-    actualizarServicio
+    actualizarServicio,
+    guardarComentario,
+    reviewComentario
   }
   return (
     <ServiciosContext.Provider value={context}>

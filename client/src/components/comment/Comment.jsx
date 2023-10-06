@@ -28,8 +28,6 @@ const Comment = ({comment, onSave, editMode}) => {
                 </div>
                 <p style={{ textAlign: "left" }}>{comment.message}</p>
                 <div style={{flexDirection: "row", justifyContent:"space-evenly", width:"25%"}}>
-                    <Button variant="contained" color="success" type="submit" style={{justifyContent:"space-evenly"}}>Enviar</Button>
-                    <Button variant="contained" color="success" type="submit" style={{justifyContent:"space-evenly"}}>Enviar</Button>
                 </div>
             </div>
         } else {

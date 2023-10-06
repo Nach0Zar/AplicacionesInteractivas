@@ -27,18 +27,20 @@ const Services = () => {
     const [comprasListadas, setComprasListadas] = useState(false);
     const [serviceToEdit, setServiceToEdit] = useState({})
     const [comments, setComments] = useState([])
+    const [pendingCommentsServiceId, setPendingCommentsServiceId] = useState("")
     const [edicion, setEdicion] = useState(false)
     const [show, setShow] = useState(false);
     const [onSave, setOnSave] = useState()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const getAllServicesFromUser = async () => {
+        let listadoDB = await obtenerServiciosPorResponsable(usuario.id);
+        setServices(listadoDB);
+        setComprasListadas(true);
+    }
+
     useEffect(() => {
-        const getAllServicesFromUser = async () => {
-            let listadoDB = await obtenerServiciosPorResponsable(usuario.id);
-            setServices(listadoDB);
-            setComprasListadas(true);
-        }
         if (isLoggedIn && !comprasListadas){
             getAllServicesFromUser();
         }
@@ -68,8 +70,9 @@ const Services = () => {
     }
 
     const onPendingComments = (service) =>{
-        console.log(service.comments)
+        setPendingCommentsServiceId(service.id)
         setComments(service.comments)
+        console.log(pendingCommentsServiceId)
     }
 
     const onDeleteService = (servicio) => {
@@ -156,7 +159,7 @@ const Services = () => {
             </div>
             <div className="containerServices">
             <div className='servicesDiv'>
-                    <PendingComments comments={comments}></PendingComments>
+                    <PendingComments serviceComments={comments} serviceId={pendingCommentsServiceId}></PendingComments>
                 </div>
             </div>
         <hr />

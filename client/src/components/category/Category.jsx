@@ -22,7 +22,8 @@ const CategoryItems = () => {
 
 
   useEffect(() => {
-    const handleFiltering = (services) => {
+    const handleFiltering = (allServices) => {
+      let services = allServices.filter((service) => service.published)
       if(type !== null){
         services = services.filter((service) => (service.type === type))
       }

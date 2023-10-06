@@ -22,6 +22,7 @@ const ModalServiceForm = (props) => {
     const [categories, setCategories] = useState([])
     const [price, setPrice] = useState("")
     const [published, setPublished] = useState(false)
+    const [duration, setDuration] = useState()
     
     useEffect(() => {
         console.log(props.service)
@@ -33,11 +34,13 @@ const ModalServiceForm = (props) => {
         setType(props.service.type !== null ? props.service.type : "")
         setCategories(props.service.categories !== null ? props.service.categories : [])
         setPrice(props.service.price !== null ? props.service.price : "")
-        setPublished(props.service.published !== null ? props.service.published : false)        
+        setPublished(props.service.published !== null ? props.service.published : false)
+        setDuration(props.service.duration !== null ? props.service.duration : "")        
     }, [props.service, props.edicion, props.onSave])
     const realizarAccion = (e) => {
         e.preventDefault()
-        const { name, description, frequency, type, categories, price, published} = e.target.elements
+        const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
+        console.log(duration)
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         let conFom = {
             name: name.value,
@@ -47,7 +50,8 @@ const ModalServiceForm = (props) => {
             categories: selectedCategories,
             price: price.value,
             published: published.checked,
-            id: props.service.id
+            id: props.service.id,
+            duration: duration.value
         }
         props.onSave(conFom)
         swal("Operacion Exitosa")
@@ -77,6 +81,14 @@ const ModalServiceForm = (props) => {
                                 <span className="input-group-text" id="basic-addon1">Descripcion</span>
                             </div>
                         <input type="text" className="form-control" placeholder="Descripcion de tu servicio" name="description" defaultValue={description}/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group mb-1">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Duracion</span>
+                            </div>
+                        <input type="number" className="form-control" placeholder="Duracion de tu servicio" name="duration" defaultValue={duration}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -127,7 +139,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Marcar como Publicado</span>
                             </div>
-                        <Checkbox checked={published} name='published'></Checkbox>
+                        <input type="checkbox" defaultChecked={published} name='published'/>
                         </div>
                     </div>
             </div>

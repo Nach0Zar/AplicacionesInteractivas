@@ -15,7 +15,7 @@ const ServicePage = () => {
 var {serviceID} = useParams();
 const { usuario } = useUsuario();
 const { obtenerCategoriasPorServicio } = useCategorias();
-const { obtenerServicioPorID } = useServicios();
+const { obtenerServicioPorID, guardarComentario } = useServicios();
 const { isInCart, addItem, removeItem} = useCart();
 const [servicioCapturado, setServicioCapturado] = useState([]);
 const [categoriasItem, setCategoriasItem] = useState([]);
@@ -27,13 +27,13 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 const idStlye = "boton"+serviceID;
+
+const getItemByID = new Promise((resolve) => {
+  resolve(obtenerServicioPorID(serviceID));
+})
+
 useEffect(() => {
-  let getItemByID = new Promise((resolve) => {
-    resolve(obtenerServicioPorID(serviceID));
-  })
-  
-  getItemByID.then((data)=> {
-    console.log(data)
+    getItemByID.then((data)=> {
     setServicioCapturado(data);
     setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
     try{
@@ -61,7 +61,12 @@ useEffect(() => {
   
   const handleNewComment = (newComment) => {
     //llamar servicio
-    setCommentsItem(current => [...current, newComment])
+    console.log(newComment)
+    guardarComentario(newComment, serviceID).then(() => {
+      getItemByID.then((data) => {
+        setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
+      })
+    })
   }
 
   

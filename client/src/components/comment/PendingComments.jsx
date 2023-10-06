@@ -17,23 +17,36 @@ import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
-const PendingComments = (serviceComments) => {
+const PendingComments = (props) => {
     const { usuario, instantiateUser, updateUser} = useUsuario();
+    const { reviewComentario } = useServicios();
     const isLoggedIn = !(usuario === null);
-    const [comments, setComments] = useState(serviceComments);
     const [filteredComments, setFilteredComments] = useState([])
+    const [commentServiceId, setCommentServiceId] = useState()
     useEffect(() => {
+            let serviceComments = props.serviceComments
+            let serviceId = props.serviceId
+            console.log("dentro del effect, " + serviceId)
+            console.log(serviceComments)
             let allComments = serviceComments !== null ? serviceComments : []
-            allComments = serviceComments.comments.filter(comment => comment.reviewed == false)
+            allComments = serviceComments.filter(comment => comment.reviewed == false)
             setFilteredComments(allComments)
-    }, [serviceComments])
+            setCommentServiceId(serviceId)
+    }, [props.serviceComments, props.serviceId])
 
     const handleAccept = (comment) => {
-
+        console.log(commentServiceId)
+        const req = {
+            accepted: true
+        }
+        reviewComentario(req, commentServiceId, comment.id)
     }
 
     const handleBlock = (comment) => {
-
+        const req = {
+            accepted: false
+        }
+        reviewComentario(req, commentServiceId, comment.id)
     }
     
     return <div style={{justifyContent: "center", alignContent: "center"}}>
@@ -51,22 +64,22 @@ const PendingComments = (serviceComments) => {
                     </TableRow>
                     </TableHead>
                     <TableBody placeholder="No hay comentarios">
-                    {filteredComments.map((row) => (
-                        <TableRow key={row.id}>
-                        <TableCell align="right">{row.user}</TableCell>
+                    {filteredComments.map((comment) => (
+                        <TableRow key={comment.id}>
+                        <TableCell align="right">{comment.user}</TableCell>
                         <TableCell sx={{wordBreak:"break-word", maxWidth: "500px"}} align="left">
-                            <p>{row.message}</p>
+                            <p>{comment.message}</p>
                         </TableCell>
-                        <TableCell align="right">{row.qualification}</TableCell>
+                        <TableCell align="right">{comment.qualification}</TableCell>
                         <TableCell align="center">
                             <div style={{flexDirection:"row", display:"flex"}}>
                                 <Tooltip aria-label="Bold" title="Aceptar">
-                                    <IconButton size="medium" onClick={() => handleAccept(row)}>
+                                    <IconButton size="medium" onClick={() => handleAccept(comment)}>
                                         <CheckIcon color="success"></CheckIcon>
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip aria-label="Bold" title="Rechazar">
-                                    <IconButton size="medium" onClick={() => handleBlock(row)}>
+                                    <IconButton size="medium" onClick={() => handleBlock(comment)}>
                                         <CloseIcon color="error"></CloseIcon>
                                     </IconButton>
                                 </Tooltip>
