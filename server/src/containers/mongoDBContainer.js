@@ -6,15 +6,11 @@ export default class MongoDBContainer {
     }
     async save(object) {
         delete object.id;//removes the object ID
-        console.log(object)
         return (await this.items.insertOne(object)).insertedId.toString()
     }
     async getItemByID(idItem) {
-        console.log("db criterio")
         let criterio = { _id: ObjectId(idItem) };
-        
         let item = await this.items.find(criterio).toArray();
-        console.log("db item")
         if(!item.toString()){//to check if no doc was found
             return null;
         }
@@ -52,7 +48,6 @@ export default class MongoDBContainer {
     async addComment(serviceId, newComment) {
         const service = await this.getItemByID(serviceId)
         delete service.id;
-        console.log(service)
         service.comments.push(newComment)
         let query = await this.items.updateOne({ _id: ObjectId(serviceId) }, { $set: service });
         return (query.modifiedCount > 0);

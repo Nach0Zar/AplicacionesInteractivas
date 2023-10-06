@@ -33,10 +33,21 @@ class UserController{
         logger.info(`POST REQUEST successful for logging out user`);
         res.sendStatus(200);
     }
-    controllerGetUserInformation = async (req, res, next) => {
+    controllerGetCurrentUser = async (req, res, next) => {
         try{
             let userInformation = await userService.getUserInformation(req.cookies.email);
             logger.info(`GET REQUEST successful for getting the information of user ${req.cookies.email}`);
+            delete userInformation.password;
+            res.status(200).json(userInformation);
+        }
+        catch(error){
+            next(error);
+        }
+    }
+    controllerGetUserInformation = async (req, res, next) => {
+        try{
+            let userInformation = await userService.getUserByID(req.params.id);
+            logger.info(`GET REQUEST successful for getting the information of user ${req.params.id}`);
             delete userInformation.password;
             res.status(200).json(userInformation);
         }

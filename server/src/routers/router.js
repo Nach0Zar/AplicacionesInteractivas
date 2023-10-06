@@ -13,7 +13,8 @@ import { postImage } from '../middlewares/imageHandler.js';
 
 const routerAPI = express.Router();
 //users
-routerAPI.get('/users',checkUserLogged,userController.controllerGetUserInformation);
+routerAPI.get('/users',checkUserLogged,userController.controllerGetCurrentUser);
+routerAPI.get('/users/information/:id',userController.controllerGetUserInformation);
 routerAPI.post('/users', userController.controllerPostRegisterUser);
 routerAPI.post('/users/:id', userController.controllerPostUpdateUser);
 routerAPI.get('/users/:email', userController.controllerGetUserExisting);

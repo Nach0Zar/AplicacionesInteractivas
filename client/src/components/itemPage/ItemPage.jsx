@@ -30,13 +30,11 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 useEffect(() => {
-  console.log("entre")
   const getItemByID = new Promise((resolve) => {
     resolve(getClase("a"));
   })
 
   getItemByID.then((data) => {
-    console.log(data)
     setArticuloCapturado(data)
     setCategoriasItem(data.category)
     setComentarios(data.comments)

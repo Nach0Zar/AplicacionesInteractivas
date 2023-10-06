@@ -16,6 +16,7 @@ import { Button, IconButton, Paper, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Edit } from '@mui/icons-material';
+import { useCategorias } from '../category/CategoryContext';
 import CommentIcon from '@mui/icons-material/Comment';
 import PendingComments from '../comment/PendingComments';
 import swal from 'sweetalert';
@@ -28,6 +29,8 @@ const Services = () => {
     const [comprasListadas, setComprasListadas] = useState(false);
     const [serviceToEdit, setServiceToEdit] = useState({})
     const [comments, setComments] = useState([])
+    const { categoriasListadoDB } = useCategorias();
+    const [categories, setCategories] = useState(categoriasListadoDB);
     const [pendingCommentsServiceId, setPendingCommentsServiceId] = useState("")
     const [edicion, setEdicion] = useState(false)
     const [show, setShow] = useState(false);
@@ -39,7 +42,6 @@ const Services = () => {
         let listadoDB = await obtenerServiciosPorResponsable(usuario.id);
         setServices(listadoDB);
     }
-
     useEffect(() => {
         if (isLoggedIn && !comprasListadas){
             getAllServicesFromUser();
@@ -48,7 +50,6 @@ const Services = () => {
     }, [services, isLoggedIn, comprasListadas, usuario, obtenerServiciosPorResponsable])
 
     const onCreateService = (newService) => {
-        console.log("voy a crear")
         newService.responsible = usuario.id
         guardarServicio(newService).then(() => {
             getAllServicesFromUser();
@@ -56,7 +57,6 @@ const Services = () => {
     }
 
     const onEditService = (updatedService) => {
-        console.log("voy a editar")
         actualizarServicio(updatedService)
         getAllServicesFromUser();
     }
@@ -79,8 +79,6 @@ const Services = () => {
     }
 
     const onDeleteService = (servicio) => {
-        console.log("servicio a borrar : ")
-        console.log(servicio)
         borrarServicio(servicio.id).then(() => {
             getAllServicesFromUser();
         })
@@ -134,7 +132,16 @@ const Services = () => {
                         <TableCell align="right">{row.frequency}</TableCell>
                         <TableCell align="right">{row.qualification}</TableCell>
                         <TableCell align="right">{row.type}</TableCell>
-                        <TableCell align="right">Historia</TableCell>
+                        {console.log("row.categories",row.categories)}
+                        {console.log("categories",categories)}
+                        <TableCell align="right">{row.categories.map((id) => {
+                                                                                const matchingObject = categories.find((obj) => obj.id === id);
+                                                                                console.log("matchingObject",matchingObject)
+                                                                                if(matchingObject == undefined) {
+                                                                                    console.log(id)
+                                                                                }
+                                                                                return matchingObject ? matchingObject.name : "";
+                                                                            }).join(', ')}</TableCell>
                         <TableCell align="right">{row.price}</TableCell>
                         <TableCell align="center">
                             <div style={{flexDirection:"row", display:"flex"}}>

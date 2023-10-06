@@ -1,5 +1,4 @@
 import orderService from '../services/orderService.js';
-import userService from '../services/userService.js';
 import logger from '../utils/logger.js';
 
 let instance = null;

@@ -36,7 +36,6 @@ const Order = (props) => {
   
   
   useEffect(() => {
-    console.log("triggered")
     if(!listedOrder){
       setOrder(props.order);
       setOrderStatus(props.order.status)
@@ -48,7 +47,7 @@ const Order = (props) => {
     <div className="order">
       <h2>ID de orden: {order.id}</h2>
       <h4>Fecha de orden: {order.timestamp}</h4>
-      <h4>Nombre y apellido del solicitante: {order.applicant.name} {order.applicant.lastname}</h4>
+      <h4>Servicio solicitado: {order.service.name}</h4>
       <h4>Email del solicitante: {order.applicant.email}</h4>
       <h4>Telefono del solicitante: {order.applicant.phone}</h4>
       <h4>Mensaje: {order.message}</h4>

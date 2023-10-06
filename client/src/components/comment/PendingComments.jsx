@@ -27,8 +27,6 @@ const PendingComments = (props) => {
     useEffect(() => {
             let serviceComments = props.serviceComments
             let serviceId = props.serviceId
-            console.log("dentro del effect, " + serviceId)
-            console.log(serviceComments)
             let allComments = serviceComments !== null ? serviceComments : []
             allComments = serviceComments.filter(comment => comment.reviewed == false)
             setFilteredComments(allComments)
@@ -36,13 +34,10 @@ const PendingComments = (props) => {
     }, [props.serviceComments, props.serviceId])
 
     const handleAccept = (comment) => {
-        console.log(commentServiceId)
         props.onSave(commentServiceId, comment.id, true)
     }
 
     const handleBlock = (comment) => {
-        console.log("envio id; ")
-        console.log(commentServiceId)
         props.onSave(commentServiceId, comment.id, false)
     }
     

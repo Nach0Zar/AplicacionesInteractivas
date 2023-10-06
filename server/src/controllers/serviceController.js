@@ -58,10 +58,8 @@ class ServiceController{
     controllerPatchService = async (req, res, next) => {
         try{
             let serviceId = req.params.id
-            console.log(serviceId)
             await serviceService.updateService(serviceId, req.body.name, req.body.price, req.body.image, req.body.description, req.body.categories, 
                                                             req.body.duration, req.body.frequency, req.body.published);
-            console.log("guarde :)")
             logger.info(`PATCH REQUEST successful for service ${serviceId}`);
             res.status(200).json({message: `The service with ID ${serviceId} was updated to the catalog.`});
         }
@@ -72,9 +70,7 @@ class ServiceController{
     controllerDeleteService = async (req, res, next) => {
         try{
             let serviceId = req.params.id
-            console.log(serviceId)
             await serviceService.deleteService(serviceId);
-            console.log("guarde :)")
             logger.info(`DELETE REQUEST successful for service ${serviceId}`);
             res.status(200).json({message: `The service with ID ${serviceId} was deleted from the catalog.`});
         }
@@ -100,7 +96,6 @@ class ServiceController{
             let commentId = req.params.commentId
             let accepted = req.body.accepted
             await serviceService.reviewComment(serviceId, commentId, accepted);
-            console.log("guarde :)")
             logger.info(`PATCH REQUEST successful for service ${serviceId} and comment ${commentId}`);
             res.status(200).json({message: `The comment with ID ${commentId} was updated to the catalog.`});
         }

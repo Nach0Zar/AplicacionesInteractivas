@@ -134,6 +134,13 @@ class UserService{
             throw new Error(error, 'INTERNAL_ERROR')
         });
     }
+    getUserByID = async (userID) => {
+        let user = await this.container.getItemByID(userID)
+        if(!user){
+            throw new Error(`No user was found with the id ${userID}`, 'NOT_FOUND')
+        }
+        return user.toDTO();
+    }
     static getInstance(){
         if(!instance){
             instance = new UserService();

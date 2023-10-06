@@ -13,7 +13,6 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     return new Servicio (servicio)
   }
   const crearServicios = async (listadoDB) => {
-    console.log(listadoDB)
     var serviciosLista = [];
     listadoDB.forEach((servicio)=>{
       const servicioObjeto = instantiateServicio(servicio);
@@ -42,7 +41,6 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(servicio)
     };
-    console.log(servicio)
     return await fetch("http://localhost:8080/api/services/"+servicio.id, requestOptions).then(async (data) => {
       // let jsonData = await data.json();
       // let serviceCreado = instantiateServicio(jsonData);

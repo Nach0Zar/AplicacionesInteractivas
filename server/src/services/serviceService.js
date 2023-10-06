@@ -35,7 +35,6 @@ class ServiceService{
     }
     createService = async (name, price, image, description, categories, responsible, duration, frequency, comments, qualification, published, type) => {
         //TODO serviceDataValidation(name, price, image, description, categories, responsible, duration, frequency, comments, qualification);
-        console.log(type)
         let newService = new Service({
             name: name, 
             price: +price, 
@@ -81,7 +80,6 @@ class ServiceService{
         }
     }
     reviewComment = async(serviceId, commentId, accepted) => {
-        console.log(serviceId)
         let toUpdate = (await this.container.getItemByID(serviceId)).toDTO();
         let newCommentsArray
         if(accepted) {

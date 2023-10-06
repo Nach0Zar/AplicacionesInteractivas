@@ -131,6 +131,24 @@ const UsuarioContext = React.createContext([]);
         return undefined;
       })
     }
+
+    const getUserByID = async (id) => {
+      return await fetch("http://localhost:8080/api/users/information/"+id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        credentials: 'include'
+      }).then(async (response) => {
+        if(!(response.ok)){
+          return undefined;
+        }
+        return await response.json();
+      }).catch((err)=>{
+        console.log("User check validation failed with error: "+err);
+        return undefined;
+      })
+    }
     
     const context = {
       usuario,
@@ -140,7 +158,8 @@ const UsuarioContext = React.createContext([]);
       instantiateUser,
       updateUser,
       checkExistingUser,
-      desloguearUser
+      desloguearUser,
+      getUserByID
     }
     
   return (

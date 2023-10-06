@@ -6,6 +6,7 @@ import { Usuario } from '../imports/classes';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '@mui/material/Checkbox';
 import swal from 'sweetalert';
+import { useCategorias } from '../category/CategoryContext';
 
 const ModalServiceForm = (props) => {
     let navigate = useNavigate();
@@ -13,34 +14,33 @@ const ModalServiceForm = (props) => {
     const handleClose = props.onHide;
     const [usuarioDatos, setUsuarioDatos] = useState('');
     const { usuario } = useUsuario();
+    const { categoriasListadoDB } = useCategorias();
     const [service, setService] = useState(props.service)
     const [edicion, setEdicion] = useState(props.edicion)
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [frequency, setFrequency] = useState("")
     const [type, setType] = useState("")
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState(categoriasListadoDB)
     const [price, setPrice] = useState("")
     const [published, setPublished] = useState(false)
     const [duration, setDuration] = useState()
     
     useEffect(() => {
-        console.log(props.service)
         setService(props.service)
         setEdicion(props.edicion)
         setName(props.service.name !== null ? props.service.name : "")
         setDescription(props.service.description !== null ? props.service.description : "")
         setFrequency(props.service.frequency !== null ? props.service.frequency : "")
         setType(props.service.type !== null ? props.service.type : "")
-        setCategories(props.service.categories !== null ? props.service.categories : [])
+        setCategories(props.service.categories !== undefined ? props.service.categories : categoriasListadoDB)
         setPrice(props.service.price !== null ? props.service.price : "")
         setPublished(props.service.published !== null ? props.service.published : false)
         setDuration(props.service.duration !== null ? props.service.duration : "")        
-    }, [props.service, props.edicion, props.onSave])
+    }, [props.service, props.edicion, props.onSave, categoriasListadoDB])
     const realizarAccion = (e) => {
         e.preventDefault()
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
-        console.log(duration)
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         let conFom = {
             name: name.value,
@@ -54,7 +54,7 @@ const ModalServiceForm = (props) => {
             duration: duration.value
         }
         props.onSave(conFom)
-        swal("Operacion Exitosa", "", "success")
+        swal("Operacion exitosa!","", "success");
         handleClose()
     }
   return (
@@ -119,11 +119,13 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Categorias</span>
                             </div>
-                        <select className="form-control" defaultValue={categories} name='categories' multiple={true}>
-                            <option value="Historia">Historia</option>
-                            <option value="Matematica">Matematica</option>
-                            <option value="Lengua">Lengua</option>
-                        </select>
+                            <select className="form-control" defaultValue={categories} name='categories' multiple={true}>
+                            {
+                            categoriasListadoDB.map((category)=>
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            )
+                            }
+                            </select>
                         </div>
                     </div>
                     <div className="form-group">
