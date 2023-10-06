@@ -41,6 +41,7 @@ routerAPI.post('/images', postImage('file'), imageController.controllerPostImage
 routerAPI.get('/services', serviceController.controllerGetAllServices);
 routerAPI.get('/services/:id', serviceController.controllerGetServiceByID);
 routerAPI.patch('/services/:id', serviceController.controllerPatchService);
+routerAPI.delete('/services/:id', serviceController.controllerDeleteService);
 routerAPI.patch('/services/:serviceID/comment/:commentId', serviceController.controllerReviewCommentService);
 routerAPI.post('/services/:serviceID/comment', serviceController.controllerPostComment);
 routerAPI.post('/services', serviceController.controllerPostService);

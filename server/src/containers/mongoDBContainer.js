@@ -10,8 +10,11 @@ export default class MongoDBContainer {
         return (await this.items.insertOne(object)).insertedId.toString()
     }
     async getItemByID(idItem) {
+        console.log("db criterio")
         let criterio = { _id: ObjectId(idItem) };
+        
         let item = await this.items.find(criterio).toArray();
+        console.log("db item")
         if(!item.toString()){//to check if no doc was found
             return null;
         }

@@ -74,6 +74,12 @@ class ServiceService{
             throw new Error("There was an error updating the service, nothing impacted", "NOT_FOUND")
         }
     }
+    deleteService = async(id) => {
+        let count = await this.container.deleteByID(id)
+        if(count == 0) {
+            throw new Error("There was an error deleting the service, nothing impacted", "NOT_FOUND")
+        }
+    }
     reviewComment = async(serviceId, commentId, accepted) => {
         console.log(serviceId)
         let toUpdate = (await this.container.getItemByID(serviceId)).toDTO();

@@ -69,6 +69,19 @@ class ServiceController{
             next(error);
         }
     }
+    controllerDeleteService = async (req, res, next) => {
+        try{
+            let serviceId = req.params.id
+            console.log(serviceId)
+            await serviceService.deleteService(serviceId);
+            console.log("guarde :)")
+            logger.info(`DELETE REQUEST successful for service ${serviceId}`);
+            res.status(200).json({message: `The service with ID ${serviceId} was deleted from the catalog.`});
+        }
+        catch(error){
+            next(error);
+        }
+    }
     controllerPostComment = async (req, res, next) => {
         try{
             let serviceId = req.params.serviceID
