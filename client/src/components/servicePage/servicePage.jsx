@@ -36,7 +36,7 @@ useEffect(() => {
       obtenerServicioPorID(serviceID).then((data)=> {
         setServicioCapturado(data);
         setServiceLoaded(true);
-        setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
+        setCommentsItem(data.comments.filter(comment => comment.reviewed === true))
         try{
           setImage(require("../../images/services/"+data.image));
         }
@@ -73,7 +73,7 @@ useEffect(() => {
   }
 
   const renderComments = () => {
-    if(commentsItem.length == 0) {
+    if(commentsItem.length === 0) {
       return <h1>No hay comentarios para este servicio</h1>
     }
     return <div>

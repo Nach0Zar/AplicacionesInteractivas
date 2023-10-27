@@ -3,7 +3,7 @@ import { Error } from "../error/error.js";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'src/temp/images');
+        cb(null, 'src/images');
     },
     filename: function (req, file, cb) {
         let extension = file.originalname.split('.').pop();

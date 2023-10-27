@@ -51,12 +51,12 @@ class OrderService{
         // mailer.send({
         //     to: config.MAIL_ADMIN,
         //     subject: `New purchase order: ${user.name} ${user.lastname} - ${userEmail}`,
-        //     text: `Products purchased: ${productsBougthNames.join(", ")}`
+        //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
         // })
         // mailer.send({
         //     to: userEmail,
         //     subject: `Purchase order processed!`,
-        //     text: `Products purchased: ${productsBougthNames.join(", ")}`
+        //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
         // })
         let orderID = await this.container.save(orderObject);
         return orderID;

@@ -8,7 +8,7 @@ class User{
     #phone
     #title
     #experience
-    constructor({email, password, name, lastname, cart, phone, title, experience, id = randomUUID()}){
+    constructor({email, password, name, lastname, phone, title, experience, id = randomUUID()}){
         this.#email = email;
         this.#password = password;
         this.#name = name;
