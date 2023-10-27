@@ -2,12 +2,10 @@ import './App.css';
 import Footer from './components/main/Footer';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './components/home/Home';
-import ItemPage from './components/itemPage/ItemPage';
 import CategoryItems from './components/category/Category';
 import Header from './components/main/Header';
 import { useEffect } from 'react';
 import LoadingComponent from './components/main/LoadingComponent';
-import { useArticulos } from './components/listing/ItemsContext';
 import { useCategorias } from './components/category/CategoryContext';
 import { useServicios } from './components/service/ServiciosContext';
 import Register from './components/register/Register';
@@ -23,17 +21,10 @@ import Orders from './components/order/Orders';
 
 
 function App() {
-  const { articulosLoaded, cargarArticulos } = useArticulos();
   const { serviciosLoaded, cargarServicios } = useServicios();
   const { categoriasLoaded, cargarCategorias } = useCategorias();
 
   useEffect(() => {
-    if(!articulosLoaded){
-      let promise = new Promise((resolve) => {
-        resolve(cargarArticulos())
-      })
-      promise.then().catch((err)=>console.log(err));
-    }
     if(!categoriasLoaded){
       let promise = new Promise((resolve) => {
         resolve(cargarCategorias())
@@ -46,7 +37,7 @@ function App() {
       })
       promise.then().catch((err)=>console.log(err));
     }
-  }, [articulosLoaded, categoriasLoaded, serviciosLoaded, cargarArticulos, cargarCategorias, cargarServicios])
+  }, [categoriasLoaded, serviciosLoaded, cargarCategorias, cargarServicios])
 
 if(!serviciosLoaded || !categoriasLoaded){ 
   return(<LoadingComponent />)} 
@@ -60,7 +51,6 @@ else
             <Route exact path="/" element={ <Home />} />
             <Route exact path="/" element={ <Home />} />
             <Route path="/service/:serviceID" element={ <ServicePage />} />
-            <Route path="/itemPage/:itemId" element={ <ItemPage />} />
             <Route path="/category" element={ <CategoryItems />}/>
             <Route path="/category/:categoryId" element={ <CategoryItems />}/>
             <Route exact path="/register" element={ <Register />}/>

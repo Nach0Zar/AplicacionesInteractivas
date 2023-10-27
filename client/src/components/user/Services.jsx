@@ -161,8 +161,6 @@ const Services = () => {
                         <TableCell align="right">{row.frequency}</TableCell>
                         <TableCell align="right">{getQualification(row)}</TableCell>
                         <TableCell align="right">{row.type}</TableCell>
-                        {console.log("row.categories",row.categories)}
-                        {console.log("categories",categories)}
                         <TableCell align="right">{row.categories.map((id) => {
                                                                                 const matchingObject = categories.find((obj) => obj.id === id);
                                                                                 if(matchingObject == undefined) {

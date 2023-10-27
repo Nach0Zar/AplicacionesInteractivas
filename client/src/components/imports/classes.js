@@ -1,26 +1,3 @@
-export class Articulo{
-    static idCounter = 0;
-    constructor(id, nombreArticulo, descripcion, precio, imgSrc, categorias, cantidad, stock){
-        if (id === -1){ 
-            this.id = Articulo.getIdCounter();
-        } 
-        else {
-            this.id = id;
-        }
-        Articulo.idCounter++;
-        this.nombreArticulo = nombreArticulo;
-        this.descripcion = descripcion;
-        this.precio = parseInt(precio);
-        this.imgSrc = imgSrc;
-        this.cantidad = cantidad;
-        this.categorias = categorias;
-        this.stock = stock;
-    }
-    static getIdCounter(){
-        return Articulo.idCounter;
-    }
-}
-
 export class Servicio{
     static idCounter = 0;
     constructor({id, name, description, price, responsible, categories, 

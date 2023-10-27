@@ -46,12 +46,10 @@ const ModalServiceForm = (props) => {
         e.preventDefault()
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
-        console.log(description)
         if(isBlank(name.value) || isBlank(description.value) || isBlank(frequency.value) || isBlank(duration.value) || isBlank(price.value)){
             swal("Error de validacion, revise los campos","", "error");
         }
         else {
-            console.log(type.value)
             let conFom = {
                 name: name.value,
                 description: description.value,

@@ -34,7 +34,6 @@ const getItemByID = new Promise((resolve) => {
 useEffect(() => {
     getItemByID.then((data)=> {
       setServicioCapturado(data);
-      console.log(data)
       setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
       try{
         setImage(require("../../images/services/"+data.image));
