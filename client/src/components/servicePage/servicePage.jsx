@@ -19,6 +19,7 @@ const { obtenerServicioPorID, guardarComentario } = useServicios();
 const [servicioCapturado, setServicioCapturado] = useState([]);
 const [serviceLoaded, setServiceLoaded] = useState(false);
 const [categoriasItem, setCategoriasItem] = useState([]);
+const [categoriasLoaded, setCategoriasLoaded] = useState(false);
 const [commentsItem, setCommentsItem] = useState([]);
 const [image, setImage] = useState("");
 const [responsible, setResponsible] = useState("");
@@ -29,8 +30,6 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 const idStlye = "boton"+serviceID;
-
-
 
 useEffect(() => {
     if(!serviceLoaded){
@@ -45,27 +44,27 @@ useEffect(() => {
           setImage(require("../../images/services/default.jpg"));
         }
         if(!responsibleLoaded){
-          getUserByID(data.responsible).then((data)=> {
-            setResponsible(data.name + " " + data.lastname)
-            setExperience(data.experience)
-            setTitle(data.title)
+          getUserByID(data.responsible).then((user)=> {
+            setResponsible(user.name + " " + user.lastname);
+            setExperience(user.experience);
+            setTitle(user.title);
+            setResponsibleLoaded(true);
           })
           .catch((err)=>console.log(err));
         }
-        const getCategoryByID = new Promise((resolve) => {
-          resolve(obtenerCategoriasPorServicio(data));
-        });
-        getCategoryByID.then((data)=> {
-          setCategoriasItem(data)
-        })
-        .catch((err)=>console.log(err));
-        
+        if(!categoriasLoaded){
+          obtenerCategoriasPorServicio(data).then((categories)=> {
+            setCategoriasItem(categories)
+            setCategoriasLoaded(true);
+          })
+          .catch((err)=>console.log(err));
+        }
     }).catch((err)=>{
       console.log(err)
       swal("Item no encontrado","El item no fue encontrado. "+err,"error")
     });
     }
-}, [serviceID, obtenerCategoriasPorServicio, obtenerServicioPorID, serviceLoaded, responsibleLoaded, getUserByID]);
+}, [serviceID, obtenerCategoriasPorServicio, obtenerServicioPorID, serviceLoaded, responsibleLoaded, getUserByID, categoriasLoaded]);
   
   const handleNewComment = (newComment) => {
     guardarComentario(newComment, serviceID).then(() => {
@@ -91,7 +90,7 @@ useEffect(() => {
     </div>
   }
 
-  if(!serviceLoaded || !responsibleLoaded){ 
+  if(!serviceLoaded || !responsibleLoaded || !categoriasLoaded){ 
     return(<LoadingComponent />)} 
   else return(
     <main>
