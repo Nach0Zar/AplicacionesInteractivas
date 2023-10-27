@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useServicios } from '../service/ServiciosContext';
 import { useCategorias } from '../category/CategoryContext';
 import { useUsuario } from '../user/UserContext';
+import LoadingComponent from '../main/LoadingComponent';
 import ModalContactForm from "../contactForm/ModalContactForm"
-import { Divider, Avatar, Grid, Paper, Rating } from "@mui/material";
+import { Paper } from "@mui/material";
 import Comment from "../comment/Comment"
 import swal from 'sweetalert';
 import './style.scss';
@@ -16,10 +17,12 @@ const { getUserByID } = useUsuario();
 const { obtenerCategoriasPorServicio } = useCategorias();
 const { obtenerServicioPorID, guardarComentario } = useServicios();
 const [servicioCapturado, setServicioCapturado] = useState([]);
+const [serviceLoaded, setServiceLoaded] = useState(false);
 const [categoriasItem, setCategoriasItem] = useState([]);
 const [commentsItem, setCommentsItem] = useState([]);
 const [image, setImage] = useState("");
 const [responsible, setResponsible] = useState("");
+const [responsibleLoaded, setResponsibleLoaded] = useState(false);
 const [title, setTitle] = useState("");
 const [experience, setExperience] = useState("");
 const [show, setShow] = useState(false);
@@ -27,55 +30,48 @@ const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 const idStlye = "boton"+serviceID;
 
-const getItemByID = new Promise((resolve) => {
-  resolve(obtenerServicioPorID(serviceID));
-})
+
 
 useEffect(() => {
-    getItemByID.then((data)=> {
-      setServicioCapturado(data);
-      setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
-      try{
-        setImage(require("../../images/services/"+data.image));
-      }
-      catch{
-        setImage(require("../../images/services/default.jpg"));
-      }
-      
-      const getResponsible = new Promise((resolve) => {
-        resolve(getUserByID(data.responsible));
-      });
-      getResponsible.then((data)=> {
-        setResponsible(data.name + " " + data.lastname)
-        setExperience(data.experience)
-        setTitle(data.title)
-      })
-      .catch((err)=>console.log(err));
-      const getCategoryByID = new Promise((resolve) => {
-        resolve(obtenerCategoriasPorServicio(data));
-      });
-      getCategoryByID.then((data)=> {
-        setCategoriasItem(data)
-      })
-      .catch((err)=>console.log(err));
-      
-  }).catch((err)=>{
-    console.log(err)
-    swal("Item no encontrado","El item no fue encontrado. "+err,"error")
-  });
-}, [serviceID, obtenerCategoriasPorServicio, obtenerServicioPorID]);
+    if(!serviceLoaded){
+      obtenerServicioPorID(serviceID).then((data)=> {
+        setServicioCapturado(data);
+        setServiceLoaded(true);
+        setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
+        try{
+          setImage(require("../../images/services/"+data.image));
+        }
+        catch{
+          setImage(require("../../images/services/default.jpg"));
+        }
+        if(!responsibleLoaded){
+          getUserByID(data.responsible).then((data)=> {
+            setResponsible(data.name + " " + data.lastname)
+            setExperience(data.experience)
+            setTitle(data.title)
+          })
+          .catch((err)=>console.log(err));
+        }
+        const getCategoryByID = new Promise((resolve) => {
+          resolve(obtenerCategoriasPorServicio(data));
+        });
+        getCategoryByID.then((data)=> {
+          setCategoriasItem(data)
+        })
+        .catch((err)=>console.log(err));
+        
+    }).catch((err)=>{
+      console.log(err)
+      swal("Item no encontrado","El item no fue encontrado. "+err,"error")
+    });
+    }
+}, [serviceID, obtenerCategoriasPorServicio, obtenerServicioPorID, serviceLoaded, responsibleLoaded, getUserByID]);
   
   const handleNewComment = (newComment) => {
-    //llamar servicio
     guardarComentario(newComment, serviceID).then(() => {
-      getItemByID.then((data) => {
-        setCommentsItem(data.comments.filter(comment => comment.reviewed == true))
         swal("Su comentario ha sido creado", "Debera ser revisado por el profesor antes de ser publicado", "success")
-      })
     })
   }
-
-  
 
   const renderComments = () => {
     if(commentsItem.length == 0) {
@@ -95,7 +91,9 @@ useEffect(() => {
     </div>
   }
 
-  return (
+  if(!serviceLoaded || !responsibleLoaded){ 
+    return(<LoadingComponent />)} 
+  else return(
     <main>
       <div className="container">
         <div className="item">
@@ -110,12 +108,10 @@ useEffect(() => {
                     <div id="detailPageColumn">
                       <h4 className="nameElement">{servicioCapturado.name}</h4>
                       <p className="descriptionElement">{servicioCapturado.description}</p>
-
                       <h4 className="nameElement">Sobre tu curso</h4>
                       <p className="descriptionElement">Duracion : {servicioCapturado.duration}</p>
                       <p className="descriptionElement">Frecuencia : {servicioCapturado.frequency}</p>
                       <p className="descriptionElement">Tipo de curso : {servicioCapturado.type}</p>
-
                       <h4 className="nameElement">Sobre tu profe</h4>
                       <p className="descriptionElement">Titulo : {title}</p>
                       <p className="descriptionElement">{experience}</p>
