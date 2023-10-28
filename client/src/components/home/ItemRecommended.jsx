@@ -5,21 +5,21 @@ const ItemRecommended = (props) => {
     const [servicio, setServicio] = useState({});
     const [image, setImage] = useState("");
     const URLPage = "/service/"+servicio.id;
+    const altImage = require("../../images/services/default.jpg");
     useEffect(() => {
         setServicio(props.servicio);
         if(image === ""){
-            try{
-                setImage(require("../../images/services/"+props.servicio.image));
-            }
-            catch{
-                setImage(require("../../images/services/default.jpg"));
-            }
+            setImage("http://localhost:8080/api/images/"+props.servicio.image);
         }
-      },[image, props.servicio])
+    },[image, props.servicio])
+    const setAltImage = (e) => {
+        e.preventDefault();
+        setImage(altImage);
+    }
     return (
         <Link to={URLPage} className="noDecoration" >
             <div className="itemDiv recommendedItem">
-                <img src= {image} alt=""/>
+                <img src= {image} alt="" onError={(e) => {setAltImage(e)}}/>
                 <hr/>
                 <span>{servicio.name}</span>
                 <span>${servicio.price}</span>

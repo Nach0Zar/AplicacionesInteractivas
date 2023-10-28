@@ -30,6 +30,7 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 const idStlye = "boton"+serviceID;
+const altImage = require("../../images/services/default.jpg");
 
 useEffect(() => {
     if(!serviceLoaded){
@@ -37,12 +38,7 @@ useEffect(() => {
         setServicioCapturado(data);
         setServiceLoaded(true);
         setCommentsItem(data.comments.filter(comment => comment.reviewed === true))
-        try{
-          setImage(require("../../images/services/"+data.image));
-        }
-        catch{
-          setImage(require("../../images/services/default.jpg"));
-        }
+        setImage("http://localhost:8080/api/images/"+data.image);
         if(!responsibleLoaded){
           getUserByID(data.responsible).then((user)=> {
             setResponsible(user.name + " " + user.lastname);
@@ -89,6 +85,10 @@ useEffect(() => {
       }
     </div>
   }
+  const setAltImage = (e) => {
+    e.preventDefault();
+    setImage(altImage);
+  }
 
   if(!serviceLoaded || !responsibleLoaded || !categoriasLoaded){ 
     return(<LoadingComponent />)} 
@@ -98,7 +98,7 @@ useEffect(() => {
         <div className="item">
           <div className="imageDetailContainer">
             <div style={{flexDirection: "column"}}>
-              <img src={image} alt="" style={{marginTop: "20%"}}/>
+              <img src={image} alt="" style={{marginTop: "20%"}} onError={(e) => {setAltImage(e)}}/>
             </div>
           </div>
           <div className="containerTextsButtonDetail">
