@@ -60,6 +60,7 @@ const ModalServiceForm = (props) => {
                 published: published.checked,
                 id: props.service.id,
                 duration: duration.value
+
             }
             props.onSave(conFom)
             swal("Operacion exitosa!","", "success");

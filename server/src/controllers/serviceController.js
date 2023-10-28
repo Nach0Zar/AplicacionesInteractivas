@@ -69,7 +69,8 @@ class ServiceController{
                 frequency: req.body.frequency,
                 comments: [],
                 published: req.body.published,
-                type: req.body.type
+                type: req.body.type,
+                qualification: req.body.qualification
             }   
             await serviceService.updateService(serviceId, service);
             logger.info(`PATCH REQUEST successful for service ${serviceId}`);

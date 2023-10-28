@@ -110,19 +110,6 @@ const Services = () => {
         return service.comments.filter((comment) => comment.reviewed == false).length > 0
     }
 
-    const getQualification = (service) => {
-        if(service.comments == null){
-            return ""
-        }
-        const comments = service.comments.filter((comment) => comment.reviewed == true)
-        let totalQ = 0
-        comments.forEach((comment) => totalQ += parseFloat(comment.qualification))
-        if(totalQ == 0){
-            return ""
-        }
-        return totalQ / comments.length
-    }
-
     const renderServices = () => {
         if(services.length == 0) {
             return <div className="service">
@@ -159,7 +146,7 @@ const Services = () => {
                             <p>{row.description}</p>
                         </TableCell>
                         <TableCell align="right">{row.frequency}</TableCell>
-                        <TableCell align="right">{getQualification(row)}</TableCell>
+                        <TableCell align="right">{row.qualification}</TableCell>
                         <TableCell align="right">{row.type}</TableCell>
                         <TableCell align="right">{row.categories.map((id) => {
                                                                                 const matchingObject = categories.find((obj) => obj.id === id);

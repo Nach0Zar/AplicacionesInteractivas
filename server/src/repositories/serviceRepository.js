@@ -76,12 +76,10 @@ class ServiceRepository {
             frequency: newService.frequency,
             published: newService.published,
             comments: newService.comments,
+            qualification: newService.qualification,
             type: newService.type
         }
         return await this.#dao.modifyByID(id, updateInfo);
-    }
-    async modifyCommentsArray(id, comments){
-        return await this.#dao.modifyCommentsArray(id, comments)
     }
     async deleteByID(id){
         return this.#dao.deleteByID(id)

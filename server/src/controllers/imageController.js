@@ -32,7 +32,6 @@ class ImageController{
                   'x-sent': true
                 }
               }
-              console.log(options.root);
             res.status(200).sendFile(fileName, options);
         }
         catch(error){

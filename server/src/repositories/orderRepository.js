@@ -39,7 +39,6 @@ class OrderRepository {
         }
     }
     async modifyByID(id, newOrder){
-        
         const updateInfo = {
             service: newOrder.service,
             responsible: newOrder.responsible,    
@@ -49,7 +48,6 @@ class OrderRepository {
             message: newOrder.message,
             status: newOrder.status
         }
-        console.log(updateInfo)
         return await this.#dao.modifyByID(id, updateInfo);
     }
     async getOrderByResponsible(userID) {

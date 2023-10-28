@@ -2,6 +2,7 @@ import { Error } from "../error/error.js";
 import Service from "../models/service.js";
 import serviceRepository from "../repositories/serviceRepository.js";
 import { randomUUID } from 'crypto';
+import servicePatchValidation from "../validations/servicePatchValidation.js";
 
 let instance = null;
 
@@ -61,10 +62,14 @@ class ServiceService{
             throw new Error(`No service was found matching ID ${serviceID}`, 'BAD_REQUEST');
         }
         let service = await this.container.getItemByID(serviceID);
+        let databaseService = service;
+        servicePatch.qualification = service.getQualification();
         servicePatch.comments = service.getComments();
         servicePatch.image = service.getImage();
-        let count = await this.container.modifyByID(serviceID, servicePatch)
-        if(count == 0) {
+        service.modify(servicePatch);
+        servicePatchValidation(service, databaseService);
+        let modified = await this.container.modifyByID(serviceID, service.toDTO())
+        if(!modified) {
             throw new Error("There was an error updating the service", 'INTERNAL_ERROR')
         }
     }
@@ -75,19 +80,27 @@ class ServiceService{
         }
     }
     reviewComment = async(serviceId, commentId, accepted) => {
-        let toUpdate = (await this.container.getItemByID(serviceId)).toDTO();
-        let newCommentsArray
+        let toUpdate = await this.container.getItemByID(serviceId);
+        let newCommentsArray = toUpdate.getComments()
         if(accepted) {
-            newCommentsArray = toUpdate.comments
+            let countReviewsApproved = 0
+            let sumTotalReviewsApproved = 0
             newCommentsArray.forEach((comment) => {
-                if(comment.id == commentId){
+                if(comment.id === commentId){
                     comment.reviewed = true
                 }
+                if(comment.reviewed === true){
+                    countReviewsApproved++
+                    sumTotalReviewsApproved = sumTotalReviewsApproved + comment.qualification
+                }
             })
+            let newQualificationProm = sumTotalReviewsApproved/countReviewsApproved
+            toUpdate.setQualification(newQualificationProm)
         } else {
-            newCommentsArray = toUpdate.comments.filter((comment) => comment.id != commentId)
+            newCommentsArray = newCommentsArray.filter((comment) => comment.id != commentId)
         }
-        let count = await this.container.modifyCommentsArray(serviceId, newCommentsArray)
+        toUpdate.setComments(newCommentsArray);
+        let count = await this.container.modifyByID(serviceId, toUpdate.toDTO())
         if(count == 0) {
             throw new Error("There was an error updating the comment", "INTERNAL_ERROR")
         }

@@ -41,10 +41,10 @@ class Service{
     setPrice(price){
         this.#price = price;   
     }
-    setImage(){
+    getImage(){
         return this.#image;
     }
-    getImage(image){
+    setImage(image){
         this.#image = image;  
     }
     getDescription(){
