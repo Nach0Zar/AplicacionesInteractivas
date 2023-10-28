@@ -107,7 +107,13 @@ class Service{
     setCategories(categories){
         this.#categories = categories;
     }
-    modify({name, price, image, description, categories, responsible, duration, frequency, comments, qualification}){
+    getPublished(){
+        return this.#published;
+    }
+    setPublished(published){
+        this.#published = published;
+    }
+    modify({name, price, image, description, categories, responsible, duration, frequency, comments, qualification, published}){
         this.setName(name);
         this.setPrice(price);
         this.setImage(image);
@@ -118,6 +124,7 @@ class Service{
         this.setFrequency(frequency);
         this.setComments(comments);
         this.setQualification(qualification);
+        this.setPublished(published);
     }
     toDTO(){
         const dto = {

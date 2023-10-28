@@ -58,8 +58,20 @@ class ServiceController{
     controllerPatchService = async (req, res, next) => {
         try{
             let serviceId = req.params.id
-            await serviceService.updateService(serviceId, req.body.name, req.body.price, req.body.image, req.body.description, req.body.categories, 
-                                                            req.body.duration, req.body.frequency, req.body.published, req.body.type);
+            let service = {
+                name: req.body.name, 
+                price: +req.body.price, 
+                image: "",
+                description: req.body.description,
+                id: serviceId,
+                categories: req.body.categories,
+                duration: req.body.duration,
+                frequency: req.body.frequency,
+                comments: [],
+                published: req.body.published,
+                type: req.body.type
+            }   
+            await serviceService.updateService(serviceId, service);
             logger.info(`PATCH REQUEST successful for service ${serviceId}`);
             res.status(200).json({message: `The service with ID ${serviceId} was updated to the catalog.`});
         }
@@ -81,9 +93,8 @@ class ServiceController{
     controllerPostComment = async (req, res, next) => {
         try{
             let serviceId = req.params.serviceID
-            console.log(serviceId)
-            await serviceService.addComment(serviceId, req.body.user, req.body.message, req.body.qualification);
-            logger.info(`POST REQUEST successful for service ${serviceId}`);
+            let commentID = await serviceService.addComment(serviceId, req.body.user, req.body.message, req.body.qualification);
+            logger.info(`POST REQUEST successful for comment ${commentID}`);
             res.status(200).json({message: `The comment for service ${serviceId} was added to the catalog.`});
         }
         catch(error){

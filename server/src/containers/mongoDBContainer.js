@@ -45,13 +45,6 @@ export default class MongoDBContainer {
         let query = await this.items.updateOne({ _id: ObjectId(idItem) }, { $set: newItemParam });
         return (query.modifiedCount > 0);
     }
-    async addComment(serviceId, newComment) {
-        const service = await this.getItemByID(serviceId)
-        delete service.id;
-        service.comments.push(newComment)
-        let query = await this.items.updateOne({ _id: ObjectId(serviceId) }, { $set: service });
-        return (query.modifiedCount > 0);
-    }
     async modifyCommentsArray(serviceId, newArray) {
         const service = await this.getItemByID(serviceId)
         delete service.id;

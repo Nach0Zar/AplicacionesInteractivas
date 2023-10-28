@@ -56,28 +56,22 @@ class ServiceService{
         }
         return serviceID;
     }
-    updateService = async(id, name, price, image, description, categories, duration, frequency, published, type) => {
-        let toUpdate = {
-            name: name, 
-            price: +price, 
-            image: image,
-            description: description,
-            id: id,
-            categories: categories,
-            duration: duration,
-            frequency: frequency,
-            published: published,
-            type: type
+    updateService = async(serviceID, servicePatch) => {
+        if(!(await this.checkExistingService(serviceID))){
+            throw new Error(`No service was found matching ID ${serviceID}`, 'BAD_REQUEST');
         }
-        let count = await this.container.modifyByID(id, toUpdate)
+        let service = await this.container.getItemByID(serviceID);
+        servicePatch.comments = service.getComments();
+        servicePatch.image = service.getImage();
+        let count = await this.container.modifyByID(serviceID, servicePatch)
         if(count == 0) {
-            throw new Error("There was an error updating the service, nothing impacted", "NOT_FOUND")
+            throw new Error("There was an error updating the service", 'INTERNAL_ERROR')
         }
     }
     deleteService = async(id) => {
         let count = await this.container.deleteByID(id)
         if(count == 0) {
-            throw new Error("There was an error deleting the service, nothing impacted", "NOT_FOUND")
+            throw new Error("There was an error deleting the service", 'INTERNAL_ERROR')
         }
     }
     reviewComment = async(serviceId, commentId, accepted) => {
@@ -95,10 +89,20 @@ class ServiceService{
         }
         let count = await this.container.modifyCommentsArray(serviceId, newCommentsArray)
         if(count == 0) {
-            throw new Error("There was an error updating the comment, nothing impacted", "NOT_FOUND")
+            throw new Error("There was an error updating the comment", "INTERNAL_ERROR")
         }
     }
-    addComment = async(serviceId, user, message, qualification) => {
+    addComment = async(idService, user, message, qualification) => {
+        if(!(await this.checkExistingService(idService))){
+            throw new Error(`No service was found matching ID ${idService}`, 'BAD_REQUEST');
+        }
+        if(qualification == ""){
+            qualification = 0
+        }
+        else{
+            qualification = +qualification;
+        }
+        let service = await this.container.getItemByID(idService);
         const newComment = {
             user,
             message,
@@ -106,7 +110,12 @@ class ServiceService{
             reviewed: false,
             id: randomUUID()
         }
-        let count = await this.container.addComment(serviceId, newComment)
+        service.addComment(newComment);
+        let serviceID = await this.container.modifyByID(idService, service.toDTO())
+        if(!serviceID){
+            throw new Error(`There was an error creating the service`, 'INTERNAL_ERROR') 
+        }
+        return serviceID;
     }
     getUserServices = async (userID) => {
         let services = await this.container.getServiceByResponsible(userID);
@@ -145,8 +154,12 @@ class ServiceService{
             return services.toDTO();
         }
         let servicesDTO = [];
-        for(let index = 0; index < quantity; index++){
-            servicesDTO.push(services[index].toDTO())
+        let index = 0;
+        while (index < services.length && servicesDTO.length < quantity){
+            if(services[index].getPublished()){
+                servicesDTO.push(services[index].toDTO())
+            }
+            index++;
         }
         return servicesDTO;
     }
