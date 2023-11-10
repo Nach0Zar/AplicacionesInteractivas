@@ -25,17 +25,8 @@
 
     Importante: Setear desde la cuenta deseada de gmail el token necesario para configurar el servicio de mailing. [KB informativo](https://nodemailer.com/usage/using-gmail/)
 
-3. Seguido de esto, podemos inicializar 
 
-    ```bash
-    npm install
-    ```
-    ó
-    ```bash
-    yarn install
-    ```
-
-4. Una vez instaladas todas las dependencias, inicializar el proyecto 
+3. Una vez instaladas todas las dependencias, inicializar el proyecto 
 
     ```bash
     npm start
