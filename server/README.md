@@ -67,10 +67,10 @@ Unicamente contaremos con las siguientes collections:
 - Orders
 - Categories
 
-![Alt text](image.png)
+![Collections image](collections.png)
 
 #### DER
 
 Las estructuras necesarias seran mas, pero dado a que contamos con los nested documents, no son necesarias mas collections que las antes mencionadas.
 
-![Alt text](image-2.png)
+![DER image](der.png)
