@@ -53,7 +53,7 @@ class UserService{
         })
         return this.container.save(user).then((userID)=>{
             // mailer.send({
-            //     to: config.MAIL_ADMIN,
+            //     to: information.email,
             //     subject: 'nuevo registro!',
             //     text: `nuevo registro: ${JSON.stringify(user.toDTO())}`
             // })
@@ -102,7 +102,7 @@ class UserService{
         })
         await this.container.modifyByID(id, newUser).then((status)=>{
             // mailer.send({
-            //     to: config.MAIL_ADMIN,
+            //     to: email,
             //     subject: 'usuario actualizado!',
             //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
             // })
@@ -119,9 +119,9 @@ class UserService{
         user.setPassword(jwt.sign("default", config.SESSION.secret))
         await this.container.modifyByID(userID, user).then((status)=>{
             // mailer.send({
-            //     to: config.MAIL_ADMIN,
+            //     to: user.getEmail(),
             //     subject: 'contraseña actualizada!',
-            //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
+            //     text: `Nueva contraseña para el usuario: 'default'`
             // })
             return status;
         }).catch((error)=>{            

@@ -49,11 +49,6 @@ class OrderService{
             timestamp: timestamp
         });
         // mailer.send({
-        //     to: config.MAIL_ADMIN,
-        //     subject: `New purchase order: ${user.name} ${user.lastname} - ${userEmail}`,
-        //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
-        // })
-        // mailer.send({
         //     to: userEmail,
         //     subject: `Purchase order processed!`,
         //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
