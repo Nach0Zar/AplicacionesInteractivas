@@ -1,6 +1,6 @@
 # Proyecto Backend
 
-## Instalacion y configuración
+## Instalación y configuración
 
 1. Dentro de una consola en este directorio, instalar las dependencias
 

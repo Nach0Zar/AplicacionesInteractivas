@@ -7,9 +7,14 @@ Este es el proyecto creado por Nicolas Martin Cano e Ignacio Zarlenga para la en
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/)
 
-### Instalacion
+### Instalación
 
 Clonar el repositorio:
 
    ```bash
    git clone https://github.com/Nach0Zar/AplicacionesInteractivas.git
+   ```
+
+### Uso
+
+Para cada proyecto, se detallará en su respectivo README.md la instalación y configuración y detalles técnicos de interés.
