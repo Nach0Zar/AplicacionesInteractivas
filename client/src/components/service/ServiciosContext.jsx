@@ -111,6 +111,9 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     return await fetch("http://localhost:8080/api/services/user/"+id).then(async (data) => {
       let jsonData = await data.json();
       let listadoDB = [];
+      if(Object.hasOwn(jsonData, 'message')){
+        return null;
+      }
       (jsonData.length === undefined) ? (listadoDB.push(jsonData)) : (listadoDB = jsonData)
       return await crearServicios(listadoDB);
     }).catch((err) => {

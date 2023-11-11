@@ -34,13 +34,14 @@ const Services = () => {
     const [pendingCommentsServiceId, setPendingCommentsServiceId] = useState("")
     const [edicion, setEdicion] = useState(false)
     const [show, setShow] = useState(false);
-    const [onSave, setOnSave] = useState()
+    const [onSave, setOnSave] = useState();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const getAllServicesFromUser = async () => {
-        let listadoDB = await obtenerServiciosPorResponsable(usuario.id);
-        setServices(listadoDB);
+        await obtenerServiciosPorResponsable(usuario.id).then((listadoDB) => {
+            (listadoDB === null) ? setServices([]) : setServices(listadoDB)
+        });
     }
     useEffect(() => {
         if (isLoggedIn && !comprasListadas){
@@ -135,48 +136,52 @@ const Services = () => {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {services.map((row) => (
-                        <TableRow key={row.id}>
-                        <TableCell align="right">
-                            <Link to={"/service/"+row.id} className="noDecoration">
-                                {row.name}
-                            </Link>
-                        </TableCell>
-                        <TableCell sx={{wordBreak:"break-word", maxWidth: "300px"}} align="left">
-                            <p>{row.description}</p>
-                        </TableCell>
-                        <TableCell align="right">{row.frequency}</TableCell>
-                        <TableCell align="right">{row.qualification}</TableCell>
-                        <TableCell align="right">{row.type}</TableCell>
-                        <TableCell align="right">{row.categories.map((id) => {
-                                                                                const matchingObject = categories.find((obj) => obj.id === id);
-                                                                                if(matchingObject == undefined) {
-                                                                                }
-                                                                                return matchingObject ? matchingObject.name : "";
-                                                                            }).join(', ')}</TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        <TableCell align="right">{row.published ? "SI" : "NO"}</TableCell>
-                        <TableCell align="center">
-                            <div style={{flexDirection:"row", display:"flex"}}>
-                                <Tooltip aria-label="Bold" title="Editar">
-                                    <IconButton size="medium" onClick={() => openForEdit(row)}>
-                                        <EditIcon color="success"></EditIcon>
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip aria-label="Bold" title="Borrar">
-                                    <IconButton size="medium" onClick={() => onDeleteService(row)}>
-                                        <DeleteIcon color='error'></DeleteIcon>
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip aria-label="Bold" title="Comentarios">
-                                    <IconButton size="medium" onClick={() => onPendingComments(row)}>
-                                        <CommentIcon color={hasPendingComments(row) ? "warning" : "info"}></CommentIcon>
-                                    </IconButton>
-                                </Tooltip>
-                            </div>
-                        </TableCell>
-                        </TableRow>
-                    ))}
+                    {(services.length > 0) ? 
+                        services.map((row) => (
+                            <TableRow key={row.id}>
+                            <TableCell align="right">
+                                <Link to={"/service/"+row.id} className="noDecoration">
+                                    {row.name}
+                                </Link>
+                            </TableCell>
+                            <TableCell sx={{wordBreak:"break-word", maxWidth: "300px"}} align="left">
+                                <p>{row.description}</p>
+                            </TableCell>
+                            <TableCell align="right">{row.frequency}</TableCell>
+                            <TableCell align="right">{row.qualification}</TableCell>
+                            <TableCell align="right">{row.type}</TableCell>
+                            <TableCell align="right">{row.categories.map((id) => {
+                                                                                    const matchingObject = categories.find((obj) => obj.id === id);
+                                                                                    if(matchingObject == undefined) {
+                                                                                    }
+                                                                                    return matchingObject ? matchingObject.name : "";
+                                                                                }).join(', ')}</TableCell>
+                            <TableCell align="right">{row.price}</TableCell>
+                            <TableCell align="right">{row.published ? "SI" : "NO"}</TableCell>
+                            <TableCell align="center">
+                                <div style={{flexDirection:"row", display:"flex"}}>
+                                    <Tooltip aria-label="Bold" title="Editar">
+                                        <IconButton size="medium" onClick={() => openForEdit(row)}>
+                                            <EditIcon color="success"></EditIcon>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip aria-label="Bold" title="Borrar">
+                                        <IconButton size="medium" onClick={() => onDeleteService(row)}>
+                                            <DeleteIcon color='error'></DeleteIcon>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip aria-label="Bold" title="Comentarios">
+                                        <IconButton size="medium" onClick={() => onPendingComments(row)}>
+                                            <CommentIcon color={hasPendingComments(row) ? "warning" : "info"}></CommentIcon>
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
+                            </TableCell>
+                            </TableRow>
+                        )) : (<TableRow>
+                            <TableCell align="center">There are no services created yet!</TableCell>
+                        </TableRow>)
+                    }
                     </TableBody>
                 </Table>
             </TableContainer>
