@@ -23,7 +23,7 @@
     NODEMAILER_PASS = 'gmail token'
     ```
 
-    Importante: Setear desde la cuenta deseada de gmail el token necesario para configurar el servicio de mailing. [KB informativo](https://nodemailer.com/usage/using-gmail/)
+    Importante: Setear desde la cuenta deseada de gmail el token necesario para configurar el servicio de mailing. [KB informativo](https://www.freecodecamp.org/espanol/news/como-usar-nodemailer-para-enviar-correos-electronicos-desde-tu-servidor-node-js/)
 
 
 3. Una vez instaladas todas las dependencias, inicializar el proyecto 
@@ -58,10 +58,10 @@ Unicamente contaremos con las siguientes collections:
 - Orders
 - Categories
 
-![Collections image](collections.png)
+![Collections image](doc/collections.png)
 
 #### DER
 
 Las estructuras necesarias seran mas, pero dado a que contamos con los nested documents, no son necesarias mas collections que las antes mencionadas.
 
-![DER image](der.png)
+![DER image](doc/der.png)

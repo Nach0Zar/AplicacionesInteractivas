@@ -68,7 +68,7 @@ const Register = () => {
             registerUser(user).then(res => {
                 let path = `/login`; 
                 navigate(path);
-                swal("Rgistro","Usuario registrado correctamente!", "success");
+                swal("Registro","Usuario registrado correctamente!", "success");
             }).catch(()=>{
                 swal("Error del sistema","No se pudo validar el registro de usuario, por favor vuelva a intentar mas tarde","error");
             })

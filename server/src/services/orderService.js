@@ -48,11 +48,11 @@ class OrderService{
             status: "requested",
             timestamp: timestamp
         });
-        // mailer.send({
-        //     to: userEmail,
-        //     subject: `Purchase order processed!`,
-        //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
-        // })
+        mailer.send({
+            to: userEmail,
+            subject: `Purchase order processed!`,
+            text: `Services acquired: ${servicesBougthNames.join(", ")}`
+        })
         let orderID = await this.container.save(orderObject);
         return orderID;
     }
