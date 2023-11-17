@@ -87,4 +87,4 @@ Una vez rellenado el formulario del servicio, daremos en crear y tendremos nuest
 
 ### Busqueda de servicios
 
-Podremos notar que en el landing hay 4 
+Para la busqueda de servicios

@@ -39,8 +39,9 @@ const Services = () => {
     const handleShow = () => setShow(true);
 
     const getAllServicesFromUser = async () => {
-        let listadoDB = await obtenerServiciosPorResponsable(usuario.id);
-        setServices(listadoDB);
+        await obtenerServiciosPorResponsable(usuario.id).then((listadoDB) => {
+            (listadoDB === null) ? setServices([]) : setServices(listadoDB)
+        });
     }
     useEffect(() => {
         if (isLoggedIn && !comprasListadas){
