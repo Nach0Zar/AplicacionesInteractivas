@@ -85,13 +85,43 @@ Una vez rellenado el formulario del servicio, daremos en crear y tendremos nuest
 ![Alt text](doc/crearServicioForm.png)
 ![Alt text](doc/servicioCreadoListado.png)
 
-### Manejo de Ordenes
+#### Manejo de Ordenes
 
-Para poder hacer manejo de las ordenes entrantes, 
+Para poder hacer manejo de las ordenes entrantes, iremos a "Ordenes".
 
-### Manejo de Comentarios
+![Alt text](doc/ordenesBoton.png)
+
+Dentro, se irán cargando todas las solicitudes con su estado actual y botones para poder hacer manejo de dicha orden.
+
+![Alt text](doc/ordenRequested.png)
+
+En caso de querer cancelar la orden, daremos click en cancelar y pasará al estado de "Cancelled".
+
+![Alt text](doc/ordenCancelled.png)
+
+Ahora, en caso de querer aceptar la orden entrante, daremos click en cancelar y pasará al estado de "Approved".
+
+![Alt text](doc/ordenApproved.png)
+
+Luego, podremos finalizar la orden una vez que se finalice el curso, o bien se podrá cancelar el curso en caso de que en la mitad del servicio el solicitante decida darse de baja del mismo. Al darle a "Finalizar", el estado de la orden pasará a "Done".
+
+![Alt text](doc/ordenDone.png)
 
 
+
+#### Manejo de Comentarios
+
+Para poder hacer revisión de los comentarios de mis servicios, iremos nuevamente a "Mis Servicios" para poder ver el listado de mis servicios. Ahi, podremos observar un icono en la columna de acciones que tiene el simbolo de un comentario. En caso de estar azul, significa que no hay comentarios pendientes de aprobación. Al estar en naranja, significa que tenemos comentarios pendenientes para aprobar/rechazar.
+
+![Alt text](doc/listadoServiciosComentario.png)
+
+Haremos click en ese icono para listar debajo los comentarios pendientes.
+
+![Alt text](doc/listadoComentariosPendientes.png)
+
+Para poder aprobar o rechazar el comentario, bastará con darle al tick verde o a la cruz roja respectivamente. Una vez revisado el comentario, de ser aprobado, se verá reflejado en el servicio.
+
+![Alt text](doc/comentarioAprobado.png)
 
 ### Busqueda de servicios
 
