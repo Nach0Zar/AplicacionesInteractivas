@@ -87,4 +87,5 @@ Una vez rellenado el formulario del servicio, daremos en crear y tendremos nuest
 
 ### Busqueda de servicios
 
-Para la busqueda de servicios
+Para la busqueda de servicios tendremos que ir a la seccion de 
+
