@@ -14,11 +14,21 @@ class OrderController{
             next(error);
         }
     }
-    controllerPostPurchaseCart = async (req, res, next) => {
+    controllerPostOrder = async (req, res, next) => {
         try{
-            let order = await orderService.purchaseCart(req.cookies.email);
-            logger.info(`POST REQUEST successful for product ${req.body.productId} in cart from user${req.cookies.email}`);
+            let order = await orderService.createOrder(req.body);
+            logger.info(`POST REQUEST successful for service ${req.body.service} for ${req.body.applicant.email}`);
             res.status(200).json(order);
+        }
+        catch(error){
+            next(error);
+        }
+    }
+    controllerPostUpdateOrder = async (req, res, next) => {
+        try{
+            await orderService.updateOrderStatus(req.params.id, req.cookies.email, req.body.status);
+            logger.info(`POST REQUEST successful for service ${req.params.id} for new status ${req.body.status}`);
+            res.sendStatus(200);
         }
         catch(error){
             next(error);

@@ -108,3 +108,5 @@ dist
 *.png
 *.gif
 .vscode
+
+*.env

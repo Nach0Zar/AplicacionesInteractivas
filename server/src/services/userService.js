@@ -6,7 +6,6 @@ import passport from 'passport';
 import User from "../models/user.js";
 import { Strategy as LocalStrategy } from 'passport-local';
 import userRepository from "../repositories/userRepository.js";
-import cartService from "./cartService.js";
 import userDataValidation from "../validations/userDataValidation.js";
 
 let instance = null;
@@ -43,18 +42,18 @@ class UserService{
     }
     registerUser = async (information) => {
         userDataValidation(information);
-        let cartID = await cartService.createCart();
         let user = new User({
             name: information.name,
             lastname: information.lastname,
             email: information.email,
-            image: information.image,
+            phone: information.phone,
             password: jwt.sign(information.password, config.SESSION.secret),
-            cart: cartID
+            title: "",
+            experience: ""
         })
         return this.container.save(user).then((userID)=>{
             mailer.send({
-                to: config.MAIL_ADMIN,
+                to: information.email,
                 subject: 'nuevo registro!',
                 text: `nuevo registro: ${JSON.stringify(user.toDTO())}`
             })
@@ -77,14 +76,64 @@ class UserService{
         }            
         return user.toDTO();
     }
-    getUserCartInformation = async (email) => {
-        let user = await this.getUserInformation(email)
-        let cartInformation = await cartService.getCartProducts(user.getCart());
-        return cartInformation.toDTO();
-    }
     checkExistingUser = async (email) => {
         let userFound = await this.container.getItemByCriteria({email: email});
         return (userFound !== null && userFound.length !== 0)
+    }
+    getUser = async (email) => {
+        return await this.container.getItemByCriteria({email: email})
+    }
+    updateUser = async (userID, user) => {
+        userDataValidation(user);
+        let {id, email, password, name, lastname, phone, title, experience} = user;
+        let userData = await this.container.getItemByID(userID);
+        let userFound = (userData !== null)
+        if(!userFound){
+            throw new Error(`The specified user could not be found ${userID}`, 'CONFLICT');
+        }
+        let newUser = new User({
+            name: name,
+            lastname: lastname,
+            email: email,
+            phone: phone,
+            password: jwt.sign(password, config.SESSION.secret),
+            title: title,
+            experience: experience
+        })
+        await this.container.modifyByID(id, newUser).then((status)=>{
+            mailer.send({
+                to: email,
+                subject: 'usuario actualizado!',
+                text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
+            })
+            return status;
+        }).catch((error)=>{            
+            throw new Error(error, 'INTERNAL_ERROR')
+        });
+    }
+    resetPassword = async (userID) => {
+        let user = await this.container.getItemByID(userID)
+        if(!user){
+            throw new Error(`No user was found with the id ${userID}`, 'NOT_FOUND')
+        }
+        user.setPassword(jwt.sign("default", config.SESSION.secret))
+        await this.container.modifyByID(userID, user).then((status)=>{
+            mailer.send({
+                to: user.getEmail(),
+                subject: 'contraseña actualizada!',
+                text: `Nueva contraseña para el usuario: 'default'`
+            })
+            return status;
+        }).catch((error)=>{            
+            throw new Error(error, 'INTERNAL_ERROR')
+        });
+    }
+    getUserByID = async (userID) => {
+        let user = await this.container.getItemByID(userID)
+        if(!user){
+            throw new Error(`No user was found with the id ${userID}`, 'NOT_FOUND')
+        }
+        return user.toDTO();
     }
     static getInstance(){
         if(!instance){

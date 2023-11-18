@@ -1,6 +1,6 @@
 import { Error } from "../error/error.js";
 
-export default function userDataValidation({email, password, name, lastname, image}) {
+export default function userDataValidation({email, password, name, lastname, phone}) {
     if(name === ""){
         throw new Error(`The user name can not be empty.`, 'BAD_REQUEST')
     }
@@ -10,8 +10,8 @@ export default function userDataValidation({email, password, name, lastname, ima
     if(password === ""){
         throw new Error(`The user password can not be empty.`, 'BAD_REQUEST')
     }
-    if(image === ""){
-        throw new Error(`The user image can not be empty.`, 'BAD_REQUEST')
+    if(phone === ""){
+        throw new Error(`The user phone can not be empty.`, 'BAD_REQUEST')
     }
     if(lastname === ""){
         throw new Error(`The user lastname can not be empty.`, 'BAD_REQUEST')

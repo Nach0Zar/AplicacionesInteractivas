@@ -39,12 +39,27 @@ class OrderRepository {
         }
     }
     async modifyByID(id, newOrder){
-        let updateInfo = {
-            products: newOrder.products,
-            idClient: newOrder.ddClient,    
-            timestamp: newOrder.timestamp
+        const updateInfo = {
+            service: newOrder.service,
+            responsible: newOrder.responsible,    
+            applicant: newOrder.applicant,
+            timestamp: newOrder.timestamp,
+            applicant: newOrder.applicant,
+            message: newOrder.message,
+            status: newOrder.status
         }
         return await this.#dao.modifyByID(id, updateInfo);
+    }
+    async getOrderByResponsible(userID) {
+        const dtos = await this.#dao.getItemByReferenceID("responsible", userID)
+        if (!dtos) return null
+        if (dtos.length === undefined) return new Order(dtos);
+        if (dtos.length === 1) {
+            return new Order(dtos[0]);
+        }
+        else{
+            return this.parseItems(dtos);
+        }
     }
     async deleteByID(id){
         return this.#dao.deleteByID(id)

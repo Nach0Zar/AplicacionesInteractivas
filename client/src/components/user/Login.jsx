@@ -1,74 +1,99 @@
-import React from 'react';
-import usuarioImagen from '../../images/usuario.svg';
+import React, { useEffect } from 'react';
+import emailImagen from '../../images/email.svg';
 import passwordImagen from '../../images/password.svg';
-import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { useState } from 'react';
 import { useUsuario } from './UserContext';
-import { Usuario } from '../imports/classes';
 import { useNavigate } from 'react-router-dom';
+import ModalPassword from './ModalPassword';
 import swal from 'sweetalert';
 import './style.scss'
 
 const Login = () => {
     let navigate = useNavigate();
     const { loguearUser } = useUsuario();
-    const [nombreUsuario, setNombreUsuario] = useState('');
+    const [emailUsuario, setEmailUsuario] = useState('');
     const [password, setPassword] = useState('');
-    const handleChangeNombreUsuario = (e) => {
-        setNombreUsuario(e.target.value);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const handleChangeEmailUsuario = (e) => {
+        setEmailUsuario(e.target.value);
     }
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
     }
+    
+    useEffect(() => {
+    }, [emailUsuario])
+
     const loguearUsuario = async (e) => {
         let inputElements = document.querySelectorAll("input");
         let allInputsFilled = true;
+        let emailFormat = true;
         inputElements.forEach(function(input) {
+            if(input.id === 'email'){
+                let lastAtPos = input.value.lastIndexOf("@");
+                let lastDotPos = input.value.lastIndexOf(".");
+                if (!(
+                    lastAtPos < lastDotPos &&
+                    lastAtPos > 0 &&
+                    lastDotPos > 2 &&
+                    input.value.toString().length - lastDotPos > 2 &&
+                    lastDotPos - lastAtPos > 1
+                )) {
+                    emailFormat = false;
+                }
+            }
             if(input.value === ""){
                 allInputsFilled = false;
             }
-
         });
-        if (allInputsFilled){
-            const db = getFirestore();
-            const usuarioDoc = doc(db, "usuarios", nombreUsuario);
-            const usuarioSnap = await getDoc(usuarioDoc);
-            if(usuarioSnap.data()){
-                if (usuarioSnap.data().password === password){
+        if(emailFormat){
+            if (allInputsFilled){
+                let loggedUser = await loguearUser({email: emailUsuario, password: password});
+                if(loggedUser === true){
                     swal("Login","Usuario logueado correctamente!", "success");
-                    const usuario = new Usuario (usuarioSnap.data().nombreUsuario, usuarioSnap.data().password, usuarioSnap.data().direccion, usuarioSnap.data().email, usuarioSnap.data().dni, usuarioSnap.data().telefono)
-                    loguearUser(usuario);
                     let path = `/`; 
                     navigate(path);
                 }
-                else{
-                    swal("Información errónea","Contraseña incorrecta, por favor indicar la contraseña correcta","warning");
+                else {
+                    if(loggedUser === false){
+                        swal("Información errónea","Contraseña incorrecta, por favor indicar la contraseña correcta","warning");
+                    }
+                    else{
+                        swal("Error del sistema","No se pudo validar el login de usuario, por favor vuelva a intentar mas tarde","error");
+                    }
                 }
-                
             }
             else{
-                swal("Usuario inexistente","El Nombre de Usuario no existe. Pruebe registrandolo!", "error");
+                swal("Informacion faltante","Por favor, ingrese email y contraseña", "error");
             }
         }
-        
+        else{
+            swal("Informacion erronea","Formato de email incorrecto. Por favor, ingrese email y contraseña", "error");
+        }
     }
   return (
     <main>
         <div id="loginDiv">
             <h2>Login</h2>
             <form onSubmit={(e)=>{e.preventDefault();}}>
-                <div id="container">
-                    <label htmlFor="usuario" className="loginLabelForm">
-                        <img src={usuarioImagen} alt=""/>
-                        <span>Nombre de usuario</span>
-                        <input type="text" id="usuario" value={nombreUsuario} onChange={handleChangeNombreUsuario} required/>
+                <div className="container">
+                    <label htmlFor="email" className="loginLabelForm">
+                        <img src={emailImagen} alt=""/>
+                        <span>Direccion de correo</span>
+                        <input type="text" id="email" value={emailUsuario} onChange={handleChangeEmailUsuario} required/>
                     </label>
                     <label htmlFor="contrasenia" className="loginLabelForm">
                         <img src={passwordImagen} alt=""/>
                         <span>Contraseña</span>
                         <input type="password" id="contrasenia" value={password} onChange={handleChangePassword} required/>
                     </label>
-                    <button type="submit" className="btn btn-outline-dark" id="buttonLoginForm" onClick={loguearUsuario}>Loguearse</button>
+                    <div id="containerButton">
+                        <button type="submit" className="btn btn-outline-dark" id="buttonLoginForm" onClick={loguearUsuario}>Loguearse</button>
+                        <button className="btn btn-outline-dark" id="buttonLoginForm" onClick={handleShow}>Olvide contraseña</button>
+                        <ModalPassword email={emailUsuario} show={show} onHide={handleClose}/>
+                    </div>
                 </div>
             </form>
         </div>

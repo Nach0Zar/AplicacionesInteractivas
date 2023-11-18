@@ -28,8 +28,12 @@
         display: inline-flex;
         align-items: center;
         min-width: 170px;
-        font-family: "Noto Serif", serif;
+		font-family: "Ramaraja", serif;
+		font-size: 19px;
     }
+}
+#containerButton {
+	display: flex;
 }
 #buttonLoginForm {
 	display: table;
@@ -38,14 +42,15 @@
 	font-family: "Bebas Neue", cursive;
 	margin: 60px auto 60px;
 }
-.order {
+.service {
 	display: flex;
 	flex-flow: column nowrap;
+	min-width: 900px;
     h2, h4 {
         margin: 10px 75px;
     }
 }
-.containerQtyOrders {
+.containerQtyServices {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
@@ -53,18 +58,18 @@
         margin: 10px 75px;
     }
 }
-.containerOrders {
+.containerServices {
 	display: flex;
 	justify-content: space-evenly;
 }
-.ordersDiv:hover, .perfilDiv:hover{
+.servicesDiv:hover, .perfilDiv:hover{
     box-shadow: 0 0 11px rgba(33, 33, 33, 0.4);
 }
 .profileContainer {
 	display: flex;
 	justify-content: space-evenly;
 }
-.perfilDiv, .ordersDiv {
+.perfilDiv, .servicesDiv {
 	//max-width: 1200px;
     border: 1px lightgrey solid;
 	border-radius: 25px;

@@ -3,38 +3,35 @@ import usuarioImagen from '../../images/usuario.svg';
 import passwordImagen from '../../images/password.svg';
 import emailImagen from '../../images/email.svg';
 import telefonoImagen from '../../images/telefono.svg';
-import {nuevoUsuario} from "../../api/service/userService.ts";
 import { useState } from 'react';
+import { useUsuario } from '../user/UserContext';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import './style.scss';
 
 const Register = () => {
-    const [nombreUsuario, setNombreUsuario] = useState('');
+    const [name, setName] = useState('');
+    const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
-    const [direccion, setDireccion] = useState('');
     const [email, setEmail] = useState('');
-    const [dni, setDni] = useState('');
-    const [telefono, setTelefono] = useState('');
+    const [phone, setPhone] = useState('');
     let navigate = useNavigate();
+    const { registerUser } = useUsuario();
 
-    const handleChangeNombreUsuario = (e) => {
-        setNombreUsuario(e.target.value);
+    const handleChangename = (e) => {
+        setName(e.target.value);
     }
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
     }
-    const handleChangeDireccion = (e) => {
-        setDireccion(e.target.value);
+    const handleChangeApellido = (e) => {
+        setLastname(e.target.value);
     }
     const handleChangeEmail = (e) => {
         setEmail(e.target.value);
     }
-    const handleChangeDni = (e) => {
-        setDni(e.target.value.slice(0,e.target.maxLength));
-    }
     const handleChangeTelefono = (e) => {
-        setTelefono(e.target.value.slice(0,e.target.maxLength));
+        setPhone(e.target.value.slice(0,e.target.maxLength));
     }
 
     const registrarUsuario = async (e) => {
@@ -58,18 +55,22 @@ const Register = () => {
                         allInputsFilled = false;
                   }
             }
-
-        });
-        console.log(allInputsFilled)
-        if (allInputsFilled){
-            const id = nombreUsuario;
-            const user = {
-                id, nombreUsuario, password, email, telefono
+            if(input.id === "telefono"){
+                if(!(input.value.length === 10)){
+                    allInputsFilled = false;
+                }
             }
-            console.log(user)
-            nuevoUsuario(user).then(res => {
-                let path = `/ecommerce-frontend/login`; 
+        });
+        if (allInputsFilled){
+            const user = {
+                name, lastname, password, email, phone
+            }
+            registerUser(user).then(res => {
+                let path = `/login`; 
                 navigate(path);
+                swal("Registro","Usuario registrado correctamente!", "success");
+            }).catch(()=>{
+                swal("Error del sistema","No se pudo validar el registro de usuario, por favor vuelva a intentar mas tarde","error");
             })
         }
         else{
@@ -82,10 +83,13 @@ const Register = () => {
             <h2>Registrarse</h2>
             <form onSubmit={(e)=>{e.preventDefault()}}>
                 <div id="container">
-                    <label htmlFor="usuario" className="registerLabelForm">
+                    <label htmlFor="usuario" className="registerLabelForm nameAndSurname">
                         <img src={usuarioImagen} alt=""/>
                         <span>Nombre y apellido</span>
-                        <input type="text" id="usuario" value={nombreUsuario} onChange={handleChangeNombreUsuario} required/>
+                        <div>
+                            <input type="text" id="nombre" value={name} onChange={handleChangename} required/>
+                            <input type="text" id="apellido" value={lastname} onChange={handleChangeApellido} required/>
+                        </div>
                     </label>
                     <label htmlFor="email" className="registerLabelForm">
                         <img src={emailImagen} alt=""/>
@@ -100,7 +104,7 @@ const Register = () => {
                     <label htmlFor="telefono" className="registerLabelForm">
                         <img src={telefonoImagen} alt=""/>
                         <span>Numero de telefono</span>
-                        <input type="number" id="telefono" value={telefono} onChange={handleChangeTelefono} minLength={10} maxLength={10} required/>
+                        <input type="number" id="telefono" value={phone} onChange={handleChangeTelefono} minLength={10} maxLength={10} required/>
                     </label>
                     <button type="submit" className="btn btn-outline-dark" id="buttonRegisterForm" onClick={registrarUsuario}>Registrarse</button>
                 </div>

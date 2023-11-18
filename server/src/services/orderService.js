@@ -4,8 +4,9 @@ import config from "../config/config.js";
 import orderRepository from "../repositories/orderRepository.js";
 import Order from "../models/order.js";
 import userService from "./userService.js";
-import cartService from "./cartService.js";
-import productService from "./productService.js";
+import serviceService from "./serviceService.js";
+import applicantDataValidation from "../validations/applicantDataValidation.js"
+import userOwnershipValidation from "../validations/userOwnershipValidation.js";
 
 let instance = null;
 
@@ -22,12 +23,12 @@ class OrderService{
     }
     getUserOrders = async (userEmail) => {
         let user = await userService.getUserInformation(userEmail);
-        let orders = await this.container.getItemByCriteria({idClient: user.id})
+        let orders = await this.container.getOrderByResponsible(user.id)
         if(!orders || orders.length == 0){
             throw new Error(`No order was found for the user with the email ${userEmail}`, 'NOT_FOUND');
         }       
         if(orders.length === undefined) {
-            return orders.toDTO();
+            return [orders.toDTO()];
         }
         let ordersDTO = [];
         orders.forEach(order => {
@@ -35,40 +36,36 @@ class OrderService{
         });
         return ordersDTO;
     }
-    parseProducts = async (productList = []) => {
-        let parsedProducts = [];
-        for(let listedProduct in productList){
-            let product = await productService.getProduct(productList[listedProduct].idProd);
-            parsedProducts.push({prod: product, qty: productList[listedProduct].qty});
-
-        }
-        return parsedProducts;
-    }
-    purchaseCart = async (userEmail) => {
-        let user = await userService.getUserInformation(userEmail);
-        let productsBougth = await this.parseProducts(await cartService.purchaseCart(user.cart));
+    createOrder = async (order) => {
+        applicantDataValidation(order.applicant);
+        let service = await serviceService.getService(order.service);
         let timestamp = new Date().toLocaleString();
-        let order = new Order({
-            products: productsBougth, 
-            idClient: user.id, 
-            timestamp: timestamp}
-        );
-        let productsBougthNames = [];
-        productsBougth.forEach(product => {
-            productsBougthNames.push(product.prod.name);
+        let orderObject = new Order({
+            service: service,  
+            applicant: order.applicant,
+            responsible: service.responsible,
+            message: order.message,
+            status: "requested",
+            timestamp: timestamp
         });
         mailer.send({
-            to: config.MAIL_ADMIN,
-            subject: `New purchase order: ${user.name} ${user.lastname} - ${userEmail}`,
-            text: `Products purchased: ${productsBougthNames.join(", ")}`
-        })
-        mailer.send({
-            to: userEmail,
+            to: order.applicant.email,
             subject: `Purchase order processed!`,
-            text: `Products purchased: ${productsBougthNames.join(", ")}`
+            text: `Service acquired: ${service.name}`
         })
-        let orderID = await this.container.save(order);
+        let orderID = await this.container.save(orderObject);
         return orderID;
+    }
+    updateOrderStatus = async (orderID, responsibleEmail, status) => {
+        let order = await this.getOrder(orderID);
+        let user = await userService.getUserInformation(responsibleEmail);
+        userOwnershipValidation(user.id, order.responsible);
+        order.status = status;
+        await this.container.modifyByID(orderID, order).then(()=>{
+            return true;
+        }).catch((error)=>{            
+            throw new Error(error, 'INTERNAL_ERROR')
+        });
     }
     static getInstance(){
         if(!instance){

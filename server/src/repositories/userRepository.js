@@ -39,15 +39,7 @@ class UserRepository {
         }
     }
     async modifyByID(id, newUser){
-        let updateInfo = {
-            email: newUser.email,
-            password: newUser.password,    
-            name: newUser.name,    
-            lastname: newUser.lastname,
-            image: newUser.image,
-            cart: newUser.cart
-        }
-        return await this.#dao.modifyByID(id, updateInfo);
+        return await this.#dao.modifyByID(id, newUser.toDTO());
     }
     async deleteByID(id){
         return this.#dao.deleteByID(id)

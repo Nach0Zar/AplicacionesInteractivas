@@ -44,17 +44,40 @@ class ServiceRepository {
             return this.parseItems(dtos);
         }
     }
+    async getServiceByResponsible(userID) {
+        const dtos = await this.#dao.getItemByReferenceID("responsible", userID)
+        if (!dtos) return null
+        if (dtos.length === undefined) return new Service(dtos);
+        if (dtos.length === 1) {
+            return new Service(dtos[0]);
+        }
+        else{
+            return this.parseItems(dtos);
+        }
+    }
+    async getServiceByCategory(categoryID) {
+        const dtos = await this.#dao.getItemByReferenceID("categories", categoryID)
+        if (!dtos) return null
+        if (dtos.length === undefined) return new Service(dtos);
+        if (dtos.length === 1) {
+            return new Service(dtos[0]);
+        }
+        else{
+            return this.parseItems(dtos);
+        }
+    }
     async modifyByID(id, newService){
         let updateInfo = {
             name: newService.name,
             price: newService.price,
             image: newService.image,
             description: newService.description,
-            responsible: newService.responsible,
             duration: newService.duration,
             frequency: newService.frequency,
+            published: newService.published,
             comments: newService.comments,
             qualification: newService.qualification,
+            type: newService.type
         }
         return await this.#dao.modifyByID(id, updateInfo);
     }

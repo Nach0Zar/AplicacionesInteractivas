@@ -5,8 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { CategoriasProvider } from './components/category/CategoryContext';
-import { ArticulosProvider } from './components/listing/ItemsContext';
+import { CategoryProvider } from './components/category/CategoryContext';
 import { ServiciosProvider } from './components/service/ServiciosContext';
 
 // Your web app's Firebase configuration
@@ -24,13 +23,11 @@ initializeApp(firebaseConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <CategoriasProvider>
+    <CategoryProvider>
       <ServiciosProvider>
-        <ArticulosProvider>
             <App />
-        </ArticulosProvider>
       </ServiciosProvider>
-    </CategoriasProvider>
+    </CategoryProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

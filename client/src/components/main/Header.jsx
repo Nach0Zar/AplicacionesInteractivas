@@ -7,8 +7,8 @@ const Header = () => {
     <header>
       <NavBar/>
         <div id="headerTitle">
-          <h1>Zona Compra E-Commerce</h1>
-          <h2>E-Commerce dedicado a sudamerica</h2>
+          <h1>Cursera</h1>
+          <h2>Cursos de todo tipo, encontra el que va con vos!</h2>
         </div>
         <hr/>
     </header>

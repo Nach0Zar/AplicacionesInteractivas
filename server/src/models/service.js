@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { ObjectId } from 'mongodb';
 class Service{
     #name
     #price
@@ -11,7 +12,9 @@ class Service{
     #frequency
     #comments
     #qualification
-    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification}){
+    #type
+    #published
+    constructor({name, price, image, description, id = randomUUID(), categories, responsible, duration, frequency, comments, qualification, type, published}){
         this.#name = name;
         this.#price = +price;
         this.#image = image;
@@ -23,6 +26,8 @@ class Service{
         this.#frequency = frequency;
         this.#comments = comments;
         this.#qualification = qualification;
+        this.#type = type;
+        this.#published = published
     }
     getName(){
         return this.#name;
@@ -36,10 +41,10 @@ class Service{
     setPrice(price){
         this.#price = price;   
     }
-    setImage(){
+    getImage(){
         return this.#image;
     }
-    getImage(image){
+    setImage(image){
         this.#image = image;  
     }
     getDescription(){
@@ -72,11 +77,20 @@ class Service{
     setFrequency(frequency){
         this.#frequency = frequency;
     }
+    getType(){
+        return this.#type
+    }
+    setType(type){
+        this.#type = type;
+    }
     getComments(){
         return this.#comments
     }
     setComments(comments){
         this.#comments = comments;
+    }
+    addComment(comment){
+        this.#comments.push(comment);
     }
     getQualification(){
         return this.#qualification
@@ -93,7 +107,13 @@ class Service{
     setCategories(categories){
         this.#categories = categories;
     }
-    modify({name, price, image, description, categories, responsible, duration, frequency, comments, qualification}){
+    getPublished(){
+        return this.#published;
+    }
+    setPublished(published){
+        this.#published = published;
+    }
+    modify({name, price, image, description, categories, responsible, duration, frequency, comments, qualification, published}){
         this.setName(name);
         this.setPrice(price);
         this.setImage(image);
@@ -104,6 +124,7 @@ class Service{
         this.setFrequency(frequency);
         this.setComments(comments);
         this.setQualification(qualification);
+        this.setPublished(published);
     }
     toDTO(){
         const dto = {
@@ -112,12 +133,14 @@ class Service{
             image: this.#image,
             categories: this.#categories,
             description: this.#description,
-            responsible: this.#responsible,
+            responsible: ObjectId(this.#responsible),
             duration: this.#duration,
             frequency: this.#frequency,
             comments: this.#comments,
             qualification: this.#qualification,
-            id: this.#id
+            type: this.#type,
+            id: this.#id,
+            published: this.#published
         }
         return dto
     }

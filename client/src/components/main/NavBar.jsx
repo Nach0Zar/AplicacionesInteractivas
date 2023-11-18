@@ -1,18 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import Carrito from './CartWidget';
-import { useCart } from '../cart/CartContext';
 import { useUsuario } from '../user/UserContext';
 
 const NavBar = () => {
-  const { articulos } = useCart();
   const { usuario, desloguearUser} = useUsuario();
   const isLoggedIn = !(usuario === null);
   
   return (
     <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <NavLink className="navbar-brand" to={"/"}>Zona Compra</NavLink>
+        <NavLink className="navbar-brand" to={"/"}>Cursera</NavLink>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -33,14 +30,14 @@ const NavBar = () => {
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/user"}>Usuario</NavLink></li>
             )}
             {isLoggedIn && (
+            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/services"}>Mis Servicios</NavLink></li>
+            )}
+            {isLoggedIn && (
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Ordenes</NavLink></li>
             )}
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/about"}>Acerca de nosotros</NavLink></li>
           </ul>
         </div>
-
-        {articulos.length > 0 && 
-          <Carrito/>}
       </div>
     </nav>
   )
