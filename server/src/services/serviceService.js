@@ -61,14 +61,13 @@ class ServiceService{
         if(!(await this.checkExistingService(serviceID))){
             throw new Error(`No service was found matching ID ${serviceID}`, 'BAD_REQUEST');
         }
+        console.log(servicePatch)
         let service = await this.container.getItemByID(serviceID);
-        let databaseService = service;
         servicePatch.qualification = service.getQualification();
         servicePatch.comments = service.getComments();
         servicePatch.image = service.getImage();
-        service.modify(servicePatch);
-        servicePatchValidation(service, databaseService);
-        let modified = await this.container.modifyByID(serviceID, service.toDTO())
+        servicePatchValidation(service, servicePatch);
+        let modified = await this.container.modifyByID(serviceID, servicePatch)
         if(!modified) {
             throw new Error("There was an error updating the service", 'INTERNAL_ERROR')
         }

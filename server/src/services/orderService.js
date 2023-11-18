@@ -28,7 +28,7 @@ class OrderService{
             throw new Error(`No order was found for the user with the email ${userEmail}`, 'NOT_FOUND');
         }       
         if(orders.length === undefined) {
-            return orders.toDTO();
+            return [orders.toDTO()];
         }
         let ordersDTO = [];
         orders.forEach(order => {
@@ -48,16 +48,11 @@ class OrderService{
             status: "requested",
             timestamp: timestamp
         });
-        // mailer.send({
-        //     to: config.MAIL_ADMIN,
-        //     subject: `New purchase order: ${user.name} ${user.lastname} - ${userEmail}`,
-        //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
-        // })
-        // mailer.send({
-        //     to: userEmail,
-        //     subject: `Purchase order processed!`,
-        //     text: `Services acquired: ${servicesBougthNames.join(", ")}`
-        // })
+        mailer.send({
+            to: order.applicant.email,
+            subject: `Purchase order processed!`,
+            text: `Service acquired: ${service.name}`
+        })
         let orderID = await this.container.save(orderObject);
         return orderID;
     }

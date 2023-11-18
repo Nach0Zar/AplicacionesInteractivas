@@ -14,6 +14,7 @@ const Profile = () => {
     const [newTitle, setTitle] = useState('');
     const [newPhone, setPhone] = useState('');
     const [newPassword, setPassword] = useState('');
+    const [newPasswordConfirm, setPasswordConfirm] = useState('');
 
     useEffect(() => {
       if(isLoggedIn){
@@ -22,6 +23,7 @@ const Profile = () => {
         setEmail(usuario.email);
         setPhone(usuario.phone);
         setPassword(usuario.password);
+        setPasswordConfirm(usuario.password);
         setUserPerfil(usuario);
       }
       else{
@@ -44,6 +46,9 @@ const Profile = () => {
     }
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
+    }
+    const handleChangePasswordConfirm = (e) => {
+        setPasswordConfirm(e.target.value);
     }
     const realizarCambios = async (e) => {
         e.preventDefault()
@@ -180,7 +185,7 @@ const Profile = () => {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1">Reingresar Contraseña</span>
                                 </div>
-                            <input type="password" className="form-control" placeholder="Reingresar Contraseña" value={newPassword} name="passwordConfirm"/>
+                            <input type="password" className="form-control" placeholder="Reingresar Contraseña" value={newPasswordConfirm} name="passwordConfirm" onChange={handleChangePasswordConfirm}/>
                             </div>
                         </div>
                         <button type="submit" className="btn btn-outline-secondary" name="cambiarUsuario" value="Submit" onClick={realizarCambios}>Cambiar datos</button>

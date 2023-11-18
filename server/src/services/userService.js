@@ -52,11 +52,11 @@ class UserService{
             experience: ""
         })
         return this.container.save(user).then((userID)=>{
-            // mailer.send({
-            //     to: config.MAIL_ADMIN,
-            //     subject: 'nuevo registro!',
-            //     text: `nuevo registro: ${JSON.stringify(user.toDTO())}`
-            // })
+            mailer.send({
+                to: information.email,
+                subject: 'nuevo registro!',
+                text: `nuevo registro: ${JSON.stringify(user.toDTO())}`
+            })
             return userID;
         }).catch((error)=>{            
             throw new Error(error, 'INTERNAL_ERROR')
@@ -101,11 +101,11 @@ class UserService{
             experience: experience
         })
         await this.container.modifyByID(id, newUser).then((status)=>{
-            // mailer.send({
-            //     to: config.MAIL_ADMIN,
-            //     subject: 'usuario actualizado!',
-            //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
-            // })
+            mailer.send({
+                to: email,
+                subject: 'usuario actualizado!',
+                text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
+            })
             return status;
         }).catch((error)=>{            
             throw new Error(error, 'INTERNAL_ERROR')
@@ -118,11 +118,11 @@ class UserService{
         }
         user.setPassword(jwt.sign("default", config.SESSION.secret))
         await this.container.modifyByID(userID, user).then((status)=>{
-            // mailer.send({
-            //     to: config.MAIL_ADMIN,
-            //     subject: 'contraseña actualizada!',
-            //     text: `usuario actualizado: ${JSON.stringify(newUser.toDTO())}`
-            // })
+            mailer.send({
+                to: user.getEmail(),
+                subject: 'contraseña actualizada!',
+                text: `Nueva contraseña para el usuario: 'default'`
+            })
             return status;
         }).catch((error)=>{            
             throw new Error(error, 'INTERNAL_ERROR')
