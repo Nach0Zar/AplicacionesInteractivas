@@ -49,9 +49,9 @@ class OrderService{
             timestamp: timestamp
         });
         mailer.send({
-            to: userEmail,
+            to: order.applicant.email,
             subject: `Purchase order processed!`,
-            text: `Services acquired: ${servicesBougthNames.join(", ")}`
+            text: `Service acquired: ${service.name}`
         })
         let orderID = await this.container.save(orderObject);
         return orderID;

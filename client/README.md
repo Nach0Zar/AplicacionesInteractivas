@@ -85,7 +85,52 @@ Una vez rellenado el formulario del servicio, daremos en crear y tendremos nuest
 ![Alt text](doc/crearServicioForm.png)
 ![Alt text](doc/servicioCreadoListado.png)
 
+### Manejo de Ordenes
+
+
+
+### Manejo de Comentarios
+
+
+
 ### Busqueda de servicios
 
-Para la busqueda de servicios tendremos que ir a la seccion de 
+Para la busqueda de servicios tendremos que ir a "Mercado". 
 
+![Alt text](doc/mercadoBoton.png)
+
+Podemos obserbar un listado de todos los servicios disponibles (los que fueron marcados como publicados por su autor). 
+
+Del lado izquierdo, contamos con un sidebar para aplicar filtros sobre estos servicios, los cuales son basados por Calificación, Frecuencia, Tipo de clase y Categoria.
+
+![Alt text](doc/sidebarFiltros.png)
+
+Este filtro permite activar varios al mismo tiempo, los cuales se irán listando en la parte superior del sidebar.
+
+![Alt text](doc/sidebarFiltrosAplicados.png)
+
+Para remover un filtro aplicado, bastará con hacerle click a ese filtro en especifico para removerlo. En caso de querer reiniciar la busqueda, al hacer click en el boton "Remover Filtros" se reiniciarán los filtros aplicados.
+
+### Comentar un servicio
+
+Para poder realizar una valoracion dentro de un servicio, hay que entrar a alguno de los servicios. 
+
+![Alt text](doc/paginaServicio.png)
+
+Al fondo, podremos observar una caja para realizar un comentario, en la cual se puede agregar una valoración de entre 1 y 5 estrellas, pudiendo aplicar medias estrellas tambien. Además, se deberá ingresar un nombre y un mensaje para la valoración. Una vez conforme con el comentario, se podrá enviar. Este mensaje no se mostrará ya que primero deberá ser revisado por el responsable del servicio.
+
+![Alt text](doc/comentarioClase.png)
+
+### Contratar un servicio
+
+Para poder contratar un servicio, podemos observar que en la información de curso dentro del servicio hay un boton para contactar al responsable. Daremos click en dicho botón.
+
+![Alt text](doc/servicioInfo.png)
+
+Nos aparecerá un formulario para rellenar con la información del solicitante, el cual requiere de un mail, DNI, teléfono y un mensaje al responsable en el cual podrá especificar alguna limitación a la hora de que el responsable se ponga en contacto con el solicitante (Por ejemplo, una limitante horaria). 
+
+![Alt text](doc/solicitarServicio.png)
+
+Una vez contentos con la información ingresada, daremos en el boton "Contactar" del formulario y la solicitud será enviada al responsable para que se maneje por fuera del marketplace el brindado del servicio.
+
+![Alt text](doc/servicioContratado.png)
