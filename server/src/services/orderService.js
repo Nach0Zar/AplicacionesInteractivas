@@ -28,7 +28,7 @@ class OrderService{
             throw new Error(`No order was found for the user with the email ${userEmail}`, 'NOT_FOUND');
         }       
         if(orders.length === undefined) {
-            return orders.toDTO();
+            return [orders.toDTO()];
         }
         let ordersDTO = [];
         orders.forEach(order => {
