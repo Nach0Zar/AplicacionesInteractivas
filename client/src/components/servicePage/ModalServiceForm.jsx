@@ -2,14 +2,17 @@ import React from 'react';
 import { Modal } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { useUsuario } from '../user/UserContext';
-import { Usuario } from '../imports/classes';
 import { useNavigate } from 'react-router-dom';
-import Checkbox from '@mui/material/Checkbox';
+import { useServicios } from '../service/ServiciosContext';
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from '@mui/icons-material/Remove';
 import swal from 'sweetalert';
 import { useCategorias } from '../category/CategoryContext';
 
 const ModalServiceForm = (props) => {
     let navigate = useNavigate();
+    const {guardarImagen, cargarImagen} = useServicios();
     const show = props.show;
     const handleClose = props.onHide;
     const [usuarioDatos, setUsuarioDatos] = useState('');
@@ -25,12 +28,51 @@ const ModalServiceForm = (props) => {
     const [price, setPrice] = useState("")
     const [published, setPublished] = useState(false)
     const [duration, setDuration] = useState()
+    const [image, setImage] = useState(null)
+    const [currentImage, setCurrentImage] = useState(null)
+    const altImage = require("../../images/services/default.jpg");
     
     const isBlank = (input) => {
         return input.length === 0
     }
+    
+    const handleFileInputChange = e => {
+        let allowedExtensions = ['gif', 'png', 'jpg', 'jpeg'];
+        let file = e.target.files[0];
+        let extension = file.name.split('.').pop();
+        if(!allowedExtensions.includes(extension.toLowerCase())){
+            swal("Formato de la imagen no valido","", "error");
+            return
+        }
+        guardarImagen(file).then(data => {
+            if(data != null){
+                setImage(data)
+                fetchImage(data)
+            }
+            else {
+                swal("Error de subida de imagen, por favor intente mas tarde","", "error");
+            }
+        })
+    };
+
+    const handleRemoveImage = (e) => {
+        setImage("")
+        setCurrentImage("")
+    }
+
+    const fetchImage = (path) => {
+        cargarImagen(path).then(file => {
+            setCurrentImage(file)
+        })
+    }
+
+    const setAltImage = (e) => {
+    e.preventDefault();
+    setCurrentImage(altImage);
+    }
 
     useEffect(() => {
+        console.log(props.service)
         setService(props.service)
         setEdicion(props.edicion)
         setName(props.service.name !== null ? props.service.name : "")
@@ -40,11 +82,14 @@ const ModalServiceForm = (props) => {
         setCategories(props.service.categories !== undefined ? props.service.categories : categoriasListadoDB)
         setPrice(props.service.price !== null ? props.service.price : "")
         setPublished(props.service.published !== null ? props.service.published : false)
-        setDuration(props.service.duration !== null ? props.service.duration : "")        
+        setDuration(props.service.duration !== null ? props.service.duration : "")
+        setImage(props.service.image !== null ? props.service.image : null)
+        fetchImage(props.service.image)
     }, [props.service, props.edicion, props.onSave, categoriasListadoDB])
     const realizarAccion = (e) => {
         e.preventDefault()
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
+        console.log(e)
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         if(isBlank(name.value) || isBlank(description.value) || isBlank(frequency.value) || isBlank(duration.value) || isBlank(price.value)){
             swal("Error de validacion, revise los campos","", "error");
@@ -59,9 +104,10 @@ const ModalServiceForm = (props) => {
                 price: price.value,
                 published: published.checked,
                 id: props.service.id,
-                duration: duration.value
-
+                duration: duration.value,
+                image: image
             }
+            console.log(conFom)
             props.onSave(conFom)
             swal("Operacion exitosa!","", "success");
             handleClose()
@@ -152,6 +198,29 @@ const ModalServiceForm = (props) => {
                                 <span className="input-group-text" id="basic-addon1">Marcar como Publicado</span>
                             </div>
                         <input type="checkbox" defaultChecked={published} name='published' style={{marginLeft: "2%"}}/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group mb-1">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1">Imagen de publicacion</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-group" style={{borderWidth: "2px", borderColor: "black"}}>
+                        <img src={currentImage} alt="" style={{width: "100%", height:"100%"}} onError={(e) => {setAltImage(e)}}/>
+                    </div>
+                    <div className="form-group" style={{marginTop: "2%"}}>
+                        <div className="input-group mb-1">
+                            <Button variant="contained" component="label" color="primary" style={{marginLeft: "2%"}}>
+                                {" "}
+                                <AddIcon /> Subir imagen
+                                <input type="file" hidden name='photo' onChange={handleFileInputChange}/>
+                            </Button>
+                            <Button variant="contained" component="label" color="error" style={{marginLeft: "2%"}} onClick={handleRemoveImage}>
+                                {" "}
+                                <RemoveIcon /> Borrar foto
+                            </Button>
                         </div>
                     </div>
             </div>

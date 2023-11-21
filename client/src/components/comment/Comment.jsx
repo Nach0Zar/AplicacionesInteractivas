@@ -24,7 +24,7 @@ const Comment = ({comment, onSave, editMode}) => {
     const renderComment = (comment, editMode) => {
         if (editMode == false) {
             let ratingValue = comment.qualification
-            return <div style={{marginTop: "1%", display: "flex", flexDirection: "column", alignItems: "flex-start", paddingBottom: "0%", backgroundColor: "ghostwhite"}}>
+            return <div style={{marginTop: "1%", marginLeft: "1%", display: "flex", flexDirection: "column", alignItems: "flex-start", paddingBottom: "0%", backgroundColor: "ghostwhite"}}>
                 <div>
                     <Rating precision={0.5} readOnly value={ratingValue}/>
                     <h4 style={{ margin: 0, textAlign: "left", paddingRight: "2%"}}>{comment.user}</h4>

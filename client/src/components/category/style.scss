@@ -15,8 +15,16 @@
     margin-top: 10px;
 	border: 1px lightgrey solid;
 }
+// #elementsList {
+// 	display: inline-block;
+// 	padding: 10px 10px;
+// 	text-align: start;
+// 	grid-area: listaDeObjetos;
+// 	margin-right: 6.5%;
+// }
 #elementsList {
-	display: inline-block;
+	display: grid;
+	grid-template-columns: auto auto auto;
 	padding: 10px 10px;
 	text-align: start;
 	grid-area: listaDeObjetos;
@@ -27,18 +35,18 @@
         font-family: "Bebas Neue", cursive;
     }
     & > span {
-		font-size: medium;
+		font-size: 30px;
 	}
 }
 .subCategory {
 	& > span {
-		font-size: small;
+		font-size: 20px;
 	}
 }
 
 .service {
 	display: flex;
-	flex-flow: column nowrap;
+	flex-flow: column;
 	min-width: 900px;
     h2, h4 {
         margin: 10px 75px;

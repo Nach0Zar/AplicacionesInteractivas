@@ -154,6 +154,33 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     })
   }
 
+  const guardarImagen = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    return await fetch('http://localhost:8080/api/images', {
+      method: 'POST',
+      body: data
+    }).then( async (data) => {
+      let jsonData = await data.json();
+      return jsonData.path
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
+
+  const cargarImagen = async (path) => {
+    return await fetch('http://localhost:8080/api/images/'+path, {
+      method: 'GET'
+    }).then( async (data) => {
+      const image = await data.blob()
+      return URL.createObjectURL(image)
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
+
   const context = {
     serviciosLoaded,
     serviciosListadoDB,
@@ -168,7 +195,9 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     actualizarServicio,
     guardarComentario,
     reviewComentario,
-    borrarServicio
+    borrarServicio,
+    guardarImagen,
+    cargarImagen
   }
   return (
     <ServiciosContext.Provider value={context}>

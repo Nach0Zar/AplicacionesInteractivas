@@ -18,13 +18,7 @@ const NavBar = () => {
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/category"}>Mercado</NavLink></li>
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/faqs"}>FAQs</NavLink></li>
             {!isLoggedIn && (
-            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/login"}>Loguearse</NavLink></li>
-            )}
-            {!isLoggedIn && (
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/register"}>Registrarse</NavLink></li>
-            )}
-            {isLoggedIn && (
-            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/"} onClick={(e)=>{desloguearUser()}}>Desloguearse</NavLink></li>
             )}
             {isLoggedIn && (
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/user"}>Usuario</NavLink></li>
@@ -36,6 +30,12 @@ const NavBar = () => {
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Ordenes</NavLink></li>
             )}
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/about"}>Acerca de nosotros</NavLink></li>
+            {isLoggedIn && (
+            <li className="nav-item navLink"><NavLink className="nav-link text-white ms-auto" to={"/"} onClick={(e)=>{desloguearUser()}}>Desloguearse</NavLink></li>
+            )}
+            {!isLoggedIn && (
+            <li className="nav-item navLink"><NavLink className="nav-link text-white ms-auto" to={"/login"}>Loguearse</NavLink></li>
+            )}
           </ul>
         </div>
       </div>

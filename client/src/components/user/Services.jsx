@@ -179,7 +179,7 @@ const Services = () => {
                             </TableCell>
                             </TableRow>
                         )) : (<TableRow>
-                            <TableCell align="center">There are no services created yet!</TableCell>
+                            <TableCell align="center">No hay servicios creados!</TableCell>
                         </TableRow>)
                     }
                     </TableBody>
