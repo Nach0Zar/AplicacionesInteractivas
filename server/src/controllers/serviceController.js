@@ -61,7 +61,7 @@ class ServiceController{
             let service = {
                 name: req.body.name, 
                 price: +req.body.price, 
-                image: "",
+                image: req.body.image,
                 description: req.body.description,
                 id: serviceId,
                 categories: req.body.categories,

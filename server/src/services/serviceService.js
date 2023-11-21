@@ -65,7 +65,6 @@ class ServiceService{
         let service = await this.container.getItemByID(serviceID);
         servicePatch.qualification = service.getQualification();
         servicePatch.comments = service.getComments();
-        servicePatch.image = service.getImage();
         servicePatchValidation(service, servicePatch);
         let modified = await this.container.modifyByID(serviceID, servicePatch)
         if(!modified) {

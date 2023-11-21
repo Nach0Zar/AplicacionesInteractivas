@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         let extension = file.originalname.split('.').pop();
         let allowedExtensions = ['gif', 'png', 'jpg', 'jpeg'];
-        if(!allowedExtensions.includes(extension)){
+        if(!allowedExtensions.includes(extension.toLowerCase())){
             cb(new Error('Image extension not allowed','BAD_REQUEST'))
         }
         else{

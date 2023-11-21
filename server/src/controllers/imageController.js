@@ -13,7 +13,7 @@ class ImageController{
         try{
             const file = req.file
             logger.info(`POST REQUEST successful for image`);
-            res.status(200).json({ path: file.path });
+            res.status(200).json({ path: file.filename });
         }
         catch(error){
             next(error);
