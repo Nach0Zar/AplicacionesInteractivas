@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Nach0Zar/AplicacionesInteractivas#readme",
   "dependencies": {
+    "cloudinary": "^1.41.0",
     "cluster": "^0.7.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

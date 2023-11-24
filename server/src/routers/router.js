@@ -6,7 +6,7 @@ import imageController from '../controllers/imageController.js';
 import serviceController from '../controllers/serviceController.js';
 import categoryController from '../controllers/categoryController.js';
 import checkUserLogged from '../middlewares/checkUserLogged.js';
-import { postImage } from '../middlewares/imageHandler.js';
+import { uploadToMulter } from '../middlewares/multer.js';
 
 const routerAPI = express.Router();
 //users
@@ -24,7 +24,7 @@ routerAPI.get('/orders',checkUserLogged, orderController.controllerGetOrders);
 routerAPI.post('/orders', orderController.controllerPostOrder);
 routerAPI.post('/orders/:id',checkUserLogged, orderController.controllerPostUpdateOrder);
 //images
-routerAPI.post('/images', checkUserLogged, postImage('file'), imageController.controllerPostImage);
+routerAPI.post('/images', checkUserLogged, uploadToMulter('file'), imageController.controllerPostImage);
 routerAPI.get('/images/:name', imageController.controllerGetImage);
 //services
 routerAPI.get('/services', serviceController.controllerGetAllServices);
