@@ -21,7 +21,7 @@ routerAPI.post('/logout',checkUserLogged,userController.controllerPostLogOutUser
 routerAPI.post('/sessions', passport.authenticate('local-login', { failWithError: false }), userController.controllerPostLogInUser);
 //orders
 routerAPI.get('/orders',checkUserLogged, orderController.controllerGetOrders);
-routerAPI.post('/orders', checkUserLogged, orderController.controllerPostOrder);
+routerAPI.post('/orders', orderController.controllerPostOrder);
 routerAPI.post('/orders/:id',checkUserLogged, orderController.controllerPostUpdateOrder);
 //images
 routerAPI.post('/images', checkUserLogged, postImage('file'), imageController.controllerPostImage);
