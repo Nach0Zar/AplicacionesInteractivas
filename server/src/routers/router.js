@@ -32,7 +32,7 @@ routerAPI.get('/services/:id', serviceController.controllerGetServiceByID);
 routerAPI.patch('/services/:id', checkUserLogged, serviceController.controllerPatchService);
 routerAPI.delete('/services/:id', checkUserLogged, serviceController.controllerDeleteService);
 routerAPI.patch('/services/:serviceID/comment/:commentId', checkUserLogged, serviceController.controllerReviewCommentService);
-routerAPI.post('/services/:serviceID/comment', checkUserLogged, serviceController.controllerPostComment);
+routerAPI.post('/services/:serviceID/comment', serviceController.controllerPostComment);
 routerAPI.post('/services', checkUserLogged, serviceController.controllerPostService);
 routerAPI.get('/services/user/:id', serviceController.controllerGetServiceByUser);
 routerAPI.get('/services/category/:id', serviceController.controllerGetServiceByCategory);
