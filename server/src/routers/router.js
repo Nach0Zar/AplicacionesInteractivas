@@ -24,7 +24,7 @@ routerAPI.get('/orders',checkUserLogged, orderController.controllerGetOrders);
 routerAPI.post('/orders', checkUserLogged, orderController.controllerPostOrder);
 routerAPI.post('/orders/:id',checkUserLogged, orderController.controllerPostUpdateOrder);
 //images
-routerAPI.post('/images', postImage('file'), imageController.controllerPostImage);
+routerAPI.post('/images', checkUserLogged, postImage('file'), imageController.controllerPostImage);
 routerAPI.get('/images/:name', imageController.controllerGetImage);
 //services
 routerAPI.get('/services', serviceController.controllerGetAllServices);
