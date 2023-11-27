@@ -6,6 +6,8 @@ Este es el proyecto creado por Nicolas Martin Cano e Ignacio Zarlenga para la en
 
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/)
+- Una cuenta de Gmail para el servicio de mailing.
+- Una cuenta en Cloudinary para el servicio de imagenes.
 
 ### Instalación
 
