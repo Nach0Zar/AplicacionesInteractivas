@@ -1,6 +1,5 @@
 import { Error } from "../error/error.js";
 import mailer from "../utils/mailer.js";
-import config from "../config/config.js";
 import orderRepository from "../repositories/orderRepository.js";
 import Order from "../models/order.js";
 import userService from "./userService.js";
@@ -50,8 +49,19 @@ class OrderService{
         });
         mailer.send({
             to: order.applicant.email,
-            subject: `Purchase order processed!`,
-            text: `Service acquired: ${service.name}`
+            subject: `Orden procesada!`,
+            text: `Servicio adquirido: ${service.name}`
+        })
+        let serviceResponsible = await userService.getUserByID(service.responsible);
+        mailer.send({
+            to: serviceResponsible.email,
+            subject: `Servicio solicitado!`,
+            text: `Una orden para adquirir el servicio ${service.name} fue creada. 
+            Informacion del solicitante: 
+            Email: ${order.applicant.email}
+            DNI: ${order.applicant.dni}
+            Telefono: ${order.applicant.phone}
+            Nota: ${order.message}`
         })
         let orderID = await this.container.save(orderObject);
         return orderID;
