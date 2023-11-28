@@ -27,13 +27,14 @@ const ModalContactForm = (props) => {
     }, [usuario])
     const realizarComentario = async (e) => {
         e.preventDefault()
-        const { email, dni, telefono, message } = e.target.elements
+        const { email, dni, telefono, message, contactAvailability} = e.target.elements
         let order = {
             service: serviceID,
             applicant: {
                 email: email.value,
                 dni: dni.value,
                 phone: telefono.value,
+                contactAvailability
             },
             message: message.value
         }
@@ -82,11 +83,19 @@ const ModalContactForm = (props) => {
                     </div>
                 </div>
                 <div className="form-group">
+                    <div className="input-group mb-1">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="basic-addon1">Horario de contacto</span>
+                        </div>
+                        <input type="text" className="form-control" placeholder="Horario para que tu profe te contacte" name="contactAvailability" defaultValue={usuarioDatos.telefono}/>
+                    </div>
+                </div>
+                <div className="form-group">
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1">Texto</span>
+                            <span className="input-group-text" id="basic-addon1">Motivo</span>
                         </div>
-                        <input type="text" className="form-control" placeholder="Mensaje al responsable" name="message" defaultValue={usuarioDatos.mensaje}/>
+                        <input type="text" className="form-control" placeholder="Contale a tu profe que es lo que te intereso" name="message" defaultValue={usuarioDatos.mensaje}/>
                     </div>
                 </div>
             </div>

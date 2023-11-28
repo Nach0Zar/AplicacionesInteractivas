@@ -38,9 +38,7 @@ useEffect(() => {
         setServicioCapturado(data);
         setServiceLoaded(true);
         setCommentsItem(data.comments.filter(comment => comment.reviewed === true))
-        cargarImagen(data.image).then(file => {
-          setImage(file)
-        })
+        setImage(data.image)
         if(!responsibleLoaded){
           getUserByID(data.responsible).then((user)=> {
             setResponsible(user.name + " " + user.lastname);

@@ -47,7 +47,7 @@ const ModalServiceForm = (props) => {
         guardarImagen(file).then(data => {
             if(data != null){
                 setImage(data)
-                fetchImage(data)
+                setCurrentImage(data)
             }
             else {
                 swal("Error de subida de imagen, por favor intente mas tarde","", "error");
@@ -61,9 +61,8 @@ const ModalServiceForm = (props) => {
     }
 
     const fetchImage = (path) => {
-        cargarImagen(path).then(file => {
-            setCurrentImage(file)
-        })
+        console.log(path)
+        setCurrentImage(path)
     }
 
     const setAltImage = (e) => {
@@ -72,7 +71,6 @@ const ModalServiceForm = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.service)
         setService(props.service)
         setEdicion(props.edicion)
         setName(props.service.name !== null ? props.service.name : "")

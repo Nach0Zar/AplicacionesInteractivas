@@ -8,10 +8,11 @@ const ItemRecommended = (props) => {
     const altImage = require("../../images/services/default.jpg");
     useEffect(() => {
         setServicio(props.servicio);
-        if(image === ""){
-            setImage("http://localhost:8080/api/images/"+props.servicio.image);
+        setImage(props.servicio.image)
+        if(image != ""){
+            setImage(props.servicio.image);
         }
-    },[image, props.servicio])
+    },[props.servicio.image, props.servicio])
     const setAltImage = (e) => {
         e.preventDefault();
         setImage(altImage);
