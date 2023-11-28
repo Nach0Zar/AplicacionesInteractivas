@@ -159,6 +159,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     data.append("file", file);
     return await fetch('http://localhost:8080/api/images', {
       method: 'POST',
+      credentials: 'include',
       body: data
     }).then( async (data) => {
       let jsonData = await data.json();
