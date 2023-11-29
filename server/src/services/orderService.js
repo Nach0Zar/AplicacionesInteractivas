@@ -44,7 +44,7 @@ class OrderService{
             applicant: order.applicant,
             responsible: service.responsible,
             message: order.message,
-            status: "requested",
+            status: "Solicitado",
             timestamp: timestamp
         });
         mailer.send({
