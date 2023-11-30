@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Rating from '@mui/material/Rating';
 
 const ItemRecommended = (props) => {
     const [servicio, setServicio] = useState({});

@@ -24,13 +24,16 @@ const ItemListRecommended = () => {
             setServices()
         }
     }, [items, obtenerServiciosPorCantidad, itemsLoaded]);
-
     return (
         <div id="recommendations">
-            {(itemsLoaded === true) 
-            && items.map((item) => (
+            {((itemsLoaded === true) && (items !== null)) 
+            ? items.map((item) => (
                 <ItemRecommended key={item.id} servicio={item}/>
-            ))
+            )): (
+                <div>
+                    <h3>No se encontraron servicios publicados</h3>
+                </div>
+            )
             }
         </div>
     )

@@ -101,6 +101,9 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const obtenerServiciosPorCantidad = async (cantidad = 0) => {
     return await fetch("http://localhost:8080/api/services/recommended/"+cantidad).then(async (data) => {
       let jsonData = await data.json();
+      if(data.ok === false){
+        return null;
+      }
       let listadoDB = [];
       (jsonData.length === undefined) ? (listadoDB.push(jsonData)) : (listadoDB = jsonData)
       return await crearServicios(listadoDB);

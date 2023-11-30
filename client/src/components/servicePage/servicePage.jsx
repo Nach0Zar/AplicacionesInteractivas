@@ -56,7 +56,6 @@ useEffect(() => {
           .catch((err)=>console.log(err));
         }
     }).catch((err)=>{
-      console.log(err)
       swal("Item no encontrado","El item no fue encontrado. "+err,"error")
     });
     }

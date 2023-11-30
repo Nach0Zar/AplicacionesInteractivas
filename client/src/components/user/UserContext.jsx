@@ -18,7 +18,6 @@ const UsuarioContext = React.createContext([]);
     }
 
     const isLogged = () => {
-      console.log("check log")
       return localStorage.getItem("user") != null
     }
 
