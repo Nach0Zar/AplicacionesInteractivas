@@ -131,7 +131,7 @@ class Service{
             name: this.#name,
             price: this.#price,
             image: this.#image,
-            categories: this.#categories,
+            categories: this.#categories.map(c => ObjectId(c)),
             description: this.#description,
             responsible: ObjectId(this.#responsible),
             duration: this.#duration,

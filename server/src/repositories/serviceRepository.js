@@ -1,4 +1,5 @@
 import Service from '../models/service.js';
+import { ObjectId } from 'mongodb';
 import MongoDBContainer from "../containers/mongoDBContainer.js";
 
 let instance = null;
@@ -77,7 +78,8 @@ class ServiceRepository {
             published: newService.published,
             comments: newService.comments,
             qualification: newService.qualification,
-            type: newService.type
+            type: newService.type,
+            categories: newService.categories.map(c => ObjectId(c))
         }
         return await this.#dao.modifyByID(id, updateInfo);
     }
