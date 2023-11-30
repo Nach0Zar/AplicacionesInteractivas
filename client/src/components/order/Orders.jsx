@@ -9,6 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from "@mui/material/TablePagination"; 
 import { Navigate } from 'react-router-dom';
 import './style.scss';
 
@@ -18,6 +19,11 @@ const Orders = () => {
     const isLoggedIn = !(usuario === null);
     const [orders, setOrders] = useState([])
     const [ordersListadas, setOrdersListadas] = useState(false)
+    const [pg, setpg] = useState(0); 
+  
+    function handleChangePage(event, newpage) { 
+        setpg(newpage); 
+    } 
     useEffect(() => {
         const getAllOrdersFromUser = async () => {
             let listadoDB = await getOrders();
@@ -49,15 +55,24 @@ const Orders = () => {
                     </TableHead>
                     <TableBody>
                     {(orders.length > 0) ? 
-                        orders.map((row) => (
+                        orders.slice(pg * 5, pg * 5 + 5).map((row) => (
                             <Order order={row}></Order>
                         )) : (<TableRow>
-                            <TableCell align="center">No hay ordenes creados!</TableCell>
+                            <TableCell align="center">En este momento no tienes contratacion!</TableCell>
                         </TableRow>)
                     }
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination 
+                component="div"
+                count={orders.length} 
+                rowsPerPage={5} 
+                page={pg}
+                labelRowsPerPage= ''
+                rowsPerPageOptions={[]}
+                onPageChange={handleChangePage} 
+            /> 
         </div>
     }
 
@@ -65,41 +80,11 @@ const Orders = () => {
         <div className="containerServices">
         <div className="servicesDiv">
             <h3>
-                Desde aqui puedes ver y gestionar tus ordenes
+                Desde aqui puedes ver y gestionar tus contrataciones
             </h3>
             {renderOrders()}
         </div>
     </div>
-        // <main>
-        //     <div className="containerOrders">
-        //         <div className="ordersDiv">
-        //             {(!isLoggedIn) && <Navigate to="/"/> }
-        //             {orders.length > 0 ? 
-        //             orders.map((compra, index, array)=>{
-        //                 if(index+1 === array.length){
-        //                     return <div key={compra.id}>
-        //                         <Order order={compra}/>
-        //                         <br />
-        //                     </div>
-        //                 }
-        //                 else{
-        //                     return <div key={compra.id}>
-        //                         <Order order={compra}/>
-        //                         <hr/>
-        //                     </div>
-        //                 }
-        //             })
-        //             :
-        //             <div className="order">
-        //                 <h2>No recibiste ordenes aun!</h2>
-        //                 <h4>Cuando alguien desee adquirir un servicio tuyo aparecera aqui</h4>
-        //                 <br/>
-        //             </div>
-        //             }
-        //         </div>
-        //     </div>
-        // <hr />
-        // </main>
     )
 }
 

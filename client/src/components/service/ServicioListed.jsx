@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useServicios } from '../service/ServiciosContext';
 import './style.scss';
+import Rating from '@mui/material/Rating';
 
 const ServiceListed = (props) => {
     const [image, setImage] = useState("");

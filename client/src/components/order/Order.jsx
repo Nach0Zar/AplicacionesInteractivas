@@ -1,6 +1,10 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider, alpha, getContrastRatio } from '@mui/material/styles';
+import { IconButton, Paper, Tooltip } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { useOrder } from './OrderContext';
 import { useEffect, useState } from 'react';
 import swal from 'sweetalert';
@@ -16,6 +20,11 @@ const Order = (props) => {
   const [orderStatus, setOrderStatus] = useState(null);
   const [listedOrder, setListedOrder] = useState(false);
   const {updateOrderStatus} = useOrder();
+
+  const solicitado = "Solicitado"
+  const cancelado = "Cancelado"
+  const aceptado = "Aceptado"
+  const finalizado = "Finalizado"
   
   const theme = createTheme({
     palette: {
@@ -29,10 +38,10 @@ const Order = (props) => {
     e.preventDefault();
     let modified = await updateOrderStatus(order.id, status);
     if(modified){
-      swal("Orden modificada!", "La orden " + order.id + " fue cambiada al estado " + status, "success");
+      swal("Contratacion modificada!", "La contratacion fue cambiada al estado " + status, "success");
     }
     else{
-      swal("Orden no modificada", "Desafortunadamente, hubo un problema con la página. Por favor, intentar nuevamente en unos instantes.", "error");
+      swal("Contratacion no modificada", "Desafortunadamente, hubo un problema con la página. Por favor, intentar nuevamente en unos instantes.", "error");
     }
     let newOrder = order;
     newOrder.status = status;
@@ -75,12 +84,37 @@ const Order = (props) => {
       <TableCell>
       <div className="container orderButtons">
         <ThemeProvider theme={theme}>
-          {(orderStatus === "requested") && (<Button variant="contained" color="success" onClick={(e) => handleChangeStatus(e, "approved")}>Aceptar</Button>)
+          {
+            (orderStatus === solicitado) && (
+            <Tooltip aria-label="Bold" title="Aceptar contratacion">
+              <IconButton size="medium" onClick={(e) => handleChangeStatus(e, aceptado)}>
+                  <DoneIcon color="success"></DoneIcon>
+              </IconButton>
+            </Tooltip>
+            )
           }
-          {(orderStatus === "approved") && (<Button variant="contained" color="violet" onClick={(e) => handleChangeStatus(e, "done")}>Finalizar</Button>)
+          {
+            (orderStatus === aceptado) && (
+              <Tooltip aria-label="Bold" title="Finalizar contratacion">
+              <IconButton size="medium" onClick={(e) => handleChangeStatus(e, finalizado)}>
+                  <DoneAllIcon color="violet"></DoneAllIcon>
+              </IconButton>
+            </Tooltip>
+              )
           }
-          {(orderStatus === "requested" || orderStatus === "approved") && (<Button variant="contained" color="error" onClick={(e) => handleChangeStatus(e, "cancelled")}>Cancelar</Button>)}
-          
+          {
+            (orderStatus === solicitado || orderStatus === aceptado) && (
+              <Tooltip aria-label="Bold" title="Cancelar contratacion">
+                <IconButton size="medium" onClick={(e) => handleChangeStatus(e, cancelado)}>
+                  <DeleteIcon color='error'></DeleteIcon>
+                </IconButton>
+              </Tooltip>
+            )
+          }
+          {
+            (orderStatus === cancelado || orderStatus === finalizado) && (<p>No hay acciones disponibles</p>)
+          }
+
         </ThemeProvider>  
       </div>
       </TableCell>

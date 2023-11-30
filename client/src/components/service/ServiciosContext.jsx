@@ -23,6 +23,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const guardarServicio = async (servicio) => {
     const requestOptions = {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(servicio)
     };
@@ -38,6 +39,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const actualizarServicio = async (servicio) => {
     const requestOptions = {
       method: 'PATCH',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(servicio)
     };
@@ -53,6 +55,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const borrarServicio = async (id) => {
     const requestOptions = {
       method: 'DELETE',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     };
     return await fetch("http://localhost:8080/api/services/"+id, requestOptions).then(async (data) => {
@@ -141,6 +144,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const reviewComentario = async (req, serviceId, commentID) => {
     const requestOptions = {
       method: 'PATCH',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req)
     };
@@ -170,18 +174,6 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     })
   }
 
-  const cargarImagen = async (path) => {
-    return await fetch('http://localhost:8080/api/images/'+path, {
-      method: 'GET'
-    }).then( async (data) => {
-      const image = await data.blob()
-      return URL.createObjectURL(image)
-    }).catch((err) => {
-      console.log(err)
-      return null
-    })
-  }
-
   const context = {
     serviciosLoaded,
     serviciosListadoDB,
@@ -197,8 +189,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     guardarComentario,
     reviewComentario,
     borrarServicio,
-    guardarImagen,
-    cargarImagen
+    guardarImagen
   }
   return (
     <ServiciosContext.Provider value={context}>

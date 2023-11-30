@@ -65,6 +65,7 @@ const OrderContext = React.createContext([]);
     const updateOrderStatus = async (orderID, newStatus) => {
       return await fetch("http://localhost:8080/api/orders/"+orderID, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json', 
         },

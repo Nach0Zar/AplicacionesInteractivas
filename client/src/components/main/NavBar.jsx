@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useUsuario } from '../user/UserContext';
 
 const NavBar = () => {
-  const { usuario, desloguearUser} = useUsuario();
+  const { usuario, desloguearUser, isLogged} = useUsuario();
   const isLoggedIn = !(usuario === null);
   
   return (
@@ -27,7 +27,7 @@ const NavBar = () => {
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/services"}>Mis Servicios</NavLink></li>
             )}
             {isLoggedIn && (
-            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Ordenes</NavLink></li>
+            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Contrataciones</NavLink></li>
             )}
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/about"}>Acerca de nosotros</NavLink></li>
             {isLoggedIn && (
