@@ -17,8 +17,6 @@ const ItemRecommended = (props) => {
     },[props.servicio.image, props.servicio])
     const setAltImage = (e) => {
         e.preventDefault();
-        console.log("entre a recomendado error imagen")
-        console.log(altImage)
         setImage(altImage);
     }
     return (

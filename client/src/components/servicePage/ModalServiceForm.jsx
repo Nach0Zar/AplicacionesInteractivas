@@ -61,7 +61,6 @@ const ModalServiceForm = (props) => {
     }
 
     const fetchImage = (path) => {
-        console.log(path)
         setCurrentImage(path)
     }
 
@@ -87,7 +86,6 @@ const ModalServiceForm = (props) => {
     const realizarAccion = (e) => {
         e.preventDefault()
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
-        console.log(e)
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         if(isBlank(name.value) || isBlank(description.value) || isBlank(frequency.value) || isBlank(duration.value) || isBlank(price.value)){
             swal("Error de validacion, revise los campos","", "error");
@@ -105,7 +103,6 @@ const ModalServiceForm = (props) => {
                 duration: duration.value,
                 image: image
             }
-            console.log(conFom)
             props.onSave(conFom)
             swal("Operacion exitosa!","", "success");
             handleClose()

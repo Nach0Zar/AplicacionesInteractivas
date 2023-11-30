@@ -29,7 +29,6 @@ const Orders = () => {
             let listadoDB = await getOrders();
             setOrders(listadoDB);
             setOrdersListadas(true);
-            console.log(listadoDB)
         }
         if (isLoggedIn && !ordersListadas){
             getAllOrdersFromUser()
@@ -37,7 +36,6 @@ const Orders = () => {
     }, [orders, isLoggedIn, ordersListadas, usuario, getOrders])
 
     const renderOrders = () => {
-        {console.log("rendering")}
         return <div style={{padding: "2%"}}>
             <TableContainer>
                 <Table aria-label="simple table" stickyHeader sx={{tableLayout:"fix"}}>

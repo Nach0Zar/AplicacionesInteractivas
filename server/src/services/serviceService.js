@@ -61,7 +61,6 @@ class ServiceService{
         if(!(await this.checkExistingService(serviceID))){
             throw new Error(`No service was found matching ID ${serviceID}`, 'BAD_REQUEST');
         }
-        console.log(servicePatch)
         let service = await this.container.getItemByID(serviceID);
         servicePatch.qualification = service.getQualification();
         servicePatch.comments = service.getComments();
