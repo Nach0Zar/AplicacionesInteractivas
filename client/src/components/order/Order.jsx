@@ -80,6 +80,9 @@ const Order = (props) => {
       <TableCell align="right">
           {order.applicant.phone}
       </TableCell>
+      <TableCell align="right">
+          {order.applicant.contactAvailability}
+      </TableCell>
       <TableCell sx={{wordBreak:"break-word", maxWidth: "300px"}} align="left">
           <p>{order.message}</p>
       </TableCell>

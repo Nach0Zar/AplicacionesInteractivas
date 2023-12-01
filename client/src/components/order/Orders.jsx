@@ -46,6 +46,7 @@ const Orders = () => {
                         <TableCell align="right">Email del solicitante</TableCell>
                         <TableCell align="right">DNI del solicitante</TableCell>
                         <TableCell align="right">Telefono del solicitante</TableCell>
+                        <TableCell align="right">Horario de consulta</TableCell>
                         <TableCell align="center">Mensaje</TableCell>
                         <TableCell align="center">Acciones</TableCell>
                     </TableRow>
