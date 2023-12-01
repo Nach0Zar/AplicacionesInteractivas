@@ -49,12 +49,13 @@ ul {
 		display: flex;
 		flex-flow: row wrap;
 		justify-content: space-around;
+		font-family: "Bebas Neue";
 		gap: 10px;
 		.itemDiv {
 			max-width: 440px;
 			min-width: 420px;
 			width: 440px;
-			height: 550px;
+			height: 570px;
 			border-radius: 5%;
             border: 1px lightgrey solid;
 			margin-bottom: 50px;
@@ -67,7 +68,7 @@ ul {
 			span {
 				display: block;
 				margin: auto;
-				color: grey;
+				color: black;
 				font-size: 30px;
 				text-align: center;
 			}

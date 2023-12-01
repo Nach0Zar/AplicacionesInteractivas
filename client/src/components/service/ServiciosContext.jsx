@@ -23,6 +23,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const guardarServicio = async (servicio) => {
     const requestOptions = {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(servicio)
     };
@@ -38,6 +39,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const actualizarServicio = async (servicio) => {
     const requestOptions = {
       method: 'PATCH',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(servicio)
     };
@@ -53,6 +55,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const borrarServicio = async (id) => {
     const requestOptions = {
       method: 'DELETE',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     };
     return await fetch("http://localhost:8080/api/services/"+id, requestOptions).then(async (data) => {
@@ -98,6 +101,9 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const obtenerServiciosPorCantidad = async (cantidad = 0) => {
     return await fetch("http://localhost:8080/api/services/recommended/"+cantidad).then(async (data) => {
       let jsonData = await data.json();
+      if(data.ok === false){
+        return null;
+      }
       let listadoDB = [];
       (jsonData.length === undefined) ? (listadoDB.push(jsonData)) : (listadoDB = jsonData)
       return await crearServicios(listadoDB);
@@ -141,6 +147,7 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
   const reviewComentario = async (req, serviceId, commentID) => {
     const requestOptions = {
       method: 'PATCH',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req)
     };
@@ -148,6 +155,22 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
       //let jsonData = await data.json();
       //let serviceCreado = instantiateServicio(jsonData);
       //return serviceCreado;
+    }).catch((err) => {
+      console.log(err)
+      return null
+    })
+  }
+
+  const guardarImagen = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    return await fetch('http://localhost:8080/api/images', {
+      method: 'POST',
+      credentials: 'include',
+      body: data
+    }).then( async (data) => {
+      let jsonData = await data.json();
+      return jsonData.path
     }).catch((err) => {
       console.log(err)
       return null
@@ -168,7 +191,8 @@ const ServiciosProvider = ({defaultValue = [], children}) => {
     actualizarServicio,
     guardarComentario,
     reviewComentario,
-    borrarServicio
+    borrarServicio,
+    guardarImagen
   }
   return (
     <ServiciosContext.Provider value={context}>

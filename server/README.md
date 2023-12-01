@@ -21,6 +21,9 @@
     SESSION_SECRET = '<SECRET>'
     NODEMAILER_USER = 'user@gmail.com'
     NODEMAILER_PASS = 'gmail token'
+    CLOUDINARY_NAME = '<cloud>'
+    CLOUDINARY_API = '<API>'
+    CLOUDINARY_SECRET = '<SECRET>'
     ```
 
     Importante: Setear desde la cuenta deseada de gmail el token necesario para configurar el servicio de mailing. [KB informativo](https://www.freecodecamp.org/espanol/news/como-usar-nodemailer-para-enviar-correos-electronicos-desde-tu-servidor-node-js/)

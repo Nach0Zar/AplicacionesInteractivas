@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useUsuario } from '../user/UserContext';
 
 const NavBar = () => {
-  const { usuario, desloguearUser} = useUsuario();
+  const { usuario, desloguearUser, isLogged} = useUsuario();
   const isLoggedIn = !(usuario === null);
   
   return (
@@ -18,13 +18,7 @@ const NavBar = () => {
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/category"}>Mercado</NavLink></li>
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/faqs"}>FAQs</NavLink></li>
             {!isLoggedIn && (
-            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/login"}>Loguearse</NavLink></li>
-            )}
-            {!isLoggedIn && (
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/register"}>Registrarse</NavLink></li>
-            )}
-            {isLoggedIn && (
-            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/"} onClick={(e)=>{desloguearUser()}}>Desloguearse</NavLink></li>
             )}
             {isLoggedIn && (
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/user"}>Usuario</NavLink></li>
@@ -33,9 +27,15 @@ const NavBar = () => {
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/services"}>Mis Servicios</NavLink></li>
             )}
             {isLoggedIn && (
-            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Ordenes</NavLink></li>
+            <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/orders"}>Contrataciones</NavLink></li>
             )}
             <li className="nav-item navLink"><NavLink className="nav-link text-white" to={"/about"}>Acerca de nosotros</NavLink></li>
+            {isLoggedIn && (
+            <li className="nav-item navLink"><NavLink className="nav-link text-white ms-auto" to={"/"} onClick={(e)=>{desloguearUser()}}>Desloguearse</NavLink></li>
+            )}
+            {!isLoggedIn && (
+            <li className="nav-item navLink"><NavLink className="nav-link text-white ms-auto" to={"/login"}>Loguearse</NavLink></li>
+            )}
           </ul>
         </div>
       </div>

@@ -15,7 +15,7 @@ const ServicePage = () => {
 var {serviceID} = useParams();
 const { getUserByID } = useUsuario();
 const { obtenerCategoriasPorServicio } = useCategorias();
-const { obtenerServicioPorID, guardarComentario } = useServicios();
+const { obtenerServicioPorID, guardarComentario, cargarImagen } = useServicios();
 const [servicioCapturado, setServicioCapturado] = useState([]);
 const [serviceLoaded, setServiceLoaded] = useState(false);
 const [categoriasItem, setCategoriasItem] = useState([]);
@@ -38,7 +38,7 @@ useEffect(() => {
         setServicioCapturado(data);
         setServiceLoaded(true);
         setCommentsItem(data.comments.filter(comment => comment.reviewed === true))
-        setImage("http://localhost:8080/api/images/"+data.image);
+        setImage(data.image)
         if(!responsibleLoaded){
           getUserByID(data.responsible).then((user)=> {
             setResponsible(user.name + " " + user.lastname);
@@ -56,7 +56,6 @@ useEffect(() => {
           .catch((err)=>console.log(err));
         }
     }).catch((err)=>{
-      console.log(err)
       swal("Item no encontrado","El item no fue encontrado. "+err,"error")
     });
     }

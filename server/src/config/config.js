@@ -57,6 +57,9 @@ const config = {
     PROCESS_ID: process.pid,
     PROJECT_FOLDER: process.INIT_CWD,
     MONGO_CONFIG: mongoConfig,
-    NODEMAILER_CONFIG: NODEMAILER_CONFIG
+    NODEMAILER_CONFIG: NODEMAILER_CONFIG,
+    CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
+    CLOUDINARY_API: process.env.CLOUDINARY_API,
+    CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET
 };
 export default config;

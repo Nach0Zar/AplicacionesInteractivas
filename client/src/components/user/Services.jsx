@@ -19,6 +19,7 @@ import { Edit } from '@mui/icons-material';
 import { useCategorias } from '../category/CategoryContext';
 import CommentIcon from '@mui/icons-material/Comment';
 import PendingComments from '../comment/PendingComments';
+import TablePagination from "@mui/material/TablePagination"; 
 import swal from 'sweetalert';
 
 const Services = () => {
@@ -37,6 +38,11 @@ const Services = () => {
     const [onSave, setOnSave] = useState();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [pg, setpg] = useState(0); 
+  
+    function handleChangePage(event, newpage) { 
+        setpg(newpage); 
+    } 
 
     const getAllServicesFromUser = async () => {
         await obtenerServiciosPorResponsable(usuario.id).then((listadoDB) => {
@@ -137,7 +143,7 @@ const Services = () => {
                     </TableHead>
                     <TableBody>
                     {(services.length > 0) ? 
-                        services.map((row) => (
+                        services.slice(pg * 5, pg * 5 + 5).map((row) => (
                             <TableRow key={row.id}>
                             <TableCell align="right">
                                 <Link to={"/service/"+row.id} className="noDecoration">
@@ -179,12 +185,21 @@ const Services = () => {
                             </TableCell>
                             </TableRow>
                         )) : (<TableRow>
-                            <TableCell align="center">There are no services created yet!</TableCell>
+                            <TableCell align="center">No hay servicios creados!</TableCell>
                         </TableRow>)
                     }
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination 
+                component="div"
+                count={services.length} 
+                rowsPerPage={5} 
+                page={pg}
+                labelRowsPerPage= ''
+                rowsPerPageOptions={[]}
+                onPageChange={handleChangePage} 
+            /> 
         </div>
     }
 

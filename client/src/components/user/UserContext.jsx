@@ -17,6 +17,10 @@ const UsuarioContext = React.createContext([]);
       return new Usuario(usuario);
     }
 
+    const isLogged = () => {
+      return localStorage.getItem("user") != null
+    }
+
     const loguearUser = async (usuario) => {
       return await fetch("http://localhost:8080/api/sessions", {
         method: 'POST',
@@ -36,6 +40,7 @@ const UsuarioContext = React.createContext([]);
           jsonData.password = usuario.password;
           let validatedUser = instantiateUser(jsonData);
           setUsuario(validatedUser);
+          localStorage.setItem("user", validatedUser)
           return true;
         }).catch((err)=>{
           console.log("User information fetch failed with error: "+err);
@@ -55,6 +60,7 @@ const UsuarioContext = React.createContext([]);
         console.log("User logoff failed with error: "+err);
       })
       setUsuario(null);
+      localStorage.removeItem("user")
     }
 
     const restorePassword = async (userID) => {
@@ -164,7 +170,8 @@ const UsuarioContext = React.createContext([]);
       checkExistingUser,
       desloguearUser,
       getUserByID,
-      setUsuarioNuevo
+      setUsuarioNuevo,
+      isLogged
     }
     
   return (

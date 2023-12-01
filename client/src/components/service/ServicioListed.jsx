@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useServicios } from '../service/ServiciosContext';
 import './style.scss';
-
 const ServiceListed = (props) => {
     const [image, setImage] = useState("");
     const [servicio, setServicio] = useState({});
+    const {cargarImagen} = useServicios();
     const URLPage = "/service/"+servicio.id;
     const altImage = require("../../images/services/default.jpg");
     useEffect(() => {
         setServicio(props.servicio);
-        if(image === ""){
-            setImage("http://localhost:8080/api/images/"+props.servicio.image)
+        if(image === "" || image === null){
+            cargarImagen(props.servicio.image).then(file => {
+                setImage(file)
+            })
+        }
+        else{
+            setImage(altImage)
         }
         },[image, props.servicio])
     const setAltImage = (e) => {
@@ -21,7 +27,7 @@ const ServiceListed = (props) => {
         <Link to={URLPage} className="noDecoration">
             <div className="item">
                 <div className="imageContainer">
-                    <img src={image} alt="" onError={(e) => {setAltImage(e)}}/>
+                    <img src={image} alt="a" onError={(e) => {setAltImage(e)}}/>
                 </div>
                 <div className="textButtonContainer">
                     <div className="textContainer">

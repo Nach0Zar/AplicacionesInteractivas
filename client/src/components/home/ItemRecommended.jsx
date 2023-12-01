@@ -8,10 +8,12 @@ const ItemRecommended = (props) => {
     const altImage = require("../../images/services/default.jpg");
     useEffect(() => {
         setServicio(props.servicio);
-        if(image === ""){
-            setImage("http://localhost:8080/api/images/"+props.servicio.image);
+        if(props.servicio.image !== "" && props.servicio.image !== null){
+            setImage(props.servicio.image);
+        } else {
+            setImage(altImage)
         }
-    },[image, props.servicio])
+    },[props.servicio.image, props.servicio])
     const setAltImage = (e) => {
         e.preventDefault();
         setImage(altImage);
@@ -19,10 +21,11 @@ const ItemRecommended = (props) => {
     return (
         <Link to={URLPage} className="noDecoration" >
             <div className="itemDiv recommendedItem">
-                <img src= {image} alt="" onError={(e) => {setAltImage(e)}}/>
+                <img src={image} alt={image} onError={(e) => {setAltImage(e)}}/>
                 <hr/>
                 <span>{servicio.name}</span>
                 <span>${servicio.price}</span>
+                {servicio.qualification !== null ? <span>Calificacion : {servicio.qualification}</span> : null}
                 <div className="containerQtyButton">
                     <div className="containerQuantity">
                         <div className="input-group w-auto align-items-center">

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import ServicioListed from '../service/ServicioListed';
+import ItemRecommended from '../home/ItemRecommended';
 import { Link } from 'react-router-dom';
 import { useServicios } from '../service/ServiciosContext';
 import { useCategorias } from './CategoryContext';
@@ -28,7 +29,7 @@ const CategoryItems = () => {
         services = services.filter((service) => (service.type === type))
       }
       if(qualification !== null){
-        services = services.filter((service) => (service.qualification === qualification))
+        services = services.filter((service) => (service.qualification !== null && service.qualification >= qualification))
       }
       if(frequency !== null){
         services = services.filter((service) => (service.frequency === frequency))
@@ -209,11 +210,11 @@ const CategoryItems = () => {
           }
         </div>
         </div>
-        
-        <div id="elementsList">
-          { (itemsCategory.length !== 0) ? (itemsCategory.map((item) => (
-            <div key={item.id}>
-              <ServicioListed servicio={item}/>
+        <div id="recommendedContainer">
+          <div id='recommendations'>
+            { (itemsCategory.length !== 0) ? (itemsCategory.map((item) => (
+            <div key={item.id}>              
+              <ItemRecommended servicio={item}></ItemRecommended>     
               <br/>
             </div>
           )))
@@ -226,6 +227,7 @@ const CategoryItems = () => {
           </div>
           )
           }
+          </div>
         </div>
         
       </div>

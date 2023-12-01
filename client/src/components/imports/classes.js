@@ -45,7 +45,7 @@ export class Categoria{
 
 export class Usuario{
     static idCounter = 0;
-    constructor({id, name, lastname, password, email, phone, title, experience}){
+    constructor({id, name, lastname, password, email, phone, title, experience, contactAvailability}){
         if (id === -1){ 
             this.id = Categoria.getIdCounter();
             Categoria.idCounter++
@@ -60,6 +60,7 @@ export class Usuario{
         this.phone = phone;
         this.title = title;
         this.experience = experience;
+        this.contactAvailability = contactAvailability;
     }
     static getIdCounter(){
         return Categoria.idCounter;
