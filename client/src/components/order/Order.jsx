@@ -17,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 
 const Order = (props) => {
   const [order, setOrder] = useState(props.order);
+  const [orderID, setOrderID] = useState(null);
   const [orderStatus, setOrderStatus] = useState(null);
   const [listedOrder, setListedOrder] = useState(false);
   const {updateOrderStatus} = useOrder();
@@ -51,12 +52,13 @@ const Order = (props) => {
   
   
   useEffect(() => {
-    if(!listedOrder){
+    if(!listedOrder || orderID != props.orderID){
+      setOrderID(props.orderID)
       setOrder(props.order);
       setOrderStatus(props.order.status)
       setListedOrder(true);
     }
-  }, [listedOrder, order, props.order, orderStatus])
+  }, [listedOrder, order, props.order, orderStatus, props.orderID, orderID])
   
   return (
     <TableRow key={order.id}>
