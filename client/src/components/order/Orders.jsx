@@ -10,7 +10,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from "@mui/material/TablePagination"; 
-import { Navigate } from 'react-router-dom';
 import './style.scss';
 
 const Orders = () => {
@@ -33,7 +32,7 @@ const Orders = () => {
         if (isLoggedIn && !ordersListadas){
             getAllOrdersFromUser()
         }
-    }, [orders, isLoggedIn, ordersListadas, usuario, getOrders])
+    }, [orders, isLoggedIn, ordersListadas, usuario, getOrders, pg])
 
     const renderOrders = () => {
         return <div style={{padding: "2%"}}>
@@ -54,7 +53,7 @@ const Orders = () => {
                     <TableBody>
                     {(orders.length > 0) ? 
                         orders.slice(pg * 5, pg * 5 + 5).map((row) => (
-                            <Order order={row}></Order>
+                            <Order order={row} orderID={row.id}></Order>
                         )) : (<TableRow>
                             <TableCell align="center">En este momento no tienes contratacion!</TableCell>
                         </TableRow>)
