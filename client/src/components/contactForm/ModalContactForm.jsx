@@ -34,7 +34,7 @@ const ModalContactForm = (props) => {
                 email: email.value,
                 dni: dni.value,
                 phone: telefono.value,
-                contactAvailability
+                contactAvailability: contactAvailability.value
             },
             message: message.value
         }
