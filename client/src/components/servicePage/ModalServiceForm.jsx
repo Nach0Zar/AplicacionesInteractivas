@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import { useUsuario } from '../user/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const ModalServiceForm = (props) => {
     const [duration, setDuration] = useState()
     const [image, setImage] = useState(null)
     const [currentImage, setCurrentImage] = useState(null)
+    const [savingImage, setSavingImage] = useState(false)
     const altImage = require("../../images/services/default.jpg");
     
     const isBlank = (input) => {
@@ -44,10 +45,12 @@ const ModalServiceForm = (props) => {
             swal("Formato de la imagen no valido","", "error");
             return
         }
+        setSavingImage(true)
         guardarImagen(file).then(data => {
             if(data != null){
                 setImage(data)
                 setCurrentImage(data)
+                setSavingImage(false)
             }
             else {
                 swal("Error de subida de imagen, por favor intente mas tarde","", "error");
@@ -60,17 +63,13 @@ const ModalServiceForm = (props) => {
         setCurrentImage("")
     }
 
-    const fetchImage = (path) => {
-        setCurrentImage(path)
-    }
-
     const setAltImage = (e) => {
     e.preventDefault();
     setCurrentImage(altImage);
     }
 
     useEffect(() => {
-        setService(props.service)
+                setService(props.service)
         setEdicion(props.edicion)
         setName(props.service.name !== null ? props.service.name : "")
         setDescription(props.service.description !== null ? props.service.description : "")
@@ -81,8 +80,13 @@ const ModalServiceForm = (props) => {
         setPublished(props.service.published !== null ? props.service.published : false)
         setDuration(props.service.duration !== null ? props.service.duration : "")
         setImage(props.service.image !== null ? props.service.image : null)
-        fetchImage(props.service.image)
+        if(props.service.image !== null && props.service.image !== ""){
+            setCurrentImage(props.service.image)
+        } else {
+            setCurrentImage(altImage)
+        }
     }, [props.service, props.edicion, props.onSave, categoriasListadoDB])
+
     const realizarAccion = (e) => {
         e.preventDefault()
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
@@ -123,7 +127,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Nombre</span>
                             </div>
-                        <input type="text" className="form-control" placeholder="Nombre de tu servicio" name="name" defaultValue={name}/>
+                        <input type="text" className="form-control" placeholder="Nombre de tu servicio" name="name" value={name} onChange={(e) => setName(e.target.value)}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -131,7 +135,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Descripcion</span>
                             </div>
-                        <input type="text" className="form-control" placeholder="Descripcion de tu servicio" name="description" defaultValue={description}/>
+                        <input type="text" className="form-control" placeholder="Descripcion de tu servicio" name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -139,7 +143,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Duracion</span>
                             </div>
-                        <input type="number" className="form-control" placeholder="Duracion de tu servicio" name="duration" defaultValue={duration}/>
+                        <input type="number" className="form-control" placeholder="Duracion de tu servicio" name="duration" value={duration} onChange={(e) => setDuration(e.target.value)}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -147,8 +151,8 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Frecuencia</span>
                             </div>
-                        <select className="form-control" defaultValue={frequency} name='frequency'>
-                            <option value="Unica">Unica</option>
+                        <select className="form-control" name='frequency' value={frequency} onChange={(e) => setFrequency(e.target.value)}>
+                            <option value="Única">Unica</option>
                             <option value="Semanal">Semanal</option>
                             <option value="Mensual">Mensual</option>
                         </select>
@@ -159,7 +163,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Tipo</span>
                             </div>
-                        <select className="form-control" defaultValue={type} name='type'>
+                        <select className="form-control" value={type} name='type' onChange={(e) => setType(e.target.value)}>
                             <option value="Individual">Individual</option>
                             <option value="Grupal">Grupal</option>
                         </select>
@@ -170,7 +174,11 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Categorias</span>
                             </div>
-                            <select className="form-control" defaultValue={categories} name='categories' multiple={true}>
+                            <select className="form-control" value={categories} name='categories' multiple={true} 
+                                onChange={(e) => 
+                                    setCategories(Array.from(e.target.selectedOptions).map(category => category.value))
+                                }
+                            >
                             {
                             categoriasListadoDB.map((category)=>
                                 <option key={category.id} value={category.id}>{category.name}</option>
@@ -184,7 +192,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Precio</span>
                             </div>
-                        <input type="number" className="form-control" placeholder="Precio de tu servicio" name="price" defaultValue={price}/>
+                        <input type="number" className="form-control" placeholder="Precio de tu servicio" name="price" value={price} onChange={(e) => setPrice(e.target.value)}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -192,7 +200,7 @@ const ModalServiceForm = (props) => {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1">Marcar como Publicado</span>
                             </div>
-                        <input type="checkbox" defaultChecked={published} name='published' style={{marginLeft: "2%"}}/>
+                        <input type="checkbox" checked={published} name='published' style={{marginLeft: "2%"}} onChange={(e) => setPublished(e.target.checked)}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -203,6 +211,7 @@ const ModalServiceForm = (props) => {
                         </div>
                     </div>
                     <div className="form-group" style={{borderWidth: "2px", borderColor: "black"}}>
+                        {savingImage && <Spinner animation="border" variant='status'></Spinner>}
                         <img src={currentImage} alt="" style={{width: "100%", height:"100%"}} onError={(e) => {setAltImage(e)}}/>
                     </div>
                     <div className="form-group" style={{marginTop: "2%"}}>
