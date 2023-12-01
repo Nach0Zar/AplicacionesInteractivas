@@ -148,7 +148,7 @@ const ModalServiceForm = (props) => {
                                 <span className="input-group-text" id="basic-addon1">Frecuencia</span>
                             </div>
                         <select className="form-control" defaultValue={frequency} name='frequency'>
-                            <option value="Unica">Unica</option>
+                            <option value="Única">Unica</option>
                             <option value="Semanal">Semanal</option>
                             <option value="Mensual">Mensual</option>
                         </select>

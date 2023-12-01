@@ -29,7 +29,7 @@ const CategoryItems = () => {
         services = services.filter((service) => (service.type === type))
       }
       if(qualification !== null){
-        services = services.filter((service) => (service.qualification === qualification))
+        services = services.filter((service) => (service.qualification !== null && service.qualification >= qualification))
       }
       if(frequency !== null){
         services = services.filter((service) => (service.frequency === frequency))
