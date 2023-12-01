@@ -40,9 +40,15 @@ const ModalServiceForm = (props) => {
     const handleFileInputChange = e => {
         let allowedExtensions = ['gif', 'png', 'jpg', 'jpeg'];
         let file = e.target.files[0];
+        console.log(file)
+        const fileSizeKiloBytes = file.size / 1024
         let extension = file.name.split('.').pop();
         if(!allowedExtensions.includes(extension.toLowerCase())){
             swal("Formato de la imagen no valido","", "error");
+            return
+        }
+        if(fileSizeKiloBytes > 5120) {
+            swal("El tamaño maximo de la imagen es de 5 MB", "", "error")
             return
         }
         setSavingImage(true)
