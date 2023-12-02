@@ -40,9 +40,15 @@ const ModalServiceForm = (props) => {
     const handleFileInputChange = e => {
         let allowedExtensions = ['gif', 'png', 'jpg', 'jpeg'];
         let file = e.target.files[0];
+        console.log(file)
+        const fileSizeKiloBytes = file.size / 1024
         let extension = file.name.split('.').pop();
         if(!allowedExtensions.includes(extension.toLowerCase())){
             swal("Formato de la imagen no valido","", "error");
+            return
+        }
+        if(fileSizeKiloBytes > 5120) {
+            swal("El tamaño maximo de la imagen es de 5 MB", "", "error")
             return
         }
         setSavingImage(true)
@@ -92,7 +98,7 @@ const ModalServiceForm = (props) => {
         const { name, description, frequency, type, categories, price, published, duration} = e.target.elements
         const selectedCategories = Array.from(categories.selectedOptions).map(category => category.value)
         if(isBlank(name.value) || isBlank(description.value) || isBlank(frequency.value) || isBlank(duration.value) || isBlank(price.value)){
-            swal("Error de validacion, revise los campos","", "error");
+            swal("Error de validacion, complete los campos obligatorios","Nombre, Descripcion, Frecuencia, Duracion, Precio", "error");
         }
         else {
             let conFom = {

@@ -17,6 +17,10 @@ const ModalContactForm = (props) => {
     const { usuario } = useUsuario();
     const { createOrder } = useOrder();
 
+    const isBlank = (input) => {
+        return input.length === 0
+    }
+
     useEffect(() => {
         if(usuario === null){
             setUsuarioDatos(new Usuario("nombreUsuario", "", "", "ejemplo@test.com", "12345678", "1111111111"));
@@ -28,6 +32,12 @@ const ModalContactForm = (props) => {
     const realizarComentario = async (e) => {
         e.preventDefault()
         const { email, dni, telefono, message, contactAvailability} = e.target.elements
+
+        if(isBlank(email.value) || isBlank(dni.value) || isBlank(telefono.value) || isBlank(contactAvailability.value) || isBlank(message.value)){
+            swal("Error de validacion, por favor complete todos los campos","", "error");
+            return
+        }
+
         let order = {
             service: serviceID,
             applicant: {
@@ -71,7 +81,11 @@ const ModalContactForm = (props) => {
                         <div className="input-group-prepend">
                             <span className="input-group-text" id="basic-addon1">DNI</span>
                         </div>
-                        <input type="number" className="form-control" placeholder="DNI del usuario" name="dni" defaultValue={usuarioDatos.dni}/>
+                        <input type="number" className="form-control" placeholder="DNI del usuario" name="dni" defaultValue={usuarioDatos.dni}  pattern="[0-9]*" onInput={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault();
+                                    }
+                                    }}/>
                     </div>
                 </div>
                 <div className="form-group">
